@@ -1,1 +1,0 @@
-# jadecci.github.io
