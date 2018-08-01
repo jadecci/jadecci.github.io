@@ -24,8 +24,7 @@ Marginal probability: $P(X)=\int p(X,Y) \mathop{dY}$  \\
 $$
 \begin{aligned}
 P(y_{test}|X_{test}, X_{train}, y_{train}) &= \int P(y_{test}, \theta | X_{test}, X_{train}, y_{train}) \mathop{d\theta} \quad \text{(marginal)}\\
-& =  \int P(y_{test}| \theta, X_{test}, X_{train}, y_{train}) P(\theta | X_{test}, X_{train}, y_{train}) \mathop{d\theta} \quad \text{(chains rule)}\\
-& =\int P(y_{test}|X_{test}, \theta)P(\theta|X_{train}, y_{train}) \mathop{d\theta}
+& =\int P(y_{test}|X_{test}, \theta)P(\theta|X_{train}, y_{train}) \mathop{d\theta} \quad \text{(chains rule)}
 \end{aligned}
 $$
 
