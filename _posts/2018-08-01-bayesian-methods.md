@@ -1,3 +1,10 @@
+---
+layout: default
+title:  "Bayesian Methods for Machine Learning"
+date:   2018-08-01 16:53:00 +0800
+categories: notes
+---
+
 # Bayesian Methods for Machine Learning
 ## 1. Introduction to Bayesian methods
 
