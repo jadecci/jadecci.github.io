@@ -49,7 +49,7 @@ Bayesian network (graph)
 - joint probability: $P(X_1, ..., X_n) = \prod_i P(X_i|Pa(X_i))$ where $Pa(X_i)$ means parents of $X_i$
 
 Naive Bayes classifier: $P(c, f_1, ..., f_n) = P(c)\prod_i P(f_i|x)$ => plate notation
-![plate notation](https://wiki.ubc.ca/images/thumb/e/ed/FpLDA1.jpg/550px-FpLDA1.jpg =300x120)
+![plate notation](https://wiki.ubc.ca/images/thumb/e/ed/FpLDA1.jpg/550px-FpLDA1.jpg){:height="120px" width="300px"}
 
 ### 1.4. Linear regression
 Least squares: $L(\omega) = \sum_i (\omega^Tx_i - y_i)^2 = \| \omega^Tx_i - y\|^2$
