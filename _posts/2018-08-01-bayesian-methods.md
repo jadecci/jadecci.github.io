@@ -6,7 +6,6 @@ categories: notes
 ---
 
 Notes taken for the Cousera course "Bayesian Methods for Machine Learning" by  Higher School of Economics, National Research University, Russia. 
-<!--more-->
 
 # Bayesian Methods for Machine Learning
 ## 1. Introduction to Bayesian methods
