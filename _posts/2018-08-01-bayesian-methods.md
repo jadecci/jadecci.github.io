@@ -8,11 +8,7 @@ categories: notes
 # Bayesian Methods for Machine Learning
 ## 1. Introduction to Bayesian methods
 
-### 1.1. Think Bayesian & statistics review
-Principles:
-1. use prior knowledge
-2. choose what explains observations the most
-3. avoid making extra assumptions
+### 1.1. Statistics review
 
 Independent events: $P(X,Y)=P(X)P(Y)$  \\
 Conditional probability: $P(X|Y)=\frac{P(X,Y)}{P(Y)}$  \\
@@ -41,8 +37,7 @@ $$
 - $P(\theta)$ also leads to regularisation
 - online learning: $P_i(\theta)=P(\theta\|x_i)=\frac{P(x_i\|\theta)P_{i-1}(\theta)}{P(x_i)}$
 
-### 1.3. How to define a model
-Bayesian network (graph) 
+### 1.3. Bayesian network  
 - nodes : random variables
 - edges: direct impact
 - joint probability: $P(X_1, ..., X_n) = \prod_i P(X_i\|Pa(X_i))$ where $Pa(X_i)$ means parents of $X_i$
