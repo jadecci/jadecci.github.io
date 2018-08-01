@@ -23,11 +23,11 @@ Marginal probability: $P(X)=\int p(X,Y) \mathop{dY}$  \\
 ### 1.2. Bayesian approach to statistics
 Frequentist: 
 - $\theta$ is fixed, $X$ is random
-- Maximum likelihood $\hat{\theta} =argmaxP(X|\theta)$
+- Maximum likelihood $\hat{\theta} =argmaxP(X\|\theta)$
 
 Bayesian:
 - $\theta$ is random, $X$ is fixed
--  training: Posterior $P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}$ 
+-  training: Posterior $P(\theta\|X)=\frac{P(X\|\theta)P(\theta)}{P(X)}$ 
 -  prediction: 
 
 $$
@@ -39,15 +39,15 @@ P(y_{test}|X_{test}, X_{train}, y_{train}) &= \int P(y_{test}, \theta | X_{test}
 $$
 
 - $P(\theta)$ also leads to regularisation
-- online learning: $P_i(\theta)=P(\theta|x_i)=\frac{P(x_i|\theta)P_{i-1}(\theta)}{P(x_i)}$
+- online learning: $P_i(\theta)=P(\theta\|x_i)=\frac{P(x_i\|\theta)P_{i-1}(\theta)}{P(x_i)}$
 
 ### 1.3. How to define a model
 Bayesian network (graph) 
 - nodes : random variables
 - edges: direct impact
-- joint probability: $P(X_1, ..., X_n) = \prod_i P(X_i|Pa(X_i))$ where $Pa(X_i)$ means parents of $X_i$
+- joint probability: $P(X_1, ..., X_n) = \prod_i P(X_i\|Pa(X_i))$ where $Pa(X_i)$ means parents of $X_i$
 
-Naive Bayes classifier: $P(c, f_1, ..., f_n) = P(c)\prod_i P(f_i|x)$ => plate notation
+Naive Bayes classifier: $P(c, f_1, ..., f_n) = P(c)\prod_i P(f_i\|x)$ => plate notation
 ![plate notation](https://wiki.ubc.ca/images/thumb/e/ed/FpLDA1.jpg/550px-FpLDA1.jpg){:height="120px" width="300px"}
 
 ### 1.4. Linear regression
