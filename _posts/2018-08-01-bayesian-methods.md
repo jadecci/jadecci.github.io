@@ -14,7 +14,7 @@ categories: notes
 - Conditional probability: $P(X|Y)=\frac{P(X,Y)}{P(Y)}$  \\
 	Or, chain rule: $P(X,Y)=P(X|Y)P(Y)$  \\
 - Marginal probability: $P(X)=\int p(X,Y) \mathop{dY}$  \\
-- **Bayes theorem: $P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}$ => $Posterior = \frac{Likelihood \times Prior}{Evidence}$**
+**Bayes theorem: $P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}$ => $Posterior = \frac{Likelihood \times Prior}{Evidence}$**
 
 ### 1.2. Bayesian approach to statistics
 - $\theta$ is random, $X$ is fixed
