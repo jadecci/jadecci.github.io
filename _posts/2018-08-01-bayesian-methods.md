@@ -3,7 +3,6 @@ layout: default
 title:  "Bayesian Methods for Machine Learning"
 date:   2018-08-01 16:53:00 +0800
 categories: notes
-use_math: true
 ---
 
 # Bayesian Methods for Machine Learning
