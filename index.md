@@ -7,7 +7,7 @@ layout: default
 {% for post in site.posts limit 10 %}
 <li>
     {{ post.date | date_to_string }}
-    <b>{{ post.title }}</b>
-    <a href="{{ post.url }}"> Read </a>
+    <a href="{{ post.url }}"> <b>{{ post.title }}</b> </a>
 </li>
+{{ post.excerpt }}
 {% endfor %}
