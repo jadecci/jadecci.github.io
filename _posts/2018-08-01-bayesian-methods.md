@@ -5,6 +5,7 @@ date:   2018-08-01 16:53:00 +0800
 categories: notes
 excerpt_separator:  <!--more-->
 ---
+
 Notes taken for the Cousera course "Bayesian Methods for Machine Learning" by  Higher School of Economics, National Research University, Russia. 
 <!--more-->
 
