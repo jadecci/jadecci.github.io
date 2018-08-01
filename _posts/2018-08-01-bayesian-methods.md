@@ -14,10 +14,14 @@ Principles:
 2. choose what explains observations the most
 3. avoid making extra assumptions
 
-Independent events: $P(X,Y)=P(X)P(Y)$ \\
-Conditional probability: $P(X|Y)=\frac{P(X,Y)}{P(Y)}$ \\
-Or, chain rule: $P(X,Y)=P(X|Y)P(Y)$ \\
-Marginal probability: $P(X)=\int p(X,Y) \mathop{dY}$ \\
+Independent events: $P(X,Y)=P(X)P(Y)$ 
+
+Conditional probability: $P(X|Y)=\frac{P(X,Y)}{P(Y)}$ 
+
+Or, chain rule: $P(X,Y)=P(X|Y)P(Y)$ 
+
+Marginal probability: $P(X)=\int p(X,Y) \mathop{dY}$ 
+
 ==Bayes theorem: $P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}$ => $Posterior = \frac{Likelihood \times Prior}{Evidence}$==
 
 ### 1.2. Bayesian approach to statistics
@@ -29,6 +33,7 @@ Bayesian:
 - $\theta$ is random, $X$ is fixed
 -  training: Posterior $P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}$ 
 -  prediction: 
+
 $$
 \begin{aligned}
 P(y_{test}|X_{test}, X_{train}, y_{train}) &= \int P(y_{test}, \theta | X_{test}, X_{train}, y_{train}) \mathop{d\theta} \quad \text{(marginal)}\\
@@ -36,6 +41,7 @@ P(y_{test}|X_{test}, X_{train}, y_{train}) &= \int P(y_{test}, \theta | X_{test}
 & =\int P(y_{test}|X_{test}, \theta)P(\theta|X_{train}, y_{train}) \mathop{d\theta}
 \end{aligned}
 $$
+
 - $P(\theta)$ also leads to regularisation
 - online learning: $P_i(\theta)=P(\theta|x_i)=\frac{P(x_i|\theta)P_{i-1}(\theta)}{P(x_i)}$
 
