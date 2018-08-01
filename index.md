@@ -8,6 +8,6 @@ layout: default
 <li>
     {{ post.date | date_to_string }}
     <a href="{{ post.url }}"> <b>{{ post.title }}</b> </a>
+    <p>{{ post.excerpt }}</p>
 </li>
-{{ post.excerpt }}
 {% endfor %}
