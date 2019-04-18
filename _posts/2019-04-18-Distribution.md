@@ -200,7 +200,7 @@ U & = \frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2} \sum^n_{i=1} (x_i - \bar X)
 \end{aligned}
 $$
 
-We can make use of the momen-generating function of these two $\chi^2$ variables to find that of $U$. Moment-generating function of linear combination of independent random variables is the product/division of their moment-generating functions, i.e.:
+We can make use of the moment-generating function of these two $\chi^2$ variables to find that of $U$. Moment-generating function of linear combination of independent random variables is the product/division of their moment-generating functions, i.e.:
 
 $$
 \begin{aligned}
