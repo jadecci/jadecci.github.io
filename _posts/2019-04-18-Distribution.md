@@ -26,7 +26,9 @@ $$
 \end{aligned}
 $$
 
-Gamma distribution: $\Gamma(\gamma || a,b) = \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma}$
+Gamma distribution: 
+
+$\Gamma(\gamma | a,b) = \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma}$
 
 Expectation:
 
@@ -113,7 +115,7 @@ $$
 For a set of independent, standard normal random variables $Z = \{z_1,...,z_k\} \sim \mathcal{N} (0, 1)$, the sum of their squares $Q = \sum^k_{i=1} z_i^2$ has the form of a chi-squared distribution with degrees of freedom $r = k$, i.e. $Q \sim \chi^2_k$ with the pdf:
 
 $$
-f(z || r) = \frac{z^{\frac{r}{2}-1} e^{-\frac{z}{2}}}{2^{\frac{r}{2}} \Gamma(\frac{r}{2})}
+f(z | r) = \frac{z^{\frac{r}{2}-1} e^{-\frac{z}{2}}}{2^{\frac{r}{2}} \Gamma(\frac{r}{2})}
 $$
 
 ### 3.1 $\chi^2$ and moment-generating functions
