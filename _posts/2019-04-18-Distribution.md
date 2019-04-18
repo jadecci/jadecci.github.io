@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Distributions and Derivations"
-date:   2019-04-10 15:07:00 +0100
+date:   2019-04-17 15:07:00 +0100
 categories: notes
 ---
 
