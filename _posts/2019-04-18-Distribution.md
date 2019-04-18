@@ -220,7 +220,7 @@ f_{\bar Z,U}(\bar z,u) & = f_{\bar Z}(\bar z)f_U(u) = \frac{u^{\frac{n-1}{2}-1}}
 \end{aligned}
 $$
 
-Now, we can substitue $t$ into the pdf with a change of variable with $z$:
+Now, we can substitute $t$ into the pdf with a change of variable with $z$:
 
 $$
 \begin{aligned}
