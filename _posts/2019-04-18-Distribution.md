@@ -28,7 +28,9 @@ $$
 
 Gamma distribution: 
 
-$\Gamma(\gamma | a,b) = \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma}$
+$$
+\Gamma(\gamma | a,b) = \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma}
+$$
 
 Expectation:
 
