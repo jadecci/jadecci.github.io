@@ -225,9 +225,9 @@ Now, we can substitue $t$ into the pdf with a change of variable with $z$:
 $$
 \begin{aligned}
 \text{Since } & T = \frac{\bar Z}{\sqrt \frac{U}{(n-1)}} \text{, then } \bar Z = T \sqrt \frac{U}{(n-1)}\\
-f_{T,U}(t,u) & = f_{\bar Z,U}(t \sqrt \frac{u}{(n-1)},u) || J(t, u) || \\
-& = \frac{u^{\frac{n-1}{2}-1}}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} e^{-\frac{1}{2} [(t \sqrt \frac{u}{(n-1)})^2 + u]} || det \begin{bmatrix} \frac{\partial \bar z}{\partial t} & \frac{\partial \bar z}{\partial u} \\ \frac{\partial u}{\partial t} & \frac{\partial u}{\partial u} \\ \end{bmatrix} || \\
-& = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} u^{\frac{n-3}{2}} e^{-\frac{1}{2} (\frac{t^2 u}{(n-1)} + u)} || det \begin{bmatrix} \sqrt \frac{u}{(n-1)} & \frac{t}{2 \sqrt{u (n-1)}} \\ \ 0 & 1 \\ \end{bmatrix} || \\
+f_{T,U}(t,u) & = f_{\bar Z,U}(t \sqrt \frac{u}{(n-1)},u) | J(t, u) | \\
+& = \frac{u^{\frac{n-1}{2}-1}}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} e^{-\frac{1}{2} [(t \sqrt \frac{u}{(n-1)})^2 + u]} | det \begin{bmatrix} \frac{\partial \bar z}{\partial t} & \frac{\partial \bar z}{\partial u} \\ \frac{\partial u}{\partial t} & \frac{\partial u}{\partial u} \\ \end{bmatrix} | \\
+& = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} u^{\frac{n-3}{2}} e^{-\frac{1}{2} (\frac{t^2 u}{(n-1)} + u)} | det \begin{bmatrix} \sqrt \frac{u}{(n-1)} & \frac{t}{2 \sqrt{u (n-1)}} \\ \ 0 & 1 \\ \end{bmatrix} | \\
 & = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} u^{\frac{n-3}{2}} e^{-\frac{1}{2} u (\frac{t^2}{(n-1)} + 1)} \sqrt \frac{u}{(n-1)}  \\
 \therefore f_T(t) & = \int^\infty_0 f_{T,U}(t,u) \mathop{du} = \int^\infty_0 \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} u^{\frac{n-3}{2}} e^{-\frac{1}{2} u (\frac{t^2}{(n-1)} + 1)} \sqrt \frac{u}{(n-1)} \mathop{du} \\
 & = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2}) \sqrt{(n-1)}} \int^\infty_0 u^{\frac{n}{2}-1} e^{-\frac{1}{2} u (\frac{t^2}{(n-1)} + 1)} \mathop{du} \\
