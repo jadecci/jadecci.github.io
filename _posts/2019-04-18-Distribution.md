@@ -13,7 +13,9 @@ This note includes information and derivations for some useful statistical distr
 
 ## 1.  Gamma Distribution ($x \in [0,\infty)$)
 Gamma function: $\Gamma(n) = \int^{\infty}_0 x^{n-1}e^{-x} \mathop{dx} = (n-1)!$
+
 Proof by math induction:
+
 $$
 \Gamma(1) =  \int^{\infty}_0 e^{-x} \mathop{dx} = -e^{-x}\big|^{\infty}_0= 1 = 0!\\
 \begin{aligned}
@@ -23,8 +25,11 @@ $$
 & = n\Gamma(n)
 \end{aligned}
 $$
+
 Gamma distribution: $\Gamma(\gamma|a,b) = \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma}$
+
 Expectation:
+
 $$
 \begin{aligned}
 \mathbb{E}[\gamma] &= \int^{\infty}_0 \gamma \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma} \mathop{d\gamma}\\
@@ -33,7 +38,9 @@ $$
 & = \frac{a}{b} \quad \text{(integral of pdf is 1)}
 \end{aligned}
 $$
+
 Mode:
+
 $$
 \begin{aligned}
 \mathrm{Mode}[\gamma] &= \mathrm{arg\,max}_\gamma  \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma} \\
@@ -42,7 +49,9 @@ i.e. \quad & \frac{\partial}{\partial\gamma} \gamma^{a-1} e^{-b\gamma} = 0 \\
 \therefore \mathrm{Mode}[\gamma] & = \frac{a-1}{b}
 \end{aligned}
 $$
+
 Variance:
+
 $$
 \begin{aligned}
 \mathrm{Var}[\gamma] &=  \int^{\infty}_0 \gamma^2 \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma} \mathop{d\gamma} - \mathbb{E}[\gamma]^2\\
@@ -53,13 +62,16 @@ $$
 $$
 
 ## 2. Beta Distribution ($x \in [0,1]$)
+
 $$
 \begin{aligned}
 B(x|a,b) &= \frac{1}{B(a,b)} x^{a-1} (1-x)^{b-1} \\
 & = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \\
 \end{aligned}
 $$
+
 Expectation:
+
 $$
 \begin{aligned}
 \mathbb{E}[x] &= \int^1_0 x \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \mathop{dx} \\
@@ -69,7 +81,9 @@ $$
 & = \frac{a}{a+b} \quad \text{(integral of pdf is 1)} \\
 \end{aligned}
 $$
+
 Mode:
+
 $$
 \begin{aligned}
 \mathrm{Mode}[x] & =  \mathrm{arg\,max}_x  \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \\
@@ -80,7 +94,9 @@ i.e. \quad & \frac{\partial}{\partial x} x^{a-1} (1-x)^{b-1} = 0 \\
 \therefore \mathrm{Mode}[x] & = \frac{a-1}{a+b-2} \\
 \end{aligned}
 $$
+
 Variance:
+
 $$
 \begin{aligned}
 \mathrm{Var}[x] & = \int^1_0 x^2 \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \mathop{dx}  - \mathbb{E}[x]^2 \\
@@ -95,6 +111,7 @@ $$
 ## 3. $\chi^2$ (Chi-squred) Distribution ($x \in [0,\infty)$)
 
 For a set of independent, standard normal random variables $Z = \{z_1,...,z_k\} \sim \mathcal{N} (0, 1)$, the sum of their squares $Q = \sum^k_{i=1} z_i^2$ has the form of a chi-squared distribution with degrees of freedom $r = k$, i.e. $Q \sim \chi^2_k$ with the pdf:
+
 $$
 f(z; r) = \frac{z^{\frac{r}{2}-1} e^{-\frac{z}{2}}}{2^{\frac{r}{2}} \Gamma(\frac{r}{2})}
 $$
@@ -102,19 +119,24 @@ $$
 ### 3.1 $\chi^2$ and moment-generating functions
 
 The moment-generating function of a random variable $X$ is:
+
 $$
 M_X(t) = \mathbb{E} [e^{tX}]
 $$
+
 This function can be used to find the moments of $X$ with the series expansion:
+
 $$
 \begin{aligned}
 e^{tX} & = 1 + tX + \frac{t^2 X^2}{2!} + \frac{t^3 X^3}{3!} + ... \\
 \text{Hence, } M_X(t) & =\mathbb{E} [e^{tX}]  = 1 + t m_1 + \frac{t^2 m_2}{2!} + \frac{t^3 m_3}{3!} + ...
 \end{aligned}
 $$
+
 where $m_n$ is the $n$th moment.
 
 If $X \sim \chi^2_r$, then:
+
 $$
 M_X(t) = (1 - 2t)^{-\frac{r}{2}}
 $$
@@ -123,18 +145,23 @@ $$
 ## 4.  Student's t-Distribution ($x \in (-\infty,\infty)$)
 
 The pdf of the student's t-distribution is 
+
 $$
 f(t) = \frac{\Gamma(\frac{r+1}{2})}{\sqrt{r\pi} \Gamma(\frac{r}{2})}(1 + \frac{t^2}{r})^{-\frac{r+1}{2}}
 $$
+
  where $r$ is the degree of freedom. 
 
 To derive this pdf, we start from a sample of normally distributed population, $x = \{x_1,...,x_n\} \sim \mathcal{N}(\mu, \sigma^2)$. The random variable $t$ is then defined as:
+
 $$
 T = \frac{\bar X - \mu}{\frac{S}{\sqrt n}} \quad \text{where} \quad \bar X = \frac{1}{n} \sum^n_{i=1} x_i, \quad S^2 = \frac{1}{n-1} \sum^n_{i=1} (x_i - \bar X)^2
 $$
+
 Note that this results in a degree of freedom $v = n-1$. 
 
 To derive the pdf of $T$, we need to first look at the relationship between $\bar X$ and $S$. We can prove that they are independent by checking the covariance between $\bar X$ and $x_i - \bar X$:
+
 $$
 \begin{aligned}
 Cov(\bar X, x_i - \bar X) &= Cov(\bar X, x_i) - Cov(\bar X, \bar X) \\
@@ -146,6 +173,7 @@ Cov(\bar X, x_i - \bar X) &= Cov(\bar X, x_i) - Cov(\bar X, \bar X) \\
 $$
 
 Now, we can construct $f(t)$ using $f(\bar x)$ and $f(s)$. First, to find $f(\bar x)$, we apply z-score normalisation to $X$, thus getting a new standardised normal variable $Z = \sqrt n \frac{X - \mu}{\sigma}$. We can then compute:
+
 $$
 \begin{aligned}
 f(\frac{\sqrt n (\bar x - \mu)}{\sigma}) = f(\bar z) \sim \mathcal{N} (0, 1) \text{ where } \bar Z = \frac{1}{n} \sum^n_{i=1} z_i
@@ -153,11 +181,13 @@ f(\frac{\sqrt n (\bar x - \mu)}{\sigma}) = f(\bar z) \sim \mathcal{N} (0, 1) \te
 $$
 
 We can also rewrite the variable $S$ into a new variable $U = \frac{(n-1)S^2}{\sigma^2}$. This gives us a new equivalent definition of $T$:
+
 $$
 T = \frac{\sigma \sqrt n (\bar X - \mu)}{\sigma} \frac{1}{\sqrt{S^2}} = \sigma \bar Z \sqrt{\frac{\sigma^2}{(n-1)S^2}} \sqrt{\frac{n-1}{\sigma^2}} = \frac{\bar Z}{\sqrt \frac{U}{(n-1)}}
 $$
 
 The rationale behind this substitution is that it allows us to express $S$ in the standardised normal variable $Z$. This helps us to find $f(s)$ using properties of the $\chi^2$ distribution. First we can decompose $U$ into the sum of two $\chi^2$ distributed terms:
+
 $$
 \begin{aligned}
 U & = \frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2} \sum^n_{i=1} (x_i - \bar X)^2 = \sum^n_{i=1} (z_i - \bar Z)^2 \\
@@ -169,15 +199,18 @@ U & = \frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2} \sum^n_{i=1} (x_i - \bar X)
 $$
 
 We can make use of the momen-generating function of these two $\chi^2$ variables to find that of $U$. Moment-generating function of linear combination of independent random variables is the product/division of their moment-generating functions, i.e.:
+
 $$
 \begin{aligned}
 \text{For } U  & = \sum^n_{i=1} z_i^2 - n \bar Z^2 = Y - V,  \quad M_U(t) = \frac{M_Y(t)}{M_V(t)} \\
 & \therefore M_U(t)  = \frac{(1 - 2t)^{-\frac{n}{2}}}{(1 - 2t)^{-\frac{1}{2}}} = (1 - 2t)^{-\frac{n-1}{2}}
 \end{aligned}
 $$
+
 This means that $U$ also follows the $\chi^2$ distribution, and with a degree of freedom $r = n-1$.
 
 Now we can express the pdf of $\bar Z$ and $U$, as well as their joint pdf:
+
 $$
 \begin{aligned}
 f_{\bar Z}(\bar z) & = \frac{1}{\sqrt{2\pi}} e^{-\frac{\bar z^2}{2}}, \quad f_U(u) = \frac{u^{\frac{n-1}{2}-1} e^{-\frac{u}{2}}}{2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} \\
@@ -186,6 +219,7 @@ f_{\bar Z,U}(\bar z,u) & = f_{\bar Z}(\bar z)f_U(u) = \frac{u^{\frac{n-1}{2}-1}}
 $$
 
 Now, we can substitue $t$ into the pdf with a change of variable with $z$:
+
 $$
 \begin{aligned}
 \text{Since } & T = \frac{\bar Z}{\sqrt \frac{U}{(n-1)}} \text{, then } \bar Z = T \sqrt \frac{U}{(n-1)}\\
@@ -204,7 +238,3 @@ f_{T,U}(t,u) & = f_{\bar Z,U}(t \sqrt \frac{u}{(n-1)},u) || J(t, u) || \\
 \end{aligned}
 $$
 
-$$
-\begin{aligned}
-\end{aligned}
-$$
