@@ -2,7 +2,18 @@
 ---
 
 @import "{{ site.theme }}";
+@import url('https://fonts.googleapis.com/css?family=Hepta+Slab');
 
-#main-content h1 {
-  font-family: Arial, Helvetica, serif; 
+#main-content {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Hepta Slab", Arial, Helvetica, serif;
+    }
+}
+
+pre {
+  padding: 10px 5px; 
+}
+
+pre code {
+  background-color: transparent; 
 }
