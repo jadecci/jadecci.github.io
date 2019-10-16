@@ -13,7 +13,11 @@ header {
 header h1 { 
     text-transform: uppercase;
 }
-    
+
+header h1::first-letter {
+    font-size: 200%;
+    color: pink;
+}
     
 
 #main-content {
