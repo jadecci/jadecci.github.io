@@ -4,7 +4,6 @@
 @import "{{ site.theme }}";
 @import url('https://fonts.googleapis.com/css?family=Hepta+Slab');
 @import url('https://fonts.googleapis.com/css?family=Cinzel');
-@import url('https://fonts.googleapis.com/css?family=Euphoria+Script');
 
 header {
     h1, h2, h3, h4, h5, h6 {
@@ -17,7 +16,6 @@ header h1 {
 
 header h1::first-letter {
     font-size: 150%;
-    font-family: "Euphoria Script", Arial, Helvetica, serif;
 }
     
 
