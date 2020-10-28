@@ -1,0 +1,2025 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-28T22:04:26+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jade Sea</title><subtitle>Welcome, delicious friend!</subtitle><entry><title type="html">DataLad Cheetsheet</title><link href="http://localhost:4000/notes/Datalad.html" rel="alternate" type="text/html" title="DataLad Cheetsheet" /><published>2020-08-19T16:07:00+02:00</published><updated>2020-08-19T16:07:00+02:00</updated><id>http://localhost:4000/notes/Datalad</id><content type="html" xml:base="http://localhost:4000/notes/Datalad.html">&lt;p&gt;This set of notes include important DataLad (and related) commands, extracted from the DataLad Handbook INM7 version (~v0.12).&lt;/p&gt;
+
+&lt;h2 id=&quot;0--installation&quot;&gt;0.  Installation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Linux&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;datalad
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;HPC (with MiniConda installed)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;conda &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; conda-forge datalad
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;macOS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git-annex
+python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; datalad~&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Windows 10 (with MiniConda installed)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;conda &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; conda-forge git
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git-annex into MiniConda Library directory&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;datalad~&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;1-setting-up-datasets&quot;&gt;1. Setting Up Datasets&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;create a dataset
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;text2git&lt;/code&gt; configuration option allows text files to be stored in git instead of git-annex, preventing them from being locked&lt;/li&gt;
+      &lt;li&gt;use &lt;code class=&quot;highlighter-rouge&quot;&gt;-f/--force&lt;/code&gt; to convert existing directory into dataset/sub-dataset&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad create &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$super_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt;/--force] &lt;span class=&quot;nt&quot;&gt;--description&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; config_option &lt;span class=&quot;nv&quot;&gt;$target_dir&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check and commit updates&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad status
+datalad save &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--to-git&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--version-tag&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$tag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_names&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;add and commit content from URL&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad download-url &lt;span class=&quot;nv&quot;&gt;$link&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--dataset&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$target_dataset&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$output_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;clone another dataset into an existing dataset &amp;amp; download some content physically
+    &lt;ul&gt;
+      &lt;li&gt;note that sub-datasets have their separate commit histories&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad clone &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$existing_dataset&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$git_link&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$target_dir&lt;/span&gt;
+datalad get &lt;span class=&quot;nv&quot;&gt;$file&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;after cloning a dataset, check its sub-datasets &amp;amp; get the files in its sub-dataset (and sub-sub-datasets below) without downloading their content&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad subdatasets
+datalad get &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--recursion-limit&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$limit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;add a container image (requires &lt;code class=&quot;highlighter-rouge&quot;&gt;datalad_container&lt;/code&gt; extension)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad containers-add &lt;span class=&quot;nv&quot;&gt;$image_name&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--url&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$image_path&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;2-managing-provenance&quot;&gt;2. Managing Provenance&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;automatically track all provenance from a command run
+    &lt;ul&gt;
+      &lt;li&gt;commit is saved to the dataset of the current directory (a commit is only made if there is actual change)&lt;/li&gt;
+      &lt;li&gt;input files are downloaded &amp;amp; output files unlocked before command is run (replaced by &lt;code class=&quot;highlighter-rouge&quot;&gt;{inputs}&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;{inputs[0]}&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;outputs}&lt;/code&gt;, etc. in &lt;code class=&quot;highlighter-rouge&quot;&gt;$command&lt;/code&gt;)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad run &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt;/--input &lt;span class=&quot;nv&quot;&gt;$input_files&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt;/--output &lt;span class=&quot;nv&quot;&gt;$output_files&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;run a command ignoring unstaged changes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad run &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--explicit&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;rerun a previously run command with provenance tracking
+    &lt;ul&gt;
+      &lt;li&gt;also only commits if there is actual change&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad rerun &lt;span class=&quot;nv&quot;&gt;$commit_number&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;rerun all commands between a tag and the current state&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad rerun &lt;span class=&quot;nt&quot;&gt;--since&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$tag&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;manually unlock a file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad unlock &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check the differences between commits (or current state)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;modified files&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad diff &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt;/--from &lt;span class=&quot;nv&quot;&gt;$commit_curr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt;/--to &lt;span class=&quot;nv&quot;&gt;$commit_to_compare&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;modified content&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git diff &lt;span class=&quot;nv&quot;&gt;$commit_curr&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$commit_to_compare&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;run a command in a container image (requires &lt;code class=&quot;highlighter-rouge&quot;&gt;datalad_container&lt;/code&gt; extension)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad containers-run &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--containers-name&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$image_name&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--input&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$input_files&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--output&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$output_files&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3-maintaining-the-dataset&quot;&gt;3. Maintaining the Dataset&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;only commit already tracked files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; datalad save &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt;/--updated
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;merge changes from the origin&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;git pull equivalent&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad update &lt;span class=&quot;nt&quot;&gt;--merge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;/--dataset &lt;span class=&quot;nv&quot;&gt;$orig_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;git fetch equivalent&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad update &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;/--dataset &lt;span class=&quot;nv&quot;&gt;$orig_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check the current size &amp;amp; actual size of the dataset (or sub-dataset depending on the current directory)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad status &lt;span class=&quot;nt&quot;&gt;--annex&lt;/span&gt; all
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;find all files whose content are not locally available&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;super-dataset&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git annex find &lt;span class=&quot;nt&quot;&gt;--not&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--in&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;here
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;sub-datasets&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git submodule foreach &lt;span class=&quot;nt&quot;&gt;--quiet&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--recursive&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ &lt;span class=&quot;s1&quot;&gt;'git annex find --not --in=here --format=$displaypath/$\\{file\\}\\n'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check the list of container (requires &lt;code class=&quot;highlighter-rouge&quot;&gt;datalad_container&lt;/code&gt; extension)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad containers-list
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;remove annexed data completely (irretrievable)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad drop &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt;/--recursive] &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--nocheck&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$files&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;drop unused annexed data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git annex unused
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;one item&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git annex dropunused &lt;span class=&quot;nv&quot;&gt;$item_number&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;multiple item&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git annex dropunused &lt;span class=&quot;nv&quot;&gt;$item_start&lt;/span&gt;-&lt;span class=&quot;nv&quot;&gt;$item_stop&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;all&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git annex dropunused all
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;remove the super-dataset (when outside the super-dataset)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad remove &lt;span class=&quot;nt&quot;&gt;--recursive&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--nocheck&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$super_dataset&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;4-managing-sub-datasets--siblings&quot;&gt;4. Managing sub-datasets &amp;amp; Siblings&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check changes in a sub-dataset&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;files &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the sub-datset&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad status &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt;/
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;the sub-dataset itself&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad status &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;all&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad status &lt;span class=&quot;nt&quot;&gt;--recursive&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;similarly, save changes from a sub-dataset&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;to the sub-datset&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad save &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;to the super-dataset&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad save &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$super_dataset&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;all&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad save &lt;span class=&quot;nv&quot;&gt;$super_dataset&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--recursive&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;remove a sub-dataset&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;can &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;datalad get again&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad uninstall &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;completely gone&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad remove &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$dataset&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;add a clone of the dataset as sibling/remote&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad siblings add &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$this_dataset&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt;/--name &lt;span class=&quot;nv&quot;&gt;$name&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--url&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sibling_dataset&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check the list of siblings and remove one&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad siblings
+datalad siblings remove &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt;/--name &lt;span class=&quot;nv&quot;&gt;$name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;merge changes from a sibling&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad update &lt;span class=&quot;nt&quot;&gt;--merge&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt;/--name &lt;span class=&quot;nv&quot;&gt;$name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;if git shows error “commits don’t follow merge-base” for a sub-dataset&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git reset HEAD &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;5-dataset-configuration&quot;&gt;5. Dataset Configuration&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;add/modify/remove a configuration in &lt;code class=&quot;highlighter-rouge&quot;&gt;.git/config&lt;/code&gt; of the current dataset&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config &lt;span class=&quot;nt&quot;&gt;--local&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--add&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$section&lt;/span&gt;.[&lt;span class=&quot;nv&quot;&gt;$sub_section&lt;/span&gt;.]&lt;span class=&quot;nv&quot;&gt;$variable&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$value&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+git config &lt;span class=&quot;nt&quot;&gt;--local&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--replace-all&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$section&lt;/span&gt;.[&lt;span class=&quot;nv&quot;&gt;$sub_section&lt;/span&gt;.]&lt;span class=&quot;nv&quot;&gt;$variable&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$value&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+git config &lt;span class=&quot;nt&quot;&gt;--local&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--unset&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$section&lt;/span&gt;.[&lt;span class=&quot;nv&quot;&gt;$sub_section&lt;/span&gt;.]&lt;span class=&quot;nv&quot;&gt;$variable&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;prevent a specific file from being annexed in the current dataset&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;add to .gitattribute&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt; annex.largefiles&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;nothing
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;modify configurations in &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitmodules&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;.datalad/config&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt;/--file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$config_file&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--replace-all&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$section&lt;/span&gt;.[&lt;span class=&quot;nv&quot;&gt;$sub_section&lt;/span&gt;.]&lt;span class=&quot;nv&quot;&gt;$variable&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$value&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;apply a configuration procedure after dataset is created&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad run-procedure &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$dataset&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$procedure_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;add a result hook to the dataset
+    &lt;ul&gt;
+      &lt;li&gt;possible &lt;code class=&quot;highlighter-rouge&quot;&gt;type&lt;/code&gt;: &lt;code class=&quot;highlighter-rouge&quot;&gt;file&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;dataset&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;symlink&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;directory&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;possible &lt;code class=&quot;highlighter-rouge&quot;&gt;action&lt;/code&gt;: &lt;code class=&quot;highlighter-rouge&quot;&gt;install&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;get&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;drop&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;status&lt;/code&gt;, etc.&lt;/li&gt;
+      &lt;li&gt;possible &lt;code class=&quot;highlighter-rouge&quot;&gt;status&lt;/code&gt;: &lt;code class=&quot;highlighter-rouge&quot;&gt;ok&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;notneeded&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;impossible&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;error&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;substitutions for &lt;code class=&quot;highlighter-rouge&quot;&gt;$command&lt;/code&gt;: &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;{dsarg}&quot;&lt;/code&gt; for&lt;code class=&quot;highlighter-rouge&quot;&gt;dataset&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;{path}&quot;&lt;/code&gt; for &lt;code class=&quot;highlighter-rouge&quot;&gt;path&lt;/code&gt;, etc.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config &lt;span class=&quot;nt&quot;&gt;--local&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--add&lt;/span&gt; datalad.result-hook.&lt;span class=&quot;nv&quot;&gt;$hook_name&lt;/span&gt;.call-json &lt;span class=&quot;s1&quot;&gt;'$command'&lt;/span&gt;
+git config &lt;span class=&quot;nt&quot;&gt;--local&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--add&lt;/span&gt; datalad.result-hook.&lt;span class=&quot;nv&quot;&gt;$hook_name&lt;/span&gt;.match-json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ &lt;span class=&quot;s1&quot;&gt;'{&quot;type&quot;: &quot;$type&quot;,&quot;action&quot;:&quot;$action&quot;,&quot;status&quot;:&quot;$status&quot;}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;6-sharing-datasets&quot;&gt;6. Sharing Datasets&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;publish dataset to Github/Gitlab&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad create-sibling-github/gitlab &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$dataset&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$repo_name&lt;/span&gt;
+datalad push &lt;span class=&quot;nt&quot;&gt;--to&lt;/span&gt; github/gitlab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;also push the tags to Github/Gitlab&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git push github/gitlab &lt;span class=&quot;nt&quot;&gt;--tags&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;or&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+git config &lt;span class=&quot;nt&quot;&gt;--local&lt;/span&gt; remote.github/gitlab.push &lt;span class=&quot;s1&quot;&gt;'refs/tags/*'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;share annexed data through Github Large File Storage (LFS)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad create-sibling-github &lt;span class=&quot;nv&quot;&gt;$repo_name&lt;/span&gt;
+git annex initremote github-lfs &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;git-lfs &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$repo_link&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encryption&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;none &lt;span class=&quot;nv&quot;&gt;embedcreds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;no
+datalad push &lt;span class=&quot;nt&quot;&gt;--to&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;github
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;publish dataset to GIN
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad siblings add &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$dataset&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; gin &lt;span class=&quot;nt&quot;&gt;--url&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$gin_link&lt;/span&gt;
+datalad push &lt;span class=&quot;nt&quot;&gt;--to&lt;/span&gt; gin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;add sub-datasets to GIN&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;datalad subdatasets &lt;span class=&quot;nt&quot;&gt;--contains&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--set-property&lt;/span&gt; url &lt;span class=&quot;nv&quot;&gt;$git_link&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;push/fetch annexed data content (make sure remote is set with ssh-url instead of http-url)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git annex &lt;span class=&quot;nb&quot;&gt;sync&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--content&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;other-useful-git-commands&quot;&gt;Other useful git commands&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;edit the commit message after committing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git commit &lt;span class=&quot;nt&quot;&gt;--amend&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;edit the last &lt;code class=&quot;highlighter-rouge&quot;&gt;N&lt;/code&gt; commit messages (&lt;em&gt;only do this if you know very well what you are doing&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git rebase &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; HEAD~N
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check commit history&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;last commit &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;detail&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git log &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; 1
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;all commits each &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;a line&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git log &lt;span class=&quot;nt&quot;&gt;--oneline&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;sub-dataset commits&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git &lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sub_dataset&lt;/span&gt; log &lt;span class=&quot;nt&quot;&gt;--oneline&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;of a specific file&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git log &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;locate copies of an annexed file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git annex whereis &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;commit a file name change&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git &lt;span class=&quot;nb&quot;&gt;mv&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$old_file&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$new_file&lt;/span&gt;
+git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;...&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;stop annexing a file (track with git instead)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git annex unannex &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;soft reset (keeping work done)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;with annexed content&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; datalad unlock &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+git reset &lt;span class=&quot;nv&quot;&gt;$commit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;reverting commit(s)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git revert &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--no-commit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$commit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$newer_commit&lt;/span&gt; ...]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check file content at an older commit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git cat-file &lt;span class=&quot;nt&quot;&gt;--textconv&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$commit&lt;/span&gt;:&lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;apply configuration from a &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt; file globally (use absolute path)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config &lt;span class=&quot;nt&quot;&gt;--global&lt;/span&gt; core.excludesfile &lt;span class=&quot;nv&quot;&gt;$gitignore_file&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;other-useful-console-commands&quot;&gt;Other useful console commands&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;view folder structure of current directory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tree &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;find the type for a file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;file &lt;span class=&quot;nt&quot;&gt;--mime-type&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="notes" /><summary type="html">This set of notes include important DataLad (and related) commands, extracted from the DataLad Handbook INM7 version (~v0.12).</summary></entry><entry><title type="html">Chapter 14. Statistical Description of Data</title><link href="http://localhost:4000/notes/C-Chpt14.html" rel="alternate" type="text/html" title="Chapter 14. Statistical Description of Data" /><published>2019-12-02T15:07:00+01:00</published><updated>2019-12-02T15:07:00+01:00</updated><id>http://localhost:4000/notes/C-Chpt14</id><content type="html" xml:base="http://localhost:4000/notes/C-Chpt14.html">&lt;p&gt;This set of notes is based on Chapter 14 in Numerical Recipes in C.&lt;/p&gt;
+
+&lt;p&gt;Codes for implementing algorithms mentioned in this chapter are available at &lt;a href=&quot;https://github.com/jadecci/numerical_recipes_c&quot;&gt;my Github repository&lt;/a&gt;. Each script runs the respective algorithm with example data.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-moments-of-a-distribution&quot;&gt;1. Moments (of a distribution)&lt;/h2&gt;
+
+&lt;p&gt;Moments are statistics that describe the data’s tendencies to cluster around certain values, or the shape of the distribution. The $n$-th moment of a continuous function $f(x)$ about a value $c$ is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mu_n = \int_{-\infty}^{\infty} (x-c)^n f(x) \mathop{dx}&lt;/script&gt;
+
+&lt;p&gt;For a probability density function (&lt;em&gt;pdf&lt;/em&gt;), the zeroth moment is obviously $1$. The first moment would be the expected value (or mean), i.e. $\mathrm{E}[X]$ (we usually assume $c = 0$ for the first moment). The second (central) moment would be the variance, i.e. $\mathrm{E}[(X-\mu)^2]$ (we usually assume $c = \mathrm{E}[X]$ for second or higher moments).&lt;/p&gt;
+
+&lt;p&gt;For discrete distributions, the first moment (mean) is: $\mu = \frac{1}{N} \sum_{i=1}^N x_i$. The second central moment (variance) is $\mathrm{Var}(X) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \mu)^2$. We use $N-1$ instead of $N$ as denominator to account for the bias in sample variance in comparison to population variance, which is by a factor of $\frac{N-1}{N}$ (see &lt;a href=&quot;https://en.wikipedia.org/wiki/Variance#Sample_variance&quot;&gt;Wikipedia&lt;/a&gt;). The square root of the variance is the standard deviation: $\sigma(x) = \sqrt{\mathrm{Var}(X)}$.&lt;/p&gt;
+
+&lt;p&gt;The third moment (skewness) is a measure of asymmetry, usually evaluated as $\mathrm{Skew}(X) = \frac{1}{N} \sum_{i=1}^N (\frac{x_i - \mu}{\sigma(x)})^3$. A positive value of skewness suggests that the distribution is right-skewed (or right-tailed), with a long tail extending in the positive $x$-axis direction.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Caution from the book: In real life it is good practice to believe in skewnesses only when they are several or many times as large as $\sqrt{\frac{15}{N}}$ (when $\mu$ is true mean) or $\sqrt{\frac{6}{N}}$ (when $\mu$ is sample mean).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The fourth moment (kurtosis) is a measure of how peaked (&lt;em&gt;leptokurtic&lt;/em&gt;) or flat (&lt;em&gt;platykurtic&lt;/em&gt;) of a distribution is, compared to the normal distribution. This is usually evaluated as $\mathrm{Kurt}(X) = [ \frac{1}{N} \sum_{i=1}^N (\frac{x_i - \mu}{\sigma(x)})^4 ] - 3$, where the last term ensures that a normal distribution has a kurtosis of $0$.&lt;/p&gt;
+
+&lt;p&gt;In practice, roundoff errors could be magnified when computing central moments, for first computing $\mu$ then subtracting it from every sample. To correct these errors, a &lt;strong&gt;corrected two-pass&lt;/strong&gt; algorithm is usually used for large samples, where a second term summing up the roundoff errors is subtracted. For example, the sample variance could be calculated as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathrm{Var}(X) = \frac{1}{N-1} \{ \sum_{i=1}^N (x_i - \mu)^2 - \frac{1}{N} [\sum_{i=1}^N (x_i - \mu)]^2 \}&lt;/script&gt;
+
+&lt;h2 id=&quot;2-comparing-distributions&quot;&gt;2. Comparing Distributions&lt;/h2&gt;
+
+&lt;h3 id=&quot;21-students-t-test-comparing-means&quot;&gt;2.1. Student’s t-test (comparing means)&lt;/h3&gt;
+
+&lt;h3 id=&quot;22-f-test-comparing-variances&quot;&gt;2.2. F-test (comparing variances)&lt;/h3&gt;
+
+&lt;h3 id=&quot;23-chi-square-test-comparing-histograms&quot;&gt;2.3. Chi-Square Test (comparing histograms)&lt;/h3&gt;
+
+&lt;h3 id=&quot;24-kolmogorov-smirnov-test-comparing-cdfs&quot;&gt;2.4. Kolmogorov-Smirnov Test (comparing CDFs)&lt;/h3&gt;</content><author><name></name></author><category term="notes" /><summary type="html">This set of notes is based on Chapter 14 in Numerical Recipes in C.</summary></entry><entry><title type="html">Useful Commands</title><link href="http://localhost:4000/notes/Commands.html" rel="alternate" type="text/html" title="Useful Commands" /><published>2019-10-10T16:07:00+02:00</published><updated>2019-10-10T16:07:00+02:00</updated><id>http://localhost:4000/notes/Commands</id><content type="html" xml:base="http://localhost:4000/notes/Commands.html">&lt;p&gt;This set of notes include commands for Unix, Bash, Matlab, Python, etc. that I found useful or easily forgotten.&lt;/p&gt;
+
+&lt;h1 id=&quot;linux&quot;&gt;Linux&lt;/h1&gt;
+
+&lt;h2 id=&quot;linux-in-general&quot;&gt;Linux in general&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Give read &amp;amp; execute rights to all users for a folder and its subfolders&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;chmod&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; 755 &lt;span class=&quot;nv&quot;&gt;$folder_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Find file in current folder and subfolders&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;find &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-name&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Print lines (i.e. rows) &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt; in a text file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$((&lt;/span&gt;y-x+1&lt;span class=&quot;k&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Extract columns &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt; from a csv file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;.csv | &lt;span class=&quot;nb&quot;&gt;cut&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;','&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; x,y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Rename part of file name(s)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rename &lt;span class=&quot;s2&quot;&gt;&quot;s/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;old_part&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;new_part&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;List size of folders/files in ascending order&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;du&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sh&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;macos-terminal-uname--darwin&quot;&gt;MacOS Terminal (uname = Darwin)&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;After any major/semi-major update, the command line tool should be updated with&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xcode-select &lt;span class=&quot;nt&quot;&gt;--install&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Insert the plus/minus sign ±: &lt;code class=&quot;highlighter-rouge&quot;&gt;shift&lt;/code&gt; + &lt;code class=&quot;highlighter-rouge&quot;&gt;alt (options)&lt;/code&gt; + &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;git-related&quot;&gt;Git related&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create a new branch based on the &lt;code class=&quot;highlighter-rouge&quot;&gt;develop&lt;/code&gt; branch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$branch_name&lt;/span&gt; develop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Delete last commit, keeping the work done&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git reset &lt;span class=&quot;nt&quot;&gt;--soft&lt;/span&gt; HEAD~1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Delete a commit, discarding work done (i.e. reverting the changes)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git reset &lt;span class=&quot;nt&quot;&gt;--hard&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$commit_number&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Unstage all staged files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git reset
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Revert all local uncommitted changes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Delete  a branch from both local and remote repositories&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$branch_name&lt;/span&gt;
+git push origin &lt;span class=&quot;nt&quot;&gt;--delete&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$branch_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Update a forked repository with feature branch &lt;code class=&quot;highlighter-rouge&quot;&gt;$branch_name&lt;/code&gt;(assuming no conflict)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout develop
+git pull upstream develop
+git push origin &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; develop
+git checkout &lt;span class=&quot;nv&quot;&gt;$branch_name&lt;/span&gt;
+git rebase develop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Changed a cloned copy to a forked copy &amp;amp; make current branch track a forked branch (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; branch)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git remote rename origin upstream
+git remote add origin &lt;span class=&quot;nv&quot;&gt;$fork_address&lt;/span&gt;
+git branch &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; origin/master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Check changes in a file before committing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unstaged&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git diff &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;staged&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; git diff &lt;span class=&quot;nt&quot;&gt;--cached&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_named&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;bash&quot;&gt;Bash&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Extract part of a string (e.g. getting 0843 from Sub0843_Ses1)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Sub0843_Ses1
+&lt;span class=&quot;nv&quot;&gt;string_cut_end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%_Ses1&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;string_cut_front&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string_cut_end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;#Sub&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Remove all leading spaces from &lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; console output&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;    Sub0843_Ses1&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;string_cut&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;##*[[&lt;/span&gt;:blank:]]&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Floating point operations (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;x+y/365&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo &lt;/span&gt;x y 365 | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{printf &quot;%4.3f&quot;, $1+$2/$3}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Suppress 1) warnings and errors 2) all outputs from a command&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt; 2&amp;gt; /dev/null
+2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt; 1&amp;gt; /dev/null 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The above might not work inside a script, in which case the &lt;code class=&quot;highlighter-rouge&quot;&gt;exec&lt;/code&gt; command can be used before the commands generating warnings/outputs.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;2&amp;gt; /dev/null
+2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;1&amp;gt; /dev/null 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;ssh-related&quot;&gt;SSH related&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Save host and user name in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Host &lt;span class=&quot;nv&quot;&gt;$new_host_name&lt;/span&gt;
+	Hostname &lt;span class=&quot;nv&quot;&gt;$host_address&lt;/span&gt;
+	User &lt;span class=&quot;nv&quot;&gt;$user_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;File transfer between local machine and SSH server (For transfering a folder, add &lt;code class=&quot;highlighter-rouge&quot;&gt;-r&lt;/code&gt; to recursively copy all files and subdirectories)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;to server&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; scp &lt;span class=&quot;nv&quot;&gt;$file_path&lt;/span&gt; user@host:&lt;span class=&quot;nv&quot;&gt;$destination&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;server to &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; scp user@host:&lt;span class=&quot;nv&quot;&gt;$file_path&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$destination&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;python&quot;&gt;Python&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Since Python 3.4, it’s preferable to use &lt;code class=&quot;highlighter-rouge&quot;&gt;pip&lt;/code&gt; with&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;python3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;python3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upgrade&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;python3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numpy&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install a package of a specific version&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;installation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;python3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Iv&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;existing&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;installation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;python3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;I&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Print elapsed time in hour-minute-second format&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;time&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strftime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%H:%M:%S&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gmtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;elapsed_time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create function handle (i.e. equivalent to &lt;code class=&quot;highlighter-rouge&quot;&gt;myfunc = @(x) func(10, x)&lt;/code&gt; in Matlab)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;myfunc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Call function with dynamic name&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;another&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;getattr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;module_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'func_name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;same&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;globals&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'func_name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Reload a module (to reflect changes made to the module)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;importlib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;reload&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;reload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;module_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Write &lt;code class=&quot;highlighter-rouge&quot;&gt;stdout&lt;/code&gt; to a log file at real time (from command line)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;.py &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$log_name&lt;/span&gt;.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;matlab&quot;&gt;Matlab&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Write &lt;code class=&quot;highlighter-rouge&quot;&gt;long&lt;/code&gt; values to a csv file (e.g. with a precision of &lt;code class=&quot;highlighter-rouge&quot;&gt;6&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-matlab highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;dlmwrite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'file_name.csv'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variable_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'precision'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;vim&quot;&gt;Vi(m)&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;turn off search (#) highlighting&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;:noh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;others&quot;&gt;Others&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Build a site with Jekyll locally&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the browser&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; http://localhost:4000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="notes" /><summary type="html">This set of notes include commands for Unix, Bash, Matlab, Python, etc. that I found useful or easily forgotten.</summary></entry><entry><title type="html">Chapter 2. Solution of Linear Algebraic Equations</title><link href="http://localhost:4000/notes/C-Chpt2.html" rel="alternate" type="text/html" title="Chapter 2. Solution of Linear Algebraic Equations" /><published>2019-09-19T16:07:00+02:00</published><updated>2019-09-19T16:07:00+02:00</updated><id>http://localhost:4000/notes/C-Chpt2</id><content type="html" xml:base="http://localhost:4000/notes/C-Chpt2.html">&lt;p&gt;This set of notes is based on Chapter 2 in Numerical Recipes in C.&lt;/p&gt;
+
+&lt;p&gt;Codes for implementing algorithms mentioned in this chapter are available at &lt;a href=&quot;https://github.com/jadecci/numerical_recipes_c&quot;&gt;my Github repository&lt;/a&gt;. Each script runs the respective algorithm with example data.&lt;/p&gt;
+
+&lt;p&gt;The general problem posed in this chapter is $Ax = b$, i.e.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} a_{11} &amp; a_{12} &amp; ... &amp; a_{1N} \\ a_{21} &amp; a_{22} &amp; ... &amp; a_{aN} \\ &amp; ... \\ a_{M1} &amp; a_{M2} &amp; ... &amp; a_{MN} \end{bmatrix} 
+\begin{bmatrix} x_1 \\ x_2 \\ ... \\ x_M \end{bmatrix}
+= \begin{bmatrix} b_1 \\ b_2 \\ ... \\ b_M \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where $A$ and $b$ are given, while $x$ and/or $A^{-1}$ need to be solved.&lt;/p&gt;
+
+&lt;h2 id=&quot;1--gauss-jordan-elimination&quot;&gt;1.  Gauss-Jordan Elimination&lt;/h2&gt;
+
+&lt;p&gt;Gauss-Jordan elimination solves the posed problem by solving for both $x$ and $A^{-1}$. As a result, it may not be computationally efficient if only $x$ is needed. It is also not efficient in its memory usage as a large right-hand-side (RHS) matrix needs to be stored and manipulated. Nevertheless, it is a straightforward and stable method that is suitable as a starting point, or baseline, for solving linear algebraic equations.&lt;/p&gt;
+
+&lt;p&gt;First, we quickly look at the basic operations in Gauss-Jordan elimination without pivoting. We want to find $A^{-1}$ by solving $Ay = I$, where $I$ is the identity matrix. Therefore, the full matrix to solve is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} a_{11} &amp; a_{12} &amp; ... &amp; a_{1N} \\ a_{21} &amp; a_{22} &amp; ... &amp; a_{2N} \\ &amp; ... \\ a_{M1} &amp; a_{M2} &amp; ... &amp; a_{MN} \end{bmatrix} 
+\begin{bmatrix} x_1 &amp; y_{11} &amp; y_{12} &amp; ... &amp; y_{1N} \\ x_2 &amp; y_{21} &amp; y_{22} &amp; ... &amp; y_{2N} \\ ... \\ x_M &amp; y_{M1} &amp; y_{M2} &amp; ... &amp; y_{MN}  \end{bmatrix}
+= \begin{bmatrix} b_1 &amp; 1 &amp; 0 &amp; ... &amp; 0\\ b_2 &amp; 0 &amp; 1 &amp; ... &amp; 0 \\ ... \\ b_M &amp; 0 &amp; 0 &amp; ... &amp; 1\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Note that every row across the 3 matrices form one linear equation. Hence, we can replace any row with a linear combinations of itself and another row without affect the solutions, as long as the operation is done to both $A$ and $b$ (or $[b \mkern9mu I]$) in the same row. To start, we divide the first row by $a_{11}$, so that the first element in the first row of the matrix $A$ is in the form of an identity matrix (i.e. $a_{11} = 1$).&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} a_{11} &amp; a_{12} &amp; ... &amp; a_{1N} \\ a_{21} &amp; a_{22} &amp; ... &amp; a_{aN} \\ &amp; ... \\ a_{M1} &amp; a_{M2} &amp; ... &amp; a_{MN} \end{bmatrix} 
+= \begin{bmatrix} 1 &amp; \frac{a_{12}}{a_{11}} &amp; ... &amp; \frac{a_{1N}}{a_{11}}  \\ a_{21} &amp; a_{22} &amp; ... &amp; a_{aN} \\ &amp; ... \\ a_{M1} &amp; a_{M2} &amp; ... &amp; a_{MN} \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Then we transform the first element in the second row to the form of an identity matrix, i.e. we want $a_{21}$ to be $0$. To do this, we subtract the second row with a linearly scaled version of the first row.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} 1 &amp; \frac{a_{12}}{a_{11}} &amp; ... &amp; \frac{a_{1N}}{a_{11}}  \\ a_{21} &amp; a_{22} &amp; ... &amp; a_{aN} \\ &amp; ... \\ a_{M1} &amp; a_{M2} &amp; ... &amp; a_{MN} \end{bmatrix}
+= \begin{bmatrix} 1 &amp; \frac{a_{12}}{a_{11}} &amp; ... &amp; \frac{a_{1N}}{a_{11}}  \\ a_{21}  - a_{21}(1) = 0 &amp; a_{22} - a_{21}(\frac{a_{12}}{a_{11}}) &amp; ... &amp; a_{aN} - a_{21}(\frac{a_{1N}}{a_{11}}) \\ &amp; ... \\ a_{M1} &amp; a_{M2} &amp; ... &amp; a_{MN} \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Remember that the operations must also be done to the matrix on the RHS of the equation. Therefore, the other two matrices now look like this:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} b_1 &amp; 1 &amp; 0 &amp; ... &amp; 0\\ b_2 &amp; 0 &amp; 1 &amp; ... &amp; 0 \\ ... \\ b_M &amp; 0 &amp; 0 &amp; ... &amp; 1\end{bmatrix}
+= \begin{bmatrix} \frac{b_1}{a_{11}} &amp; \frac{1}{a_{11}} &amp; 0 &amp; ... &amp; 0\\ b_2 - a_{21}(\frac{b_1}{a_{11}}) &amp; 0 - a_{21}(\frac{1}{a_{11}}) &amp; 0 &amp; ... &amp; 0 \\ ... \\ b_M &amp; 0 &amp; 0 &amp; ... &amp; 1\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;By also doing this subtraction to the remaining rows, all elements in the first column of $A$ would be in the form of an identity matrix (i.e. $a_{31} = a_{41} = … = a_{M1} = 0$). Repeat the procedure of division followed by subtractions for the remaining columns, at the end of which $A$ would be transformed into an identity matrix. Now, the first column of the RHS matrix is the solution for $x$, while the rest is the square matrix $A^{-1}$.&lt;/p&gt;
+
+&lt;p&gt;An obvious problem to this approach is that any zero element on the diagonal would cause a divide-by-zero operation. To resolve this problem, &lt;strong&gt;pivoting&lt;/strong&gt; is needed. The basic idea is to switch rows and/or columns to ensure that diagonal values are non-zero. In practice, the largest element is usually picked as the pivot to put on the diagonal.&lt;/p&gt;
+
+&lt;p&gt;While exchanging rows is trivial, exchanging columns in $A$ means that the corresponding rows of $[x \mkern9mu y]$ need to be exchanged, so that the matrix multiplication outcome (i.e. RHS of the equation) stays the same.&lt;/p&gt;
+
+&lt;h3 id=&quot;11-gaussian-elimination-with-back-substitution&quot;&gt;1.1. Gaussian Elimination with Back-substitution&lt;/h3&gt;
+
+&lt;p&gt;A faster implementation of the Gauss-Jordan elimination is the Gaussian elimination. First, we do not solve for $Ay = I$ anymore, meaning that the equation only consists of $Ax = b$. Second, only rows switching is done for pivoting (also known as &lt;strong&gt;partial pivoting&lt;/strong&gt;). Finally, during the subtraction step, only rows below the pivot row are processed. This means that the final equation is in the form of:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} a_{11} &amp; a_{12} &amp; a_{13} &amp; ... &amp; a_{1(N-1)} &amp; a_{1N} \\ 0 &amp; a_{22} &amp; a_{23} &amp; ... &amp; a_{2(N-1)} &amp; a_{2N} \\ 0 &amp; 0 &amp; a_{33} &amp; ... &amp; a_{3(N-1)} &amp; a_{3N} \\ &amp; ... \\ 0 &amp; 0 &amp; 0 &amp; ... &amp; a_{(M-1)(N-1)} &amp; a_{(M-1)N} \\ 0 &amp; 0 &amp; 0 &amp; ... &amp; 0 &amp; a_{MN} \end{bmatrix} 
+\begin{bmatrix} x_1 \\ x_2 \\ x_3\\ ... \\ x_{M-1} \\ x_M \end{bmatrix}
+= \begin{bmatrix} b_1 \\ b_2 \\ b_3 \\ ... \\ b_{M-1} \\ b_M \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The solution for $x$ can then be obtained through back-substitution. We start by working out the value for $x_M$, which is obviously $\frac{b_M}{a_{MN}}$. By substituting this value back into the row above, we can solve for $x_{M-1}$ as $\frac{b_{M-1} - a_{(M-1)N} x_M}{a_{(M-1)(N-1)}}$. Accordingly, the rest of $x$ can be solved following:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x_i = \frac{1}{a_{ii}} [b_i - \sum_{j=i+1}^M a_{ij}x_j]&lt;/script&gt;
+
+&lt;h2 id=&quot;2-lu-decomposition&quot;&gt;2. LU Decomposition&lt;/h2&gt;
+
+&lt;p&gt;The goal here is to decompose a matrix $A$ into a lower triangular matrix ($L$) and an upper triangular matrix ($U$):&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} a_{11} &amp; a_{12} &amp; ... &amp; a_{1N} \\ a_{21} &amp; a_{22} &amp; ... &amp; a_{2N} \\ &amp; ... \\ a_{N1} &amp; a_{N2} &amp; ... &amp; a_{NN} \end{bmatrix} = A = LU 
+= \begin{bmatrix} \alpha_{11} &amp; 0 &amp; ... &amp; 0 \\ \alpha_{21} &amp; \alpha_{22} &amp; ... &amp; 0 \\ &amp; ... \\ \alpha_{N1} &amp; \alpha_{N2} &amp; ... &amp; \alpha_{NN} \end{bmatrix} 
+\begin{bmatrix} \beta_{11} &amp; \beta_{12} &amp; ... &amp; \beta_{1N} \\ 0 &amp; \beta_{22} &amp; ... &amp; \beta_{2N} \\ &amp; ... \\ 0 &amp; 0 &amp; ... &amp; \beta_{NN} \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Now, the general problem $Ax = b$ is transformed into $LUx = b$, and can be solved in 2 steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;solve for vector $y$ such that $Ly = b$&lt;/li&gt;
+  &lt;li&gt;solve for vector $x$ such that $Ux = y$&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Both steps can be easily solved using the substitution method in section 1.1. But, importantly, we need to first solve for $L$ and $U$. Based on the decomposition equation, we can find an expression for each $a_{ij}$ in row $i$ and column $j$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;a_{ij} = \alpha_{i1}\beta_{1j} + \alpha_{i2}\beta_{2j} + ... + \alpha_{iN}\beta_{Nj}&lt;/script&gt;
+
+&lt;p&gt;Note that some of the terms involved would be zero. Indeed, the number of nonzero terms to construct a diagonal element (i.e. $i = j$) is $i^2 = j^2$. The number of nonzero terms to construct an off-diagonal element is equal to the smaller value between $i$ and $j$.&lt;/p&gt;
+
+&lt;p&gt;The set of equations expressing all $a_{ij}$ is obviously underdetermined, meaning that multiple solutions exist. In fact, we can make our lives easier by only search for solution in a constrained space, by setting all the diagonal elements of $L$ to $1$ (i.e. $\alpha_{ij} = 1 \text{ for } i = j$). Conceptually, as the diagonal elements of $L$ is always multiplied by an element in $U$, never used alone to express any element in $A$, specifying their values do not affect the validity of the solution. This is the first step in solving for $L$ and $U$ using &lt;strong&gt;Crout’s algorithm&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;To follow, we iterate through the columns of $U$ and $L$ to solve for the rest of the elements:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;We start from column $j = 1$ and repeat for all $j = 1, …, N$&lt;/li&gt;
+  &lt;li&gt;Solve for elements in column $j$ of matrix $U$, i.e. $\beta_{ij}$ for $i = 1, …, j$. Referring to the expression of elements in $A$, these can be solved as $\beta_{ij} = \frac{a_{ij} - \sum_{k=1}^{i-1} \alpha_{ik}\beta_{kj}}{\alpha_{ii}} = a_{ij} - \sum_{k=1}^{i-1} \alpha_{ik}\beta_{kj}$&lt;/li&gt;
+  &lt;li&gt;Solve for off-diagonal elements in column $j$ in $L$ (since diagonal elements have already been specified), i.e. $\alpha_{ij}$ for $i = j+1, …, N$. Again, this is solved as $\alpha_{ij} = \frac{a_{ij} - \sum_{k=1}^{i-1} \alpha_{ik}\beta_{kj}}{\beta_{jj}}$&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Note that at any time in step 2, the only elements from $L$ needed in the equation are either elements from previous columns or diagonal elements, i.e. either already specified values or or those calculated in step 3 in the previous iteration. Similarly, for step 3, only elements from $U$ calculated in previous iterations or diagonal elements calculated in step 2 in the same iteration are needed. Also, since each element in $A$ is only used to solve for the element in the same row and column in $L$ or $U$, each of these elements can be replaced by the corresponding element in $L$ or $U$ without the need to store the results separately. Since diagonals of $L$ have been specified to equal to $1$, they do not need to be stored during the computation.&lt;/p&gt;
+
+&lt;p&gt;Again, this method can be numerically unstable without &lt;strong&gt;pivoting&lt;/strong&gt;, since zero diagonal elements in $A$ easily lead to zero diagonal elements in $U$, and hence divide-by-zeros when computing elements in $L$. &lt;strong&gt;Partial pivoting&lt;/strong&gt; can be used to switch rows of $A$ to avoid this problem. The trick is to compute up to $\beta_{(j-1)j}$ in step 2 instead, but compute $\alpha_{jj}$ in step 3. As the rows are switched, $\alpha_{jj}$ might be moved to another row and become non-diagonal, while some $\alpha_{kj}$ might be moved to the $j$-th row and become the pivot (i.e. $\beta_{jj}$).&lt;/p&gt;
+
+&lt;p&gt;Another technique called &lt;strong&gt;implicit pivoting&lt;/strong&gt; is also used in the example codes for LU decomposition. Basically, instead of finding the pivot by comparing the raw values of the elements, we compare the scaled values. The scaled values are the raw values multiplied by the inverse of the largest absolute element in the row of the corresponding element, or equivalently, divided by the largest absolute element in the row. The choice of pivot is hence less dependent on the original scaling of each row.&lt;/p&gt;
+
+&lt;h2 id=&quot;3-cholesky-decomposition&quot;&gt;3. Cholesky Decomposition&lt;/h2&gt;
+
+&lt;p&gt;For symmetric and positive definite matrix $A$, the Cholesky decomposition is a faster way to decompose the matrix. By being positive definite, we mean that $vAv &amp;gt; 0$ for any vector $v$, or all eigenvalues of $A$ are positive. Because of the special properties of matrix $A$, it can be decomposed into $A = LL^T$ instead:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix} a_{11} &amp; a_{12} &amp; ... &amp; a_{1N} \\ a_{12} &amp; a_{22} &amp; ... &amp; a_{2N} \\ &amp; ... \\ a_{1N} &amp; a_{2N} &amp; ... &amp; a_{NN} \end{bmatrix} = A = LL^T 
+= \begin{bmatrix} \alpha_{11} &amp; 0 &amp; ... &amp; 0 \\ \alpha_{21} &amp; \alpha_{22} &amp; ... &amp; 0 \\ &amp; ... \\ \alpha_{N1} &amp; \alpha_{N2} &amp; ... &amp; \alpha_{NN} \end{bmatrix} 
+\begin{bmatrix} \alpha_{11} &amp; \alpha_{21} &amp; ... &amp; \alpha_{N1} \\ 0 &amp; \alpha_{22} &amp; ... &amp; \alpha_{N2} \\ &amp; ... \\ 0 &amp; 0 &amp; ... &amp; \alpha_{NN} \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Equivalently, for $i = 1, …, N$ and $j = i+1, …, N$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+a_{ii} &amp; = \sum_{k=1}^{i-1} \alpha_{ik}^2 + \alpha_{ii}^2 \\
+a_{ij} &amp; = \sum_{k=1}^{i-1} \alpha_{ik} \alpha_{jk} + \alpha_{ii} \alpha_{ji}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;We do not need to be concerned with cases where $j&amp;lt;i$ since we only need to solve for the lower half of the matrix $L$. Following the equations above, the elements in $L$ can be computed from top to bottom in each column from left to right (i.e. we solve for $\alpha_{11}$ to $\alpha_{N1}$ in sequence, then $\alpha_{22}$ to $\alpha_{N2}$ and so on). The computation is straightforward as any element needed in the equation has always been solved for in previous steps. Similar to the LU decomposition, the matrix $L$ here can be stored in the lower half portion of matrix $A$ during actual implementation, with the exception that the diagonal elements in $L$ need to be stored in a separate vector.&lt;/p&gt;
+
+&lt;p&gt;In the Cholesky decomposition, only the diagonal elements in $L$ would appear in the denominator of the equation when solving for non-diagonal elements in $L$. We can be sure that the diagonal elements in $L$ should be non-zero if $A$ is positive definite (see &lt;a href=&quot;https://en.wikipedia.org/wiki/Definiteness_of_a_matrix#Cholesky_decomposition&quot;&gt;Wikipedia&lt;/a&gt;). Therefore, no pivoting is required.&lt;/p&gt;</content><author><name></name></author><category term="notes" /><summary type="html">This set of notes is based on Chapter 2 in Numerical Recipes in C.</summary></entry><entry><title type="html">Distributions and Derivations</title><link href="http://localhost:4000/notes/Distribution.html" rel="alternate" type="text/html" title="Distributions and Derivations" /><published>2019-04-17T16:07:00+02:00</published><updated>2019-04-17T16:07:00+02:00</updated><id>http://localhost:4000/notes/Distribution</id><content type="html" xml:base="http://localhost:4000/notes/Distribution.html">&lt;p&gt;This set of notes include information and derivations for some statistical distributions, including gamma distribution and the t-distribution.&lt;/p&gt;
+
+&lt;p&gt;This note includes information and derivations for some useful statistical distributions. Currently this includes gamma, beta, $\chi^2$ (incomplete) and t distributions.&lt;/p&gt;
+
+&lt;h2 id=&quot;1--gamma-distribution-x-in-0infty&quot;&gt;1.  Gamma Distribution ($x \in [0,\infty)$)&lt;/h2&gt;
+&lt;p&gt;Gamma function: $\Gamma(n) = \int^{\infty}_0 x^{n-1}e^{-x} \mathop{dx} = (n-1)!$&lt;/p&gt;
+
+&lt;p&gt;Proof by math induction:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\Gamma(1) =  \int^{\infty}_0 e^{-x} \mathop{dx} = -e^{-x}\big|^{\infty}_0= 1 = 0!\\
+\begin{aligned}
+\Gamma(n+1) &amp;= \int^{\infty}_0 x^n e^{-x} \mathop{dx} \\
+&amp; = -x^n e^{-x} \big|^{\infty}_0 + n\int^{\infty}_0 x^{n-1} e^{-x} \mathop{dx} \\
+&amp; = n\int^{\infty}_0 x^{n-1} e^{-x} \mathop{dx} \\
+&amp; = n\Gamma(n)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Gamma distribution:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Gamma(\gamma | a,b) = \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma}&lt;/script&gt;
+
+&lt;p&gt;Expectation:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathbb{E}[\gamma] &amp;= \int^{\infty}_0 \gamma \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma} \mathop{d\gamma}\\
+&amp; = \int^{\infty}_0 (\frac{a}{b}) \frac{b^{a+1}}{\Gamma(a+1)} \gamma^a e^{-b\gamma} \mathop{d\gamma} \\
+&amp; = \frac{a}{b} \int^{\infty}_0 \Gamma(a+1,b) \mathop{d\gamma} \\
+&amp; = \frac{a}{b} \quad \text{(integral of pdf is 1)}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Mode:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathrm{Mode}[\gamma] &amp;= \mathrm{arg\,max}_\gamma  \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma} \\
+i.e. \quad &amp; \frac{\partial}{\partial\gamma} \gamma^{a-1} e^{-b\gamma} = 0 \\
+&amp; (-b\gamma + a-1)\gamma^{a-2} e^{-b\gamma} = 0 \\
+\therefore \mathrm{Mode}[\gamma] &amp; = \frac{a-1}{b}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Variance:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathrm{Var}[\gamma] &amp;=  \int^{\infty}_0 \gamma^2 \frac{b^a}{\Gamma(a)} \gamma^{a-1} e^{-b\gamma} \mathop{d\gamma} - \mathbb{E}[\gamma]^2\\
+&amp; = \int^{\infty}_0 (\frac{a(a+1)}{b^2}) \frac{b^{a+2}}{\Gamma(a+2)} \gamma^{a+1} e^{-b\gamma} \mathop{d\gamma} - (\frac{a}{b})^2\\
+&amp; = \frac{a(a+1)}{b^2} - (\frac{a}{b})^2  \quad \text{(integral of pdf is 1)} \\
+&amp; = \frac{a}{b^2} 
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;2-beta-distribution-x-in-01&quot;&gt;2. Beta Distribution ($x \in [0,1]$)&lt;/h2&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+B(x|a,b) &amp;= \frac{1}{B(a,b)} x^{a-1} (1-x)^{b-1} \\
+&amp; = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Expectation:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathbb{E}[x] &amp;= \int^1_0 x \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \mathop{dx} \\
+&amp; = \int^1_0 \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a} (1-x)^{b-1} \mathop{dx} \\
+&amp; = \int^1_0 \frac{\Gamma(a+b+1)}{\Gamma(a+1)\Gamma(b)} \frac{a}{a+b} x^{a} (1-x)^{b-1} \mathop{dx} \\
+&amp; = \frac{a}{a+b} \int^1_0 B(x|a+1,b) \mathop{dx} \\
+&amp; = \frac{a}{a+b} \quad \text{(integral of pdf is 1)} \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Mode:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathrm{Mode}[x] &amp; =  \mathrm{arg\,max}_x  \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \\
+i.e. \quad &amp; \frac{\partial}{\partial x} x^{a-1} (1-x)^{b-1} = 0 \\
+&amp; (a-1) x^{a-2} (1-x)^{b-1} + (-1) (b-1) x^{a-1} (1-x)^{b-2} = 0 \\
+&amp; [(a-1)(1-x) - (b-1)x] x^{a-2} (1-x)^{b-2} = 0\\
+&amp; a - 1 - ax - bx + 2x = 0\\
+\therefore \mathrm{Mode}[x] &amp; = \frac{a-1}{a+b-2} \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Variance:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathrm{Var}[x] &amp; = \int^1_0 x^2 \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1} (1-x)^{b-1} \mathop{dx}  - \mathbb{E}[x]^2 \\
+&amp; = \int^1_0 \frac{\Gamma(a+b+2)}{\Gamma(a+2)\Gamma(b)} \frac{a(a+1)}{(a+b)(a+b+1)} x^{a+1} (1-x)^{b-1} \mathop{dx}  - (\frac{a}{a+b} )^2 \\
+&amp; = \frac{a(a+1)}{(a+b)(a+b+1)}  - \frac{a^2}{(a+b)^2} \\
+&amp; = \frac{a(a+1)(a+b) - a^2(a+b+1)}{(a+b)^2(a+b+1)} \\
+&amp; = \frac{a[a(a+b) + (a+b) - a(a+b) - a)]}{(a+b)^2(a+b+1)} \\
+&amp; = \frac{ab}{(a+b)^2(a+b-1)}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;3-chi2-chi-squred-distribution-x-in-0infty&quot;&gt;3. $\chi^2$ (Chi-squred) Distribution ($x \in [0,\infty)$)&lt;/h2&gt;
+
+&lt;p&gt;For a set of independent, standard normal random variables $Z = {z_1,…,z_k} \sim \mathcal{N} (0, 1)$, the sum of their squares $Q = \sum^k_{i=1} z_i^2$ has the form of a chi-squared distribution with degrees of freedom $r = k$, i.e. $Q \sim \chi^2_k$ with the pdf:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(z | r) = \frac{z^{\frac{r}{2}-1} e^{-\frac{z}{2}}}{2^{\frac{r}{2}} \Gamma(\frac{r}{2})}&lt;/script&gt;
+
+&lt;h3 id=&quot;31-chi2-and-moment-generating-functions&quot;&gt;3.1 $\chi^2$ and moment-generating functions&lt;/h3&gt;
+
+&lt;p&gt;The moment-generating function of a random variable $X$ is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;M_X(t) = \mathbb{E} [e^{tX}]&lt;/script&gt;
+
+&lt;p&gt;This function can be used to find the moments of $X$ with the series expansion:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+e^{tX} &amp; = 1 + tX + \frac{t^2 X^2}{2!} + \frac{t^3 X^3}{3!} + ... \\
+\text{Hence, } M_X(t) &amp; =\mathbb{E} [e^{tX}]  = 1 + t m_1 + \frac{t^2 m_2}{2!} + \frac{t^3 m_3}{3!} + ...
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where $m_n$ is the $n$th moment.&lt;/p&gt;
+
+&lt;p&gt;If $X \sim \chi^2_r$, then:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;M_X(t) = (1 - 2t)^{-\frac{r}{2}}&lt;/script&gt;
+
+&lt;h2 id=&quot;4--students-t-distribution-x-in--inftyinfty&quot;&gt;4.  Student’s t-Distribution ($x \in (-\infty,\infty)$)&lt;/h2&gt;
+
+&lt;p&gt;The pdf of the student’s t-distribution is&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(t) = \frac{\Gamma(\frac{r+1}{2})}{\sqrt{r\pi} \Gamma(\frac{r}{2})}(1 + \frac{t^2}{r})^{-\frac{r+1}{2}}&lt;/script&gt;
+
+&lt;p&gt;where $r$ is the degree of freedom.&lt;/p&gt;
+
+&lt;p&gt;To derive this pdf, we start from a sample of normally distributed population, $x = {x_1,…,x_n} \sim \mathcal{N}(\mu, \sigma^2)$. The random variable $t$ is then defined as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;T = \frac{\bar X - \mu}{\frac{S}{\sqrt n}} \quad \text{where} \quad \bar X = \frac{1}{n} \sum^n_{i=1} x_i, \quad S^2 = \frac{1}{n-1} \sum^n_{i=1} (x_i - \bar X)^2&lt;/script&gt;
+
+&lt;p&gt;Note that this results in a degree of freedom $v = n-1$.&lt;/p&gt;
+
+&lt;p&gt;To derive the pdf of $T$, we need to first look at the relationship between $\bar X$ and $S$. We can prove that they are independent by checking the covariance between $\bar X$ and $x_i - \bar X$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+Cov(\bar X, x_i - \bar X) &amp;= Cov(\bar X, x_i) - Cov(\bar X, \bar X) \\
+&amp; = \frac{1}{n} \sum^n_{i=1} Cov(x_i, x_j) - Var(\bar X) \\
+&amp; = \frac{1}{n} Cov(x_i, x_i) - \frac{1}{n} \sigma^2  \quad \text{Since samples of $X$ are independent} \\
+&amp; = \frac{1}{n} \sigma^2 - \frac{1}{n} \sigma^2 \\
+&amp; = 0
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Now, we can construct $f(t)$ using $f(\bar x)$ and $f(s)$. First, to find $f(\bar x)$, we apply z-score normalisation to $X$, thus getting a new standardised normal variable $Z = \sqrt n \frac{X - \mu}{\sigma}$. We can then compute:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{aligned}
+f(\frac{\sqrt n (\bar x - \mu)}{\sigma}) = f(\bar z) \sim \mathcal{N} (0, 1) \text{ where } \bar Z = \frac{1}{n} \sum^n_{i=1} z_i
+\end{aligned}&lt;/script&gt;
+
+&lt;p&gt;We can also rewrite the variable $S$ into a new variable $U = \frac{(n-1)S^2}{\sigma^2}$. This gives us a new equivalent definition of $T$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;T = \frac{\sigma \sqrt n (\bar X - \mu)}{\sigma} \frac{1}{\sqrt{S^2}} = \sigma \bar Z \sqrt{\frac{\sigma^2}{(n-1)S^2}} \sqrt{\frac{n-1}{\sigma^2}} = \frac{\bar Z}{\sqrt \frac{U}{(n-1)}}&lt;/script&gt;
+
+&lt;p&gt;The rationale behind this substitution is that it allows us to express $S$ in the standardised normal variable $Z$. This helps us to find $f(s)$ using properties of the $\chi^2$ distribution. First we can decompose $U$ into the sum of two $\chi^2$ distributed terms:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+U &amp; = \frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2} \sum^n_{i=1} (x_i - \bar X)^2 = \sum^n_{i=1} (z_i - \bar Z)^2 \\
+&amp; = \sum^n_{i=1} z_i^2 - 2 \sum^n_{i=1} z_i \bar Z+ \sum^n_{i=1} \bar Z^2 \\
+&amp; = \sum^n_{i=1} z_i^2 - 2 (n \bar Z) \bar Z + n \bar Z^2 \\
+&amp; = \sum^n_{i=1} z_i^2  - n \bar Z^2 \\
+&amp; \text{where } \sum^n_{i=1} z_i^2 \sim \chi^2_n, \quad \sum^n_{i=1} \bar Z^2 = n \bar Z^2 \sim \chi^2_1
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;We can make use of the moment-generating function of these two $\chi^2$ variables to find that of $U$. Moment-generating function of linear combination of independent random variables is the product/division of their moment-generating functions, i.e.:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\text{For } U  &amp; = \sum^n_{i=1} z_i^2 - n \bar Z^2 = Y - V,  \quad M_U(t) = \frac{M_Y(t)}{M_V(t)} \\
+&amp; \therefore M_U(t)  = \frac{(1 - 2t)^{-\frac{n}{2}}}{(1 - 2t)^{-\frac{1}{2}}} = (1 - 2t)^{-\frac{n-1}{2}}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;This means that $U$ also follows the $\chi^2$ distribution, and with a degree of freedom $r = n-1$.&lt;/p&gt;
+
+&lt;p&gt;Now we can express the pdf of $\bar Z$ and $U$, as well as their joint pdf:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+f_{\bar Z}(\bar z) &amp; = \frac{1}{\sqrt{2\pi}} e^{-\frac{\bar z^2}{2}}, \quad f_U(u) = \frac{u^{\frac{n-1}{2}-1} e^{-\frac{u}{2}}}{2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} \\
+f_{\bar Z,U}(\bar z,u) &amp; = f_{\bar Z}(\bar z)f_U(u) = \frac{u^{\frac{n-1}{2}-1}}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} e^{-\frac{\bar z^2}{2} - \frac{u}{2}}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Now, we can substitute $t$ into the pdf with a change of variable with $z$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\text{Since } &amp; T = \frac{\bar Z}{\sqrt \frac{U}{(n-1)}} \text{, then } \bar Z = T \sqrt \frac{U}{(n-1)}\\
+f_{T,U}(t,u) &amp; = f_{\bar Z,U}(t \sqrt \frac{u}{(n-1)},u) | J(t, u) | \\
+&amp; = \frac{u^{\frac{n-1}{2}-1}}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} e^{-\frac{1}{2} [(t \sqrt \frac{u}{(n-1)})^2 + u]} | det \begin{bmatrix} \frac{\partial \bar z}{\partial t} &amp; \frac{\partial \bar z}{\partial u} \\ \frac{\partial u}{\partial t} &amp; \frac{\partial u}{\partial u} \\ \end{bmatrix} | \\
+&amp; = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} u^{\frac{n-3}{2}} e^{-\frac{1}{2} (\frac{t^2 u}{(n-1)} + u)} | det \begin{bmatrix} \sqrt \frac{u}{(n-1)} &amp; \frac{t}{2 \sqrt{u (n-1)}} \\ \ 0 &amp; 1 \\ \end{bmatrix} | \\
+&amp; = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} u^{\frac{n-3}{2}} e^{-\frac{1}{2} u (\frac{t^2}{(n-1)} + 1)} \sqrt \frac{u}{(n-1)}  \\
+\therefore f_T(t) &amp; = \int^\infty_0 f_{T,U}(t,u) \mathop{du} = \int^\infty_0 \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2})} u^{\frac{n-3}{2}} e^{-\frac{1}{2} u (\frac{t^2}{(n-1)} + 1)} \sqrt \frac{u}{(n-1)} \mathop{du} \\
+&amp; = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2}) \sqrt{(n-1)}} \int^\infty_0 u^{\frac{n}{2}-1} e^{-\frac{1}{2} u (\frac{t^2}{(n-1)} + 1)} \mathop{du} \\
+&amp; = \frac{1}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2}) \sqrt{(n-1)}} \int^\infty_0 (\frac{2w}{\frac{t^2}{(n-1)} + 1})^{\frac{n}{2}-1} e^{-w} \frac{du}{dw} \mathop{dw} \text{, where } w = \frac{u}{2} (\frac{t^2}{(n-1)} + 1) \\
+&amp; = \frac{2^{\frac{n}{2}-1} (\frac{t^2}{(n-1)} + 1)^{-\frac{n}{2}+1}}{\sqrt{2\pi} 2^{\frac{n-1}{2}} \Gamma(\frac{n-1}{2}) \sqrt{(n-1)}} \int^\infty_0 w^{\frac{n}{2}-1} e^{-w} (\frac{2}{\frac{t^2}{(n-1)} + 1}) \mathop{dw} \\
+&amp; = \frac{(\frac{t^2}{(n-1)} + 1)^{-\frac{n}{2}}}{\sqrt{\pi} \Gamma(\frac{n-1}{2}) \sqrt{(n-1)}} \int^\infty_0 w^{\frac{n}{2}-1}  e^{-w} \mathop{dw} \\
+&amp; = \frac{ (\frac{t^2}{(n-1)} + 1)^{-\frac{n}{2}}}{\sqrt{\pi} \Gamma(\frac{n-1}{2}) \sqrt{(n-1)}} \Gamma(\frac{n}{2}) \\
+&amp; = \frac{ \Gamma(\frac{n}{2})}{\sqrt{(n-1) \pi} \Gamma(\frac{n-1}{2})} (\frac{t^2}{(n-1)} + 1)^{-\frac{n}{2}}  \\
+&amp; = \frac{ \Gamma(\frac{r+1}{2})}{\sqrt{r \pi} \Gamma(\frac{r}{2})} (1 + \frac{t^2}{r})^{-\frac{r+1}{2}}  \text{ for } r = n-1\\
+\end{aligned} %]]&gt;&lt;/script&gt;</content><author><name></name></author><category term="notes" /><summary type="html">This set of notes include information and derivations for some statistical distributions, including gamma distribution and the t-distribution.</summary></entry><entry><title type="html">Relevance Vector Machine and Fast Implementation</title><link href="http://localhost:4000/notes/RVM.html" rel="alternate" type="text/html" title="Relevance Vector Machine and Fast Implementation" /><published>2019-01-31T17:06:00+01:00</published><updated>2019-01-31T17:06:00+01:00</updated><id>http://localhost:4000/notes/RVM</id><content type="html" xml:base="http://localhost:4000/notes/RVM.html">&lt;p&gt;This set of notes include explanation and derivations for The Tipping 2001 paper on RVM and his 2006 paper on a fast implementation of RVM.&lt;/p&gt;
+
+&lt;p&gt;This note includes derivations for Relevance Vector Machine (RVM)&lt;sup id=&quot;fnref:fn1&quot;&gt;&lt;a href=&quot;#fn:fn1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and for a fast implementation of RVM&lt;sup id=&quot;fnref:fn2&quot;&gt;&lt;a href=&quot;#fn:fn2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-support-vector-machine-svm&quot;&gt;1. Support Vector Machine (SVM)&lt;/h2&gt;
+
+&lt;p&gt;As RVM is an improvement over SVM, we first revise the formulation of SVM.&lt;/p&gt;
+
+&lt;h3 id=&quot;11-decision-boundary-and-margin&quot;&gt;1.1. Decision boundary and margin&lt;/h3&gt;
+
+&lt;p&gt;With a set of inputs $x_i$ and its corresponding binary class labels $y_i$ for $i = 1, …, N$, we can try to separate the inputs with a straight line (&lt;strong&gt;decision boundary&lt;/strong&gt;, $w^Tx+b=0$ in Figure 1). SVM finds the best decision boundary by maximising the &lt;strong&gt;margin&lt;/strong&gt;, the width by which we can extend the decision boundary before misclassification occurs (distance between $w^Tx+b=1$ and $w^Tx+b=-1$ in Figure 1).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/hd_6hAJnSIKe3vQQhkAuNfW1msQRji1D2L8gQlOVBO10_lcybZyrZWfUGyQxu2_ftHgUCVOTvvEB&quot; alt=&quot;figure1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 1. Illustration of SVM&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The normal to the decision boundary, $w^Tx+b$, are the projection of inputs $x$ onto a weight vector $w$, with offset $b$. The perpendicular line at  $w^Tx+b$ is the decision boundary. Classification is done by finding the projection value:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+&amp; \text{if} \quad w^Tx_i + b \geq 1, \quad y_{i,pred} = 1 \\
+&amp; \text{if}  \quad w^Tx_i + b \leq -1, \quad y_{i,pred} = -1 
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;To compute the margin, it is first obvious that the distance between $w^Tx+b=0$ and $w^Tx+b=| | w | |$ is the length of the weight vector, $| | w | |$. It follows that the distance between $w^Tx+b=0$ and $w^Tx+b=1$ is simply $\frac{1}{ | | w | |}$. The margin is therefore $\frac{2}{ | | w | |}$.&lt;/p&gt;
+
+&lt;h3 id=&quot;12-cost-function&quot;&gt;1.2 Cost function&lt;/h3&gt;
+
+&lt;p&gt;Now, to maximise $\frac{2}{ | | w | |}$ is equivalent to minimising $| | w | |$, or to minimise $| | w | |^2 = w^Tw$.&lt;/p&gt;
+
+&lt;p&gt;Since we want to only extend the boundaries until misclassification occurs, the minimisation need to be constrained such that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+&amp; \text{if} \quad y_i = 1, \quad w^Tx_i + b \geq 1\\
+&amp; \text{if} \quad y_i = -1, \quad w^Tx_i + b \leq -1 \\
+&amp; \text{which is equivalent to} \quad y_i (w^Tx_i+b) \geq 1
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The constrained form of the cost function is usually formulated as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\text{minimise} \quad \frac{1}{2} w^Tw \\
+\text{s.t.} \quad y_i (w^Tx_i+b) \geq 1 \quad \text{for all } i&lt;/script&gt;
+
+&lt;p&gt;By setting the Lagrange multiplier&lt;sup id=&quot;fnref:fn3&quot;&gt;&lt;a href=&quot;#fn:fn3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;, we can also get the penalised form of the cost function:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L = \frac{1}{2} w^Tw - \sum_i \alpha_i [y_i (w^Tx_i+b)-1] \\
+ \text{s.t.} \quad \alpha_i \geq 0 \quad \text{for all } i&lt;/script&gt;
+
+&lt;h3 id=&quot;13-optimisation&quot;&gt;1.3 Optimisation&lt;/h3&gt;
+
+&lt;p&gt;To minimise $L$, we differentiate it with respect to $w$ and $b$. The stationary points are where both derivatives equals to $0$.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+&amp; \frac{\partial L}{\partial w} = w - \sum_i \alpha_i y_i x_i  = 0, \quad \text{i.e. } w = \sum_i \alpha_i y_i x_i  \\
+&amp; \frac{\partial L}{\partial b} = - \sum_i \alpha_i y_i = 0
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;At the stationary point, the cost function becomes:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+L &amp;= \frac{1}{2} \sum_{i,j} (\alpha_i y_i x_i) (\alpha_j y_j x_j ) - \sum_i \alpha_i \{y_i [(\sum_i \alpha_i y_i x_i )^Tx_i+b]-1\} \\
+&amp; = \frac{1}{2} \sum_{i,j} \alpha_i \alpha_j y_i y_j x_i x_j - \sum_{i,j} \alpha_i \alpha_j y_i y_j x_i x_j  - b \sum_i \alpha_i y_i + \sum_i \alpha_i \\
+&amp; = - \frac{1}{2} \sum_{i,j} \alpha_i \alpha_j y_i y_j x_i x_j  + \sum_i \alpha_i
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;In the end, only those $x_i$ with $\alpha_i &amp;gt; 0$ are important to the cost function, and are hence called the &lt;strong&gt;support vectors&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;14-kernels&quot;&gt;1.4 Kernels&lt;/h3&gt;
+
+&lt;p&gt;Notice that at the stationary point $L$ only involves inner products of $x$. This lets us apply kernels to $x$ very easily. Consider $\Phi(x)$ as the mapping of $x$ to a new space. A kernel applied to $x$ is simply $K(x_i, x_j) = \Phi (x_i)^T \Phi (x_j)$. The cost function also turns into $L = - \frac{1}{2} \sum_{i,j} \alpha_i \alpha_j y_i y_j K(x_i, x_j)   + \sum_i \alpha_i$.&lt;/p&gt;
+
+&lt;p&gt;For example, for $\Phi(x) = (x_{(1)}^2, x_{(2)}^2, \sqrt{2} x_{(1)} x_{(2)}, \sqrt{2} x_{(1)}, \sqrt{2} x_{(2)}, 1)$, the corresponding kernel would be $K(x_1, x_2) = (x_1^T x_2 + 1)^2$, where $x_i$ is the i-th observation and $x_{(i)}$ is the i-th dimension.&lt;/p&gt;
+
+&lt;p&gt;A kernel is only valid if it satisfies the &lt;strong&gt;Mercer’s Theorem&lt;/strong&gt;, which states that:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$k: \mathbb{R}^n \times \mathbb{R}^n$ For $k$ to be a valid (Mercer) kernel, it is necessary and sufficient that for any ${ x_1, …, x_m }$, $m &amp;lt; \infty$, the corresponding kernel matrix is symmetric positive semi-definite&lt;sup id=&quot;fnref:fn4&quot;&gt;&lt;a href=&quot;#fn:fn4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; .&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;where a kernel matrix is a matrix $K$, with $K_{i,j} = K(x_i, x_j)$. Some commonly used kernels are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Linear kernel: $K(x, y) = x^Ty$&lt;/li&gt;
+  &lt;li&gt;Polynomial kernel: $K(x, y) = (x^Ty+1)^n$&lt;/li&gt;
+  &lt;li&gt;Radial basis function (RBF) kernel: $K(x, y) = \exp (- \frac{ | | x-y | |^2}{\sigma})$&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;15-problems&quot;&gt;1.5 Problems&lt;/h3&gt;
+
+&lt;p&gt;There are four main limitations of SVM:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;SVM predictions are not probabilistic. Therefore estimating uncertainty or incorporating class priors are not possible.&lt;/li&gt;
+  &lt;li&gt;The number of support vectors usually grow linearly with training size, causing bad scaling of computational complexity.&lt;/li&gt;
+  &lt;li&gt;For soft-margin SVM, trade-off parameters need to be estimated with cross-validation.&lt;/li&gt;
+  &lt;li&gt;Kernels must satisfy Mercer’s Theorem&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;2-relevance-vector-machine&quot;&gt;2. Relevance Vector Machine&lt;/h2&gt;
+
+&lt;p&gt;RVM is a probabilistic sparse kernel model, which is identical in functional form to SVM. However, it does not suffer from the non-probabilistic problem like SVM, and usually results in much fewer kernel functions.&lt;/p&gt;
+
+&lt;h3 id=&quot;21-model-specification&quot;&gt;2.1 Model specification&lt;/h3&gt;
+
+&lt;p&gt;Again we have a set of inputs $x_i$ and its corresponding binary class labels $y_i$ for $i = 1, …, N$. For RVM, we further introduce the prediction targets $t_i$ so that the prediction probability can take the form of a Gaussian. Similar to the SVM model, we identify basis functions based on kernels: $\phi_n(x) = K(x, x_n)$. We can further define a ‘design’ matrix consisting of all the basis functions: $\Phi = [\phi(x_1), \phi(x_2), …, \phi(x_N)]^T$.The model assumes that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y(x; w) = \sum^N_{i=1} w_i \phi(x_i) + w_0 \\
+t_i = y(x_i; w) + \epsilon_i\\
+p(t_i|x) = \mathcal{N} (t_i |  y(x_i), \sigma^2) \\&lt;/script&gt;
+
+&lt;p&gt;If we assume that targets $t_i$ are independent, then we can get the &lt;strong&gt;likelihood&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(t|w, \sigma^2) = (2 \pi \sigma)^{-\frac{N}{2}} \exp (\frac{||t - \Phi w||^2}{-2\sigma^2})&lt;/script&gt;
+
+&lt;p&gt;To enforce sparsity, we set up the &lt;strong&gt;prior&lt;/strong&gt; for $w$ to be an Automatic Relevance Determination (ARD) prior:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(w|\alpha) = \prod_{i=0}^N \mathcal{N} (w_i | 0, \alpha_i^{-1}) \\
+p(\alpha) = \prod_i \mathcal{Gamma} (\alpha_i | a, b) = \frac{b^a}{\Gamma(a)} \alpha_i^{a-1} \exp (-b\alpha)\\
+\text{where} \quad \Gamma(a) = \int_0^\infty t^{a-1}e^{-t} \mathop{dt}&lt;/script&gt;
+
+&lt;p&gt;The &lt;strong&gt;prior&lt;/strong&gt; for the noise variance is set as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\beta) = p(\sigma^{-2}) = \mathcal{Gamma} (\beta | c, d)&lt;/script&gt;
+
+&lt;p&gt;By setting the parameters $a$, $b$, $c$, and $d$ to very small values, these priors become non-informative. This helps to make the prediction scale-invariant.&lt;/p&gt;
+
+&lt;p&gt;The main idea of the ARD prior is to use $\alpha$, the precision of distribution of $w$, to represent the sparsity of $w$. Based on the data, if a particular $w_i$ is mostly estimated to be small, its values would be clustered around $0$, the mean of distribution. The precision $\alpha_i$ would hence be high. A pruning step can then be taken, where $w_i$s with large $\alpha_i$ could be set straight to zero. In practice, most $w_i$s would be set to zero, causing high sparsity.&lt;/p&gt;
+
+&lt;h3 id=&quot;22-inference&quot;&gt;2.2 Inference&lt;/h3&gt;
+
+&lt;p&gt;In Bayesian context, we compute the values of the parameters by finding their &lt;strong&gt;posterior&lt;/strong&gt; probability:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+posterior &amp; = \frac{likelihood \times prior}{evidence} \\[3mm]
+p(w, \alpha, \sigma^2 | t) &amp; = \frac{p(t | w, \alpha, \sigma^2) p(w, \alpha, \sigma^2)}{p(t)} \\
+&amp; = p(w | t, \alpha, \sigma^2)p(\alpha, \sigma^2 | t)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Using the exploit from &lt;sup id=&quot;fnref:fn1:1&quot;&gt;&lt;a href=&quot;#fn:fn1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, we can find the expression for the first term, which is a &lt;strong&gt;posterior&lt;/strong&gt; over the weights. First note that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(w | t, \alpha, \sigma^2)  = \frac{p(t | w, \sigma^2) p(w | \alpha)}{p(t | \alpha, \sigma^2 )} \\[3mm]
+p(w | t, \alpha, \sigma^2) p(t | \alpha, \sigma^2 )  = p(t | w, \sigma^2) p(w | \alpha)&lt;/script&gt;
+
+&lt;p&gt;Then we expand the RHS, grouping terms with $w$ together and completing the square:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+p(t | w, \sigma^2) p(w | \alpha) &amp; =  \mathcal{N} (t |  \Phi w, \sigma^2) \prod_{i=0}^N \mathcal{N} (w_i | 0, \alpha_i^{-1}) \\
+&amp; = (2 \pi \sigma)^{-\frac{N}{2}} \exp (\frac{||t - \Phi w||^2}{-2\sigma^2})  \prod_{i=0}^N (2 \pi \alpha_i^{-1})^{-\frac{1}{2}} \exp (\frac{w_i}{-2\alpha_i^{-1}})\\
+&amp; =  (2 \pi )^{-\frac{N}{2}} |\sigma^2 I|^{-\frac{1}{2}} \exp (\frac{||t - \Phi w||^2}{-2\sigma^2})  (2 \pi )^{-\frac{N+1}{2}} |A|^{\frac{1}{2}} \exp (-\frac{1}{2}A||w||^2) \\
+&amp; = (2 \pi )^{-\frac{N+1}{2}} (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}} \exp [-\frac{1}{2} (\sigma^{-2} t^Tt  - 2 (\sigma^{-2} \Phi t) w + \sigma^{-2} \Phi^T \Phi ||w||^2 + A ||w||^2)] \\
+&amp; = (2 \pi )^{-\frac{N+1}{2}} (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}}  \exp [-\frac{1}{2} (\sigma^{-2} t^Tt  - 2\Sigma^{-1} \mu w + \Sigma^{-1}||w||^2)] \\
+&amp; =  (2 \pi )^{-\frac{N+1}{2}} (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}}  \exp [-\frac{1}{2} (\sigma^{-2} t^Tt   + (w-\mu)^T \Sigma^{-1} (w-\mu) - \Sigma^{-1} \mu^T \mu)]
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mu &amp; = \sigma^{-2} \Sigma \Phi^T t \\
+\Sigma &amp; = (\sigma^{-2} \Phi^T \Phi + A)^{-1} \\
+A &amp; = diag(\alpha_0, \alpha_1, ..., \alpha_N)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;As $p(t | \alpha, \sigma^2 )$ should not involve any term with $w$, we know that grouping terms with $w$ helps us contruct $p(w | t, \alpha, \sigma^2)$. By inspection, we can expect the &lt;strong&gt;posterior&lt;/strong&gt; over weights to be:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+p(w | t, \alpha, \sigma^2)  &amp; = (2 \pi )^{-\frac{N+1}{2}} |\Sigma|^{-\frac{1}{2}} \exp [-\frac{1}{2} (w-\mu)^T \Sigma^{-1} (w-\mu)] \\
+&amp; = \mathcal{N} (w | \mu, \Sigma)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Note that we grouped $(2 \pi )^{-\frac{N+1}{2}}$ as $w_i$s are defined for $i = 0, 1, …, N$. Following this, we can also derive the expression for the &lt;strong&gt;evidence&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+p(t | \alpha, \sigma^2 ) &amp; = (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}}  |\Sigma|^{\frac{1}{2}} \exp [-\frac{1}{2} (\sigma^{-2} t^Tt  - \Sigma^{-1} \mu^T \mu)] \\
+&amp; = (2 \pi )^{-\frac{N}{2}} |\frac{\sigma^{-2} A}{\sigma^{-2} \Phi^T \Phi + A}|^{\frac{1}{2}} \exp [-\frac{1}{2} t^T (\sigma^{-2}  - \sigma^{-4}\Phi \Sigma \Phi^T) t] \\
+&amp; = (2 \pi )^{-\frac{N}{2}} |\frac{1}{\Phi A^{-1} \Phi^T + \sigma^2 I}|^{\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2}  (1 - \sigma^{-2}\Phi \Sigma \Phi^T) t] \\
+&amp; = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2}  ((\sigma^{-2} \Phi^T \Phi + A)(\sigma^{-2} \Phi^T \Phi + A)^{-1} - \sigma^{-2}\Phi \Sigma \Phi^T) t] \\
+&amp; = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2}  (\sigma^{-2} \Phi^T \Phi + A - \sigma^{-2}\Phi^T \Phi)\Sigma t] \\
+&amp; = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2} A \Sigma t] \\
+&amp; = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T (\sigma^2 I + \Phi A^{-1} \Phi^T)^{-1} t] \\
+&amp; = \mathcal{N} (t | 0, \sigma^2 I + \Phi A^{-1} \Phi^T)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;As for the second term, we will approximate $p(\alpha, \sigma^2 | t)$ with its value at its mode, $\alpha_{MP}$ and $\sigma^2_{MP}$. We want that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int p(t_{new} | \alpha, \sigma^2) \delta (\alpha_{MP}, \sigma^2_{MP}) \mathop{d\alpha} \mathop{d\sigma^2} = \int p(t_{new} | \alpha, \sigma^2) p(\alpha, \sigma^2 | t) \mathop{d\alpha} \mathop{d\sigma^2}&lt;/script&gt;
+
+&lt;p&gt;Therefore, in order to maximise posterior, we neex to maximise $p(\alpha, \sigma^2 | t)$ wrt. $\alpha$ and $\sigma^2$, i.e. maximisation of $p(\alpha, \sigma^2 | t) \propto p(t | \alpha, \sigma^2) p(\alpha) p(\sigma^2)$. With non-informative (uniform) pirors $p(\alpha)$ and $p(\sigma^2)$, we need only maximise $p(t | \alpha, \sigma^2 )$.&lt;/p&gt;
+
+&lt;p&gt;This is the same as the &lt;strong&gt;evidence&lt;/strong&gt; we have evaluated before. Below is an alternative way to evaluate  $p(t | \alpha, \sigma^2 )$, by treating its normalising integral as  Gaussian convolution&lt;sup id=&quot;fnref:fn5&quot;&gt;&lt;a href=&quot;#fn:fn5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+p(t | \alpha, \sigma^2 ) &amp;= \int p(t | w, \sigma^2) p(w | \alpha) \mathop{dw} \\
+&amp; = \int \mathcal{N} (t |  \Phi w, \sigma^2 I) \prod_i \mathcal{N} (w_i | 0, \alpha_i^{-1}) \mathop{dw} \\
+&amp; = \int |\Phi^T\Phi|^{-\frac{1}{2}} \mathcal{N} (\Phi^{-1} t - w | 0, (\sigma^{-2} \Phi^T \Phi)^{-1})\prod_i \mathcal{N} (w_i | 0, \alpha_i^{-1}) \mathop{dw} \\
+&amp; = |\Phi^T\Phi|^{-\frac{1}{2}} \mathcal{N} (\Phi^{-1} t | 0, (\sigma^{-2} \Phi^T \Phi)^{-1} + A^{-1}) \\
+&amp; = |\Phi^T\Phi|^{-\frac{1}{2}} |2\pi|^{-\frac{N}{2}} |\sigma^2 (\Phi^T \Phi)^{-1} + A^{-1}|^{-\frac{1}{2}} \exp [-\frac{1}{2} (\Phi^{-1} t)^T (\sigma^2(\Phi^T \Phi)^{-1} + A^{-1})^{-1} (\Phi^{-1} t)] \\
+&amp; =  |2\pi|^{-\frac{N}{2}} |\sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T (\sigma^2 I + \Phi A^{-1} \Phi^T)^{-1} t] \\
+&amp; = \mathcal{N} (t | 0, \sigma^2 I + \Phi A^{-1} \Phi^T)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;23-optimisation&quot;&gt;2.3 Optimisation&lt;/h3&gt;
+
+&lt;p&gt;The optimisation of the hyperparameters $\alpha$ and $\beta = \sigma^{-2}$ can be obtained by maximising their &lt;strong&gt;posterior&lt;/strong&gt; $p(\alpha, \beta | t) \propto p(t | \alpha, \beta) p(\alpha) p(\beta)$. In the general case, the &lt;strong&gt;log likelihood&lt;/strong&gt; cost function is found to be:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+L &amp; = \log p(t | \alpha, \beta) + \log p(\alpha) + \log p(\beta) \\
+&amp; = -\frac{1}{2} [ N \log 2\pi + \log |\beta^{-1} I + \Phi A^{-1} \Phi^T| + t^T (\beta^{-1} I + \Phi A^{-1} \Phi^T)^{-1} t] + \log p(\alpha) + \log p(\beta)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;We can split the cost function into 3 parts and evaluate them one by one:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+(1) \quad \log |\beta^{-1} I + \Phi A^{-1} \Phi^T| &amp;  = \log |A^{-1}| |\beta^{-1} I| |A + \beta \Phi \Phi^T|  \\
+&amp; =  -\log A - N \log \beta - \log |\Sigma| \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;For the second term, we need to use the Woodbury identity&lt;sup id=&quot;fnref:fn6&quot;&gt;&lt;a href=&quot;#fn:fn6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; to first evaluate the inverse:
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+(2)  \quad t^T (\beta^{-1} I + \Phi A^{-1} \Phi^T)^{-1} t  &amp; =  t^T [\beta I - \beta \Phi (A + \beta \Phi \Phi^T)^{-1} \beta \Phi ]t \\
+&amp; = \beta t^Tt - \beta t^T \Phi \Sigma \Phi^T \beta t \\
+&amp; = \beta t^T (t - \Phi^T \mu) \\
+\text{or} \quad &amp; = \beta t^Tt - \beta t^T \Phi \mu - \beta t^T \Phi \mu +  \beta t^T \Phi \mu  - \beta \mu^T \Phi^T \Phi \mu + \beta \mu^T \Phi^T \Phi \mu\\
+&amp; = \beta ||t - \Phi \mu||^2 +  \mu \Sigma^{-1} \mu - \beta \mu^T \Phi^T \Phi \mu\\
+&amp; = \beta ||t - \Phi \mu||^2 + \mu A \mu \\
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;For convenience, we evaluate $p(\log \alpha)$ and $p(\log \beta)$ instead of $p(\alpha)$ and $p(\beta)$. Since $p(\log \alpha) \mathop{d \log \alpha} = p(\alpha) \mathop{d\alpha}$, we can get $p(\log \alpha) = p(\alpha) \frac{\mathop{d\alpha}}{\mathop{d \log \alpha}} = \alpha p(\alpha)$. The same applies to $p(\log \beta)$ since both prior have the form of Gamma distribution.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+(3) \quad \log p(\log \alpha) + \log p(\log \beta) &amp; = \log \alpha \prod_i \frac{b^a}{\Gamma(a)} \alpha_i^{a-1} e^{-b\alpha_i} + \log \beta\frac{d^c}{\Gamma(c)} \beta^{c-1} e^{-d\beta} \\
+&amp; \propto \sum_i \log \alpha_i^a e^{-b\alpha_i} + \log \beta^c e^{-d\beta} \\
+&amp; = \sum_i (a \log \alpha_i - b\alpha_i) + c \log \beta - d\beta
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;To obtain the updates for $\alpha$ and $\beta$, we first differentiate the cost function wrt. $\alpha$ and $\beta$ &lt;sup id=&quot;fnref:fn7&quot;&gt;&lt;a href=&quot;#fn:fn7&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt; :&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \log \alpha_i} L &amp; = \frac{\partial \alpha_i}{\partial \log \alpha_i} \frac{\partial}{\partial \alpha_i} \frac{1}{2} [\log A + N \log \beta + \log |\Sigma| - \beta t^T (t - \Phi^T \mu) ] +  \sum_n (a \log \alpha_n - b\alpha_n) + c \log \beta - d\beta \\
+&amp; = \alpha_i \frac{\partial}{\partial \alpha_i} \{ \frac{1}{2} [\log \alpha_i + \log \Sigma_{ii} + \beta t_i \phi_i^T \mu_i ] +  \sum_n (a \log \alpha_n - b\alpha_n) \} \\
+&amp; = \alpha_i \{\frac{1}{2} [\frac{1}{\alpha_i} +  \frac{-\Sigma_{ii}^2}{\Sigma_{ii}} + \beta t_i \phi_i^T \phi t_i \beta (-\Sigma_{ii}^2) ]  + \frac{a}{\alpha_i} - b\} \\
+&amp; = \frac{1}{2} ( 1 - \alpha_i \Sigma_{ii} - \alpha_i \mu_i ^2) + a - b \alpha_i \\
+\frac{\partial}{\partial \log \beta} L &amp; = \frac{\partial \beta}{\partial \log \beta} \frac{\partial}{\partial \beta} \frac{1}{2} [\log A + N \log \beta + \log |\Sigma| - \beta t^T (t - \Phi^T \mu) ] +  \sum_n (a \log \alpha_n - b\alpha_n) + c \log \beta - d\beta \\
+&amp; = \beta \frac{\partial}{\partial \beta} \frac{1}{2} [N \log \beta + \log |(\beta \Phi^T \Phi + A)^{-1}| - \beta t^T t + \beta^2 t^T \Phi \Sigma \Phi^T t) ] + c \log \beta - d\beta \\
+&amp; = \beta \{  \frac{1}{2} [\frac{N}{\beta} + \frac{-|\Sigma| tr(\Phi^T \Sigma \Phi)}{|\Sigma|} - t^T t + 2\beta t^T \Phi \Sigma \Phi^T t + \beta^2 t^T \Phi (-\Sigma^2 \Phi \Phi^T) \Phi^T t]  + \frac{c}{\beta} - d \} \\
+&amp; = \frac{1}{2} [N - \sum_i \beta \frac{\phi_i^T \phi_i}{\beta \phi_i^T \phi_i + \alpha_i} - \beta (t^Tt - 2 t^T \Phi \mu + \beta \mu^2 \Phi^T \Phi)] + c - d \beta \\
+&amp; = \frac{1}{2}[N - \sum_i \frac{\beta \phi_i^T \phi_i + \alpha_i - \alpha_i}{\beta \phi_i^T \phi_i + \alpha_i}  - \beta ||t - \Phi \mu ||^2] + c - d \beta \\
+&amp; = \frac{1}{2}[N -  \sum_i (1 - \alpha_i\Sigma_{ii}) - \beta ||t - \Phi \mu ||^2] + c - d \beta \\
+where \quad \frac{\partial}{\partial \alpha_i} \Sigma_{ii} &amp;=  \frac{\partial}{\partial \alpha_i} (\beta \phi_i^T \phi_i + \alpha_i)^{-1} = (-1)(\beta \phi_i^T \phi_i + \alpha_i)^{-2} = -\Sigma_{ii}^2 \\
+\frac{\partial}{\partial \alpha_i} \mu_i &amp; = \beta \phi_i^T t_i \frac{\partial}{\partial \alpha_i} \Sigma_{ii} = -\beta \Sigma_{ii}^2 \phi_i^T t_i \\
+\frac{\partial}{\partial \beta} |\Sigma| &amp; = \mathrm{tr} (\mathrm{adj} (\Sigma) \frac{\partial \Sigma}{\partial \beta} ) = \mathrm{tr} (\mathrm{adj} (\Sigma) (-\Phi^T \Sigma^2 \Phi)) = |\Sigma| \mathrm{tr} (-\Phi^T \Sigma \Phi)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Now we find the stationary points by equating the differentials to zero:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \log \alpha_i} L = 0 &amp;= \frac{1}{2} ( 1 - \alpha_i \Sigma_{ii} - \alpha_i \mu_i^2 ) + a - b \alpha_i \\
+0 &amp; = 1 + 2a - \alpha_i (\Sigma_{ii} + \mu_i^2 + 2b) \\
+\alpha_i &amp; = \frac{1 + 2a}{\Sigma_{ii} + \mu_i^2 + 2b} \\
+\frac{\partial}{\partial \log \beta} L = 0 &amp; =\frac{1}{2}[N -  \sum_i (1 - \alpha_i\Sigma_{ii}) - \beta ||t - \Phi \mu ||^2] + c - d \beta \\
+0 &amp; = N - \sum_i (1 - \alpha_i \Sigma_{ii}) + 2c - \beta (||t - \Phi \mu ||^2 + 2d) \\
+\beta &amp; = \frac{N - \sum_i (1 - \alpha_i \Sigma_{ii}) + 2c}{||t - \Phi \mu ||^2 + 2d}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;In pracrtice, since non-informative (uniform) priors are used, $a=b=c=d=0$. By defining a quantity $\gamma_i = 1 - \alpha_i \Sigma_{ii}$, we can further simplify the update equations:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\alpha_i &amp; = \frac{1}{\Sigma_{ii} + \mu_i^2} = \frac{1 - \alpha_i \Sigma_{ii}}{\mu_i^2} = \frac{\gamma_i}{\mu_i^2} \\[3mm]
+\beta &amp; = \frac{N - \sum_i (1 - \alpha_i \Sigma_{ii}) + 2c}{||t - \Phi \mu ||^2 + 2d} = \frac{N - \sum_i \gamma_i}{||t - \Phi \mu ||^2}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The optimisation of the weights can be done by updating $\Sigma$ and $\mu$ based on the updated value of $\alpha$ and $\sigma^2$.&lt;/p&gt;
+
+&lt;h3 id=&quot;24-marginal-likelihood&quot;&gt;2.4 Marginal Likelihood&lt;/h3&gt;
+
+&lt;p&gt;While RVM generates results with higher sparsity than SVM, the aforementioned optimisation causes it to be much slower than SVM. A faster optimisation is proposed in &lt;sup id=&quot;fnref:fn2:1&quot;&gt;&lt;a href=&quot;#fn:fn2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; using marginal likelihood instead of the whole log likelihood cost function.&lt;/p&gt;
+
+&lt;p&gt;First remember that, with non-informative prior, the log likelihood cost function is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+L &amp; = -\frac{1}{2} [ N \log 2\pi + \log |\beta^{-1} I + \Phi A^{-1} \Phi^T| + t^T (\beta^{-1} I + \Phi A^{-1} \Phi^T)^{-1} t]\\
+&amp; = -\frac{1}{2} (N \log 2\pi + \log |C| + t^T C^{-1} t) \\
+where \quad C &amp; = \beta^{-1} I + \Phi A^{-1} \Phi^T
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The new quantity $C$ contains all the dependency on $\alpha_i$ in the cost function. We can therefore decompose $C$ into $\alpha_i$-related components and the remaining:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+C &amp; = \beta^{-1} I + \Phi A^{-1} \Phi^T \\
+&amp; = \beta^{-1} I + \sum_m \alpha_m^{-1} \phi_m \phi_m^T \\
+&amp; = \beta^{-1} I + \sum_{m \ne i} \alpha_m^{-1} \phi_m \phi_m^T + \alpha_i^{-1} \phi_i \phi_i^T \\
+&amp; = C_{-i} + \alpha_i^{-1} \phi_i \phi_i^T 
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;We can then compute the relevant terms and decompose $L$ as well:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+|C| &amp; = |C_{-i} \alpha_i^{-1} \phi_i \phi_i^T| = |C_{-i}| (1 + \alpha_i^{-1} \phi_i^T C_{-i}^{-1} \phi_i) \\
+C^{-1} &amp; = \frac{1}{C_{-i} + \alpha_i^{-1} \phi_i \phi_i^T} = \frac{C_{-i}^{-1} \alpha_i}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i} = C_{-i}^{-1} - \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i} \\
+L &amp; = -\frac{1}{2} (N \log 2\pi + \log |C| + t^T C^{-1} t) \\
+&amp; = -\frac{1}{2} [N \log 2\pi + \log |C_{-i}| + \log (1 + \alpha_i^{-1} \phi_i^T C_{-i}^{-1} \phi_i) + t^T C_{-i}^{-1} t - t^T \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i} t] \\
+&amp; = -\frac{1}{2} (N \log 2\pi + \log |C_{-i}| + t^T C_{-i}^{-1} t) - \frac{1}{2} [\log \frac{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}{\alpha_i} - \frac{(\phi_i^T C_{-i}^{-1} t)^2}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}] \\
+&amp; = L(\alpha_{-i}) + \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+&amp; = L(\alpha_{-i}) + l(\alpha_i) \\
+where \quad s_i &amp; = \phi_i^T C_{-i}^{-1} \phi_i, \quad q_i = \phi_i^T C_{-i}^{-1} t
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Now we can consider change in likelihood wrt. $\alpha_i$, which is the change in $l(\alpha_i)$. This is convenient as we can now optimise the likelihood by adding or removing basis functions $\phi_i$ and assessing its related change in $l(\alpha_i)$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \alpha_i} L(\alpha) &amp; = \frac{\partial}{\partial \alpha_i} l(\alpha_i) = \frac{\partial}{\partial \alpha_i} \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+&amp; = \frac{1}{2} [\frac{1}{\alpha_i} - \frac{1}{\alpha_i + s_i} - \frac{q_i^2}{(\alpha_i + s_i)^2}] \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The stationary points for optimising $L(\alpha)$ are now:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \alpha_i} L(\alpha) = 0 &amp; = \frac{1}{2} [\frac{1}{\alpha_i} - \frac{1}{\alpha_i + s_i} - \frac{q_i^2}{(\alpha_i + s_i)^2}] \\
+&amp; = (\alpha_i + s_i)^2 - \alpha_i (\alpha_i + s_i) - \alpha_i q_i^2 \\
+&amp; = \alpha_i s_i + s_i^2 - \alpha_i q_i^2 \\
+s^2 &amp; = \alpha_i (q_i^2 - s_i) \\
+\alpha_i &amp; = 
+    \begin{cases}
+      \frac{s_i^2}{q_i^2 - s_i} , &amp; \text{if}\ q_i^2 &gt; s_i \\
+      \infty , &amp; \text{otherwise}
+    \end{cases}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Basically, if $q_i^2 &amp;gt; s_i$, the log likelihood function can be optimised by adding the basis vector $\phi_i$ with $\alpha_i = \frac{s_i^2}{q_i^2 - s_i}$. Otherwise, the corresponding $\alpha_i$ should be set to infinity, equivalent to excluding $\phi_i$ from the model.&lt;/p&gt;
+
+&lt;p&gt;To update the associated $s_i$ and $q_i$ for each basis vector, it is more convenient to maintain and update values of $S_i$ and $Q_i$ instead, where:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+S_i &amp;= \phi_i^T C^{-1} \phi_i = \phi_i^T (C_{-i}^{-1} - \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}) \phi_i = s_i - \frac{s_i^2}{\alpha_i + s_i} = \frac{\alpha_i s_i}{\alpha_i + s_i} \\
+Q_i &amp;= \phi_i^T C^{-1} t = \phi_i^T (C_{-i}^{-1} - \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}) t = q_i - \frac{q_i s_i}{\alpha_i + s_i} = \frac{\alpha_i q_i}{\alpha_i + s_i} \\
+\therefore \quad s_i &amp;=  \frac{\alpha_i S_i}{\alpha_i - S_i}, \quad q_i = \frac{\alpha_i Q_i}{\alpha_i - S_i} 
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;In practice, the values of $S_i$ and $Q_i$ are computed using the Woodbury identity&lt;sup id=&quot;fnref:fn6:1&quot;&gt;&lt;a href=&quot;#fn:fn6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+S_i &amp; = \phi_i^T [\beta I - \beta I \Phi (A + \Phi^T \beta I \Phi)^{-1} \Phi^T \beta I] \phi_i = \phi_i^T B \phi_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i \\
+Q_i &amp; = \phi_i^T [\beta I - \beta I \Phi (A + \Phi^T \beta I \Phi)^{-1} \Phi^T \beta I] t = \phi_i^T B t - \phi_i^T B \Phi \Sigma \Phi^T B t = B(\phi_i^T t - \phi_i^T \Phi \mu)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where $B = \beta I$&lt;/p&gt;
+
+&lt;h4 id=&quot;241-model-update-actions&quot;&gt;2.4.1 Model update actions&lt;/h4&gt;
+
+&lt;p&gt;For any basis vector, we need to consider the available actions we can perform (i.e. adding/removing it from the model, or re-estimating its $\alpha_i$ value). In practice, we can check the change in log likelihood ($\Delta L$) each action will bring for all $i$, then picking an action with highest $\Delta L$ to perform.&lt;/p&gt;
+
+&lt;p&gt;First, for basis vector not in the model, if $q_i^2 &amp;gt; s_i$, we consider adding the basis vector by looking at the change in log likelihood caused. Note that since $\phi_i$ is not in the model yet, $C_{-i}^{-1} = C^{-1}$, hence $s_i = S_i$ and $q_i = Q_i$. Also since $q_i^2 &amp;gt; s_i$, the value of $\alpha_i$ can be directly estimated to be $\frac{s_i^2}{q_i^2 - s_i} = \frac{S_i^2}{Q_i^2 - S_i}$.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\Delta L_{add} &amp; = l(\alpha_i) =  \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+&amp; = \frac{1}{2} [\log \frac{\frac{S_i^2}{Q_i^2 - S_i}}{\frac{S_i^2}{Q_i^2 - S_i} + S_i} + \frac{Q_i^2}{\frac{S_i^2}{Q_i^2 - S_i}+ S_i}] \\
+&amp; = \frac{1}{2} [\log \frac{S_i}{S_i + (Q_i^2 - S_i)} + \frac{Q_i^2}{\frac{S_i^2 + S_i Q_i^2 - S_i^2}{Q_i^2 - S_i}}] \\
+&amp; = \frac{1}{2} [\log \frac{S_i}{Q_i^2} + \frac{Q_i^2 - S_i}{S_i }]
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Adding the basis vector causes the model to become $\hat \Phi = [\Phi; \phi_i]$ with $\hat \alpha = [\alpha; \alpha_i]$. We can then use these two quantities to compute the new values for the other parameters:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\hat \Sigma &amp; = (\beta [\Phi; \phi_i]^T [\Phi; \phi_i] + diag[\alpha; \alpha_i])^{-1}\\
+&amp; = \begin{bmatrix} \beta \Phi^T \Phi + A &amp; \beta \Phi^T \phi_i \\ (\beta \Phi^T \phi_i)^T &amp; \beta \phi_i \phi_i  + \alpha_i \\ \end{bmatrix} ^{-1} \\
+&amp; = \frac{1}{(\beta \phi_i \phi_i  + \alpha_i)(\beta \Phi^T \Phi + A) - (\beta \Phi \phi_i)^T (\beta \Phi \phi_i)}
+\begin{bmatrix} \beta \phi_i \phi_i  + \alpha_i &amp; -\beta \Phi^T \phi_i \\ -(\beta \Phi^T \phi_i)^T &amp; \beta \Phi^T \Phi + A \\ \end{bmatrix} \\
+&amp; = \frac{\Sigma}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i}
+\begin{bmatrix} \beta \phi_i \phi_i  + \alpha_i &amp; -\beta \Phi^T \phi_i \\ -(\beta \Phi^T \phi_i)^T &amp; \Sigma^{-1} \\ \end{bmatrix} \\
+&amp; = \Sigma_{ii} \Sigma \begin{bmatrix} \beta \phi_i \phi_i  + \alpha_i &amp; -\beta \Phi^T \phi_i \\ -(\beta \Phi^T \phi_i)^T &amp; \Sigma^{-1} \\ \end{bmatrix} 
+\quad \text{where} \quad \Sigma_{ii} = \frac{1}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i} = \frac{1}{\alpha_i + S_i} \\
+ &amp; = \begin{bmatrix} \Sigma \frac{B \phi_i \phi_i  + \alpha_i}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i}  &amp; - \beta \Sigma_{ii} \Sigma \Phi^T \phi_i \\ - \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T &amp; \Sigma_{ii} \\ \end{bmatrix} \\
+ &amp; = \begin{bmatrix} \Sigma (1 + \frac{\phi_i^T B \Phi \Sigma \Phi^T B \phi_i}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i} ) &amp; - \beta \Sigma_{ii} \Sigma \Phi^T \phi_i \\ - \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T &amp; \Sigma_{ii} \\ \end{bmatrix} \\
+ &amp; = \begin{bmatrix} \Sigma + \beta^2 \Sigma_{ii} \phi_i^T \Phi \Sigma \Phi^T \phi_i \Sigma &amp; - \beta \Sigma_{ii} \Sigma \Phi^T \phi_i \\ - \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T &amp; \Sigma_{ii} \\ \end{bmatrix} \\
+\hat \mu &amp; = \beta \hat \Sigma \hat \Phi^T t = \begin{bmatrix} \beta (\Sigma + \beta^2 \Sigma_{ii} \phi_i^T \Phi \Sigma \Phi^T \phi_i \Sigma) \Phi^T t - \beta (\beta \Sigma_{ii} \Sigma \Phi^T \phi_i) \phi_i^T t \\ \beta (- \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T) \Phi^T t + \beta \Sigma_{ii} \phi_i^T t \\ \end{bmatrix} \\
+&amp; = \begin{bmatrix} \beta \Sigma \Phi^T t + \Sigma_{ii} (\beta \Sigma \Phi^T \phi_i ) (\beta^2 \phi_i^T \Phi \Sigma \Phi^T t - \beta \phi_i^T t) \\ \Sigma_{ii} (- \beta^2 \phi_i^T \Phi \Sigma \Phi^T t + \beta \phi_i^T t) \\ \end{bmatrix} \\
+&amp; = \begin{bmatrix} \mu - (\beta \Sigma \Phi^T \phi_i ) \Sigma_{ii} Q_i \\ \Sigma_{ii} Q_i \\ 
+\end{bmatrix} \\
+&amp; = \begin{bmatrix} \mu - \mu_i \beta \Sigma \Phi^T \phi_i  \\ \mu_i \\ \end{bmatrix} \quad \text{where} \quad \mu_i = \Sigma_{ii} Q_i \\
+\hat S &amp; =  \phi_i^T B \phi_i - \phi_i^T B \hat \Phi \hat \Sigma \hat \Phi^T B \phi_i \\
+&amp; =  \phi_i^T B \phi_i - \phi_i^T B \{ \Phi [(\Sigma + \beta^2 \Sigma_{ii} \phi_i^T \Phi \Sigma \Phi^T \phi_i \Sigma) \Phi^T - (\beta \Sigma_{ii} \Sigma \Phi^T \phi_i) \phi_i^T ] + \phi_i [(- \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T) \Phi^T + \Sigma_{ii} \phi_i^T] \} B \phi_i \\
+&amp; =  \phi_i^T B \phi_i - \phi_i^T B \hat \Phi \hat \Sigma \hat \Phi^T B \phi_i \\
+&amp; =  \phi_i^T B \phi_i - \phi_i^T B \{ \Phi \Sigma \Phi^T + \Phi \Sigma_{ii} (\beta \phi_i^T \Phi \Sigma)^2 \Phi^T - \Phi \Sigma_{ii} (\beta \phi_i^T \Phi \Sigma) \phi_i^T - \phi_i \Sigma_{ii} (\beta \phi_i^T \Phi \Sigma) \Phi^T + \phi_i \Sigma_{ii} \phi_i^T] \} B \phi_i \\
+&amp; =  S_i - \Sigma_{ii} \phi_i^T B \{ \Phi (\beta \phi_i^T \Phi \Sigma)^2 \Phi^T - 2 \Phi (\beta \phi_i^T \Phi \Sigma) \phi_i^T + \phi_i \phi_i^T] \} B \phi_i \\
+&amp; =  S_i - \Sigma_{ii} \phi_i^T B (\Phi \beta \phi_i^T \Phi \Sigma - \phi_i)^2 B \phi_i \\
+&amp; = S_i - \Sigma_{ii} (\beta \phi_i^T e_i)^2 \quad \text{where} \quad e_i = \phi_i - \beta \Phi \Sigma \Phi^T \phi_i \\
+\hat Q &amp; = B(\phi_i^T t - \phi_i^T \hat \Phi \hat \mu) \\
+&amp; = B \phi_i^T t - B \phi_i^T [\Phi (\mu - \mu_i \beta \Sigma \Phi^T \phi_i) + \phi_i \mu_i] \\
+&amp; = B \phi_i^T t - B \phi_i^T \Phi \mu + \mu_i B \phi_i (\beta \Phi \Sigma \Phi^T \phi_i - \phi_i)\\ 
+&amp; = Q_i - \mu_i B \phi_i e_i 
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Second, for basis vector already in the model, if $q_i^2 &amp;gt; s_i$, we consider re-estimating its $\alpha_i$ value:
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\Delta L_{re-estimate} &amp; = l(\hat \alpha_i) - l(\alpha_i) \\
+&amp; = \frac{1}{2} [\log \hat \alpha_i - \log(\hat \alpha_i + s_i) + \frac{q_i^2}{\hat \alpha_i + s_i}] - \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+&amp; = \frac{1}{2} [\log \frac{\hat \alpha_i (\alpha_i + s_i)}{\alpha_i (\hat \alpha_i + s_i)} + q_i^2 \frac{(\alpha_i + s_i) - (\hat \alpha_i + s_i)}{(\hat \alpha_i + s_i) (\alpha_i + s_i)}] \\
+&amp; = \frac{1}{2} [ q_i^2 \frac{\alpha_i - \hat \alpha_i}{(\hat \alpha_i + s_i) (\alpha_i + s_i)} - \log \frac{\alpha_i (\hat \alpha_i + s_i)}{\hat \alpha_i (\alpha_i + s_i)} ] \\
+&amp; = \frac{1}{2} [ q_i^2 \alpha_i^2 \frac{\alpha_i - \hat \alpha_i}{\alpha_i^2 (\hat \alpha_i + s_i) (\alpha_i + s_i)} - \log \frac{\alpha_i \hat \alpha_i + \alpha_i s_i + \hat \alpha_i s_i - \hat \alpha_i s_i}{\hat \alpha_i (\alpha_i + s_i)} ] \\
+&amp; = \frac{1}{2} [ q_i^2 \alpha_i^2 \frac{\alpha_i - \hat \alpha_i}{\alpha_i (\alpha_i \hat \alpha_i + \alpha_i s_i + \hat \alpha_i s_i - \hat \alpha_i s_i) (\alpha_i + s_i)} - \log \frac{\hat \alpha_i (\alpha_i + s_i) + s_i (\alpha_i - \hat \alpha_i)}{\hat \alpha_i (\alpha_i + s_i)} \\
+&amp; = \frac{1}{2} [ q_i^2 \alpha_i^2 \frac{\alpha_i - \hat \alpha_i}{\alpha_i [s_i (\alpha_i - \hat \alpha_i) (\alpha_i + s_i) + \hat \alpha_i (\alpha_i + s_i)(\alpha_i + s_i)]} - \log [1 + \frac{s_i (\alpha_i - \hat \alpha_i)}{\hat \alpha_i (\alpha_i + s_i)}] \\
+&amp; = \frac{1}{2} [ \frac{q_i^2 \alpha_i^2}{(\alpha_i + s_i)^2} \frac{\alpha_i - \hat \alpha_i}{\frac{\alpha_i s_i  (\alpha_i - \hat \alpha_i)}{(\alpha_i + s_i)}  + \alpha_i \hat \alpha_i } - \log [1 + \frac{\alpha_i s_i}{(\alpha_i + s_i)} \frac{(\alpha_i - \hat \alpha_i)}{\alpha_i \hat \alpha_i}] \\
+&amp; = \frac{1}{2} [ \frac{Q_i^2}{\frac{\alpha_i s_i}{(\alpha_i + s_i)}  + \frac{\alpha_i \hat \alpha_i}{\alpha_i - \hat \alpha_i} } - \log [1 + S_i \frac{(\alpha_i - \hat \alpha_i)}{\alpha_i \hat \alpha_i}] \\
+&amp; = \frac{1}{2} [ \frac{Q_i^2}{S_i  + (\alpha_i^{-1} - \hat \alpha_i^{-1})^{-1} } - \log [1 + S_i (\alpha_i^{-1} - \hat \alpha_i^{-1})]\\
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;In this case, the value of $\alpha_i$ is updated to be $\hat \alpha_i = \frac{s_i^2}{q_i^2 - s_i}$. This allows us to update the other parameters:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\Delta \Sigma &amp; = \hat \Sigma - \Sigma = (\beta \Phi^T \Phi + \hat A)^{-1}  - (\beta \Phi^T \Phi + A)^{-1}\\
+&amp; = \frac{A - \hat A}{(\beta \Phi^T \Phi + \hat A)(\beta \Phi^T \Phi + A)} \\
+&amp; = \frac{diag[0, ..., \alpha_i - \hat \alpha_i..., 0] \Sigma}{(\beta \Phi^T \Phi + A - diag[0, ..., \alpha_i - \hat \alpha_i..., 0])} \\
+&amp; = \frac{diag[0, ..., \alpha_i - \hat \alpha_i..., 0] \Sigma^T \Sigma}{1 - diag[0, ..., \alpha_i - \hat \alpha_i..., 0] \Sigma} \\
+&amp; = \frac{(\alpha_i - \hat \alpha_i) \Sigma_i^T \Sigma_i}{1 - (\alpha_i - \hat \alpha_i) \Sigma_{ii}} \\
+&amp; = - \kappa_i \Sigma_i^T \Sigma_i  \quad \text{where} \quad \kappa_i = \frac{1}{\Sigma_{ii} + \frac{1}{\hat \alpha_i - \alpha_i}}\\
+\Delta \mu &amp; = \beta \Delta \Sigma \Phi^T t = - \beta \kappa_i \Sigma_i^T \Sigma_i  \Phi^T t= - \kappa_i \Sigma_i^T \mu_i \\
+\Delta S &amp; =  - \phi_i^T B \Phi \Delta \Sigma \Phi^T B \phi_i = - \phi_i^T B \Phi (- \kappa_i \Sigma_i^T \Sigma_i) \Phi^T B \phi_i = \kappa_i (\Sigma_i^T \Phi^T B \phi_i)^2 \\
+\Delta Q &amp; = - \phi_i^T B \Phi \Delta \Sigma \Phi^T B t = - \phi_i^T B \Phi (- \kappa_i \Sigma_i^T \Sigma_i) \Phi^T B t = - \phi_i^T B \Phi \Delta \mu_i\\ 
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Finally, for basis vector already in the model but with $q_i^2 \le s_i$, we consider removing it from the model:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\Delta L_{remove} &amp; = - l(\alpha_i) =  - \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+&amp; = - \frac{1}{2} [\log \frac{\alpha_i + s_i - s_i}{\alpha_i + s_i} + \frac{\alpha_i^2 q_i^2}{\frac{\alpha_i^2 (\alpha_i + s_i)^2}{\alpha_i + s_i}}] \\
+&amp; =- \frac{1}{2} [\log (1 - \frac{s_i}{\alpha_i + s_i}) + \frac{Q_i^2}{\frac{\alpha_i^2}{\alpha_i + s_i}}] \\
+&amp; =- \frac{1}{2} [\log (1 - \frac{\alpha_i s_i}{\alpha_i (\alpha_i + s_i)}) + \frac{Q_i^2}{\frac{\alpha_i^2 + \alpha_i s_i - \alpha_i s_i}{\alpha_i + s_i}}] \\
+&amp; =- \frac{1}{2} [\log (1 - \frac{S_i}{\alpha_i}) + \frac{Q_i^2}{\alpha_i - \frac{\alpha_i s_i}{\alpha_i + s_i}}] \\
+&amp; =\frac{1}{2} [ \frac{Q_i^2}{S_i - \alpha_i}  - \log (1 - \frac{S_i}{\alpha_i}) ] \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Computation-wise, removing $\phi_i$ is equivalent to re-estimating $\alpha_i$ by setting $\hat \alpha_i = \infty$. This mean that $\kappa_i = \frac{1}{\Sigma_{ii} + \frac{1}{\hat \alpha_i - \alpha_i}} = \frac{1}{\Sigma_{ii}}$. Therefore the updates would be:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\Delta \Sigma &amp; = - \kappa_i \Sigma_i^T \Sigma_i  = \frac{1}{\Sigma_{ii}} \Sigma_i^T \Sigma_i \\
+\Delta \mu &amp; = - \kappa_i \Sigma_i^T \mu_i  = - \frac{1}{\Sigma_{ii}} \Sigma_i^T \mu_i \\
+\Delta S &amp; = \kappa_i (\Sigma_i^T \Phi^T B \phi_i)^2  = \frac{1}{\Sigma_{ii}} (\Sigma_i^T \Phi^T B \phi_i)^2\\
+\Delta Q &amp; = - \phi_i^T B \Phi \Delta \mu_i = \frac{1}{\Sigma_{ii}} \phi_i B \Phi  \Sigma_i^T \mu_i \\ 
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;In practice, the values of $\Sigma_i$ and $\mu_i$ would be stored in a temporary variable for update computation, while the corresponding row/column in $\Sigma$ and $\mu$ are removed before the update is computed.&lt;/p&gt;
+
+&lt;h4 id=&quot;242-marginal-likelihood-optimisation-algorithm&quot;&gt;2.4.2 Marginal likelihood optimisation algorithm&lt;/h4&gt;
+
+&lt;p&gt;Actual implementation details are shown here in quoted text below each step, as found in SparseBayes library for Matlab (v2.0).&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Initialise $\sigma^2 = var[t] \times 0.1$
+    &lt;blockquote&gt;
+      &lt;p&gt;$\beta = \frac{1}{(\max([1e^{-6}, \ std(t)]) * 0.1)^2}$)&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;table&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;Initialise with a single $\phi_i = \frac{ | | \phi_i^T t | |^2}{ | | \phi_i&lt;/td&gt;
+          &lt;td&gt;|&lt;/td&gt;
+          &lt;td&gt;^2}$, which is the largest normalised projection onto target. Set all $\alpha_{m \ne i} = \infty$ and $\alpha_i = \frac{s_i^2}{q_i^2 - s_i}  = \frac{ | | \phi_i^T C_{-i}^{-1} \phi_i | |^2}{ | | \phi_i^T C_{-i}^{-1} t | |^2 - \phi_i^T C_{-i}^{-1} \phi_i} = \frac{\phi_ ^2}{\frac{ \phi_i^|^2}{ | | \phi_i&lt;/td&gt;
+          &lt;td&gt;|&lt;/td&gt;
+          &lt;td&gt;^2} - C_{-i}} = \frac{ | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i | |&lt;/td&gt;
+          &lt;td&gt;^2}{\frac{ | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i^T t | |^2}{ | | \phi_i&lt;/td&gt;
+          &lt;td&gt;|&lt;/td&gt;
+          &lt;td&gt;^2} - (\sigma^2 I + \sum_{m \ne i} \alpha_m \phi_m \phi_m^T)} = \frac{ | | \phi_i |&lt;/td&gt;
+          &lt;td&gt;^2}{\frac{ | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i^T t | |^2}{ | | \phi_i&lt;/td&gt;
+          &lt;td&gt;|&lt;/td&gt;
+          &lt;td&gt;^2} - \sigma^2}$&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;&amp;gt; $[\sim, index] = max(abs(\Phi^T t)); \ \phi_i = \Phi (index); \ \alpha_i = \frac{(\beta | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i | |&lt;/td&gt;
+          &lt;td&gt;^2)^2}{\beta^2 | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i^T t | |&lt;/td&gt;
+          &lt;td&gt;^2 - \beta | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i | |&lt;/td&gt;
+          &lt;td&gt;^2} = \frac{ | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i | |&lt;/td&gt;
+          &lt;td&gt;^2}{\frac{ | |&lt;/td&gt;
+          &lt;td&gt; &lt;/td&gt;
+          &lt;td&gt;\phi_i^T t | |}{ | | \phi_i&lt;/td&gt;
+          &lt;td&gt;|&lt;/td&gt;
+          &lt;td&gt;^2} - \beta^{-1}}$&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Compute values of $\Sigma$, $\mu$, $S_i$, $Q_i$, $s_i$ and $q_i$ for all bases
+    &lt;blockquote&gt;
+      &lt;p&gt;$U = \text{chol} (\Phi^T \Phi \beta + A); \ \Sigma = U^{-1} U^{-T} = (\Phi^T \Phi \beta + A)^{-1}$
+$\mu = \beta \Sigma \Phi^T t$
+$S_i = \beta - | | \beta \Phi^T \phi_i | |^2 \Sigma; \ Q_i = \beta \phi_i^T t - \beta \Phi^T \phi_i \mu$
+$s_i = \frac{\alpha S_i}{\alpha - S_i}; \ q_i = \frac{\alpha Q_i}{\alpha - S_i}$&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Compute $\Delta L$ for all candidate $\phi_i$s and pick the action giving the greatest $\Delta L$
+    &lt;blockquote&gt;
+      &lt;p&gt;$\Delta L_{add}(i) = \frac{1}{2} [\frac{Q_i^2}{S_i} - 1 - \log \frac{Q_i^2}{S_i}]$
+$\Delta L_{re-estimate}(i) = \frac{1}{2} [(\frac{1}{\hat \alpha_i} - \frac{1}{\alpha_i}) \frac{Q_i^2}{ (\frac{1}{\hat \alpha_i} - \frac{1}{\alpha_i}) S_i + 1} - \log (1 + S_i (\frac{1}{\hat \alpha_i} - \frac{1}{\alpha_i}) )]$
+$\Delta L_{remove}(i) = \frac{1}{2} [- \frac{q_i^2}{s_i + \alpha_i} + \log (1 + \frac{s_i}{\alpha_i})]$ 
+For $\Delta L_{remove}$ the signs are flipped so that $\Delta L$ would be positive. Similarly for $\alpha_i$, the signs are flipped because $q_i^2 - s_i &amp;lt; 0$ now&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Compute $\hat \alpha_i$ and check the convergence criterion. Also check $\phi_i$ alignment with existing basis vectors.
+    &lt;blockquote&gt;
+      &lt;p&gt;$\hat \alpha_i = \frac{s_i^2}{q_i^2 - s_i}$
+Terminate if: $\Delta L_{best} \le 0$ or for re-estimation $| \log \hat \alpha_i - \log \alpha_i | &amp;lt; 1e^{-3}$
+Skip adding $\phi_i$ if $\phi_i^T \Phi &amp;gt; (1 - 1e^{-3})$&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Carry out the action by updating the values of $\Sigma$, $\mu$, $S_i$ and $Q_i$, and the content of $\alpha$ and $\Phi$. The update formulae are as computed in the previous section.&lt;/li&gt;
+  &lt;li&gt;Update the value of $\beta$ according to the update equation in section 2.3, i.e. $\beta = \frac{N - \sum_i \gamma_i}{| | t - \Phi \mu | |^2}$. If necessary (change in $\beta$ is significant), re-compute values for $\Sigma$, $\mu$, $S_i$ and $Q_i$ (as was done in step 3).
+    &lt;blockquote&gt;
+      &lt;p&gt;For the first 10 iterations, update $\beta$ every iteration. Afterwards, update $\beta$ every 5 iterations.
+$\beta = \frac{N - \sum_i (1 - \alpha_i \Sigma_{ii})}{(t - y)^T(t - y)}; \beta = min([\beta, \frac{1e^6}{var(t)}])$
+Re-compute $\Sigma$, $\mu$, $S_i$ and $Q_i$ if $\Delta \log \beta &amp;gt; 1e^{-6}$&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Go back to step 4
+iein&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;appendix&quot;&gt;Appendix&lt;/h2&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:fn1&quot;&gt;
+      &lt;p&gt;M. E. Tipping. Sparse Bayesian learning and the relevance vector machine. &lt;em&gt;Journal of Machine Learning Research&lt;/em&gt;. 2001, pp. 211–244. &lt;a href=&quot;#fnref:fn1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:fn1:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn2&quot;&gt;
+      &lt;p&gt;M. E. Tipping and A. C. Faul. Fast marginal likelihood maximisation for sparse Bayesian models. In: Proceedings of the Ninth International Workshop on Artificia Intelligence and Statistics. 2006. &lt;a href=&quot;#fnref:fn2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:fn2:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn3&quot;&gt;
+      &lt;p&gt;Langrange multiplier: to minimise $f$ subject to $g=0$, we look for $\nabla f = \lambda \nabla g$. Then, we set $\nabla L = \nabla f - \lambda \nabla g$. This gives $L = f - \lambda g$. &lt;a href=&quot;#fnref:fn3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn4&quot;&gt;
+      &lt;p&gt;If a matrix $M$ is positive-semi-definite, it satisfies $z^TMz \geq 0$ for any non-zero column vector $z$. &lt;a href=&quot;#fnref:fn4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn5&quot;&gt;
+      &lt;p&gt;Convolution of two Gaussians: $\int \mathcal{N} (\tau | \mu_1, \sigma_1^2) \mathcal{N} (t - \tau | \mu_2, \sigma_2^2) \mathop{d\tau} = \mathcal{N} (t | \mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ &lt;a href=&quot;#fnref:fn5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn6&quot;&gt;
+      &lt;p&gt;Woodbury identity: $(A + UCV)^{-1} = A^{-1} + A^{-1} U (C^{-1} + V A^{-1} U)^{-1} V A^{-1}$ &lt;a href=&quot;#fnref:fn6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:fn6:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn7&quot;&gt;
+      &lt;p&gt;Jacobi’s formula: $\frac{d}{dt} A = \mathrm{tr} (\mathrm{adj}(A) \frac{dA}{dt})$ where $\mathrm{adj}(A)$ is the adjugate matrix of A. The adjugate matrix is defined such that $\mathrm{adj}(A) = | A | A^{-1}$ &lt;a href=&quot;#fnref:fn7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name></name></author><category term="notes" /><summary type="html">This set of notes include explanation and derivations for The Tipping 2001 paper on RVM and his 2006 paper on a fast implementation of RVM.</summary></entry><entry><title type="html">Auto-Encoding Variational Bayes &amp;amp; Application to Biomedical Segmentation</title><link href="http://localhost:4000/notes/AEVB.html" rel="alternate" type="text/html" title="Auto-Encoding Variational Bayes &amp;amp; Application to Biomedical Segmentation" /><published>2018-07-30T09:09:00+02:00</published><updated>2018-07-30T09:09:00+02:00</updated><id>http://localhost:4000/notes/AEVB</id><content type="html" xml:base="http://localhost:4000/notes/AEVB.html">&lt;p&gt;This set of notes include explanation and derivations for my Journal club presentation on 9 July 2018 (application), as well as some derivations for Minh’s presentation on 2 July 2018 (general).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Journal Club Notes by Jianxiao&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This note includes general derivations&lt;sup id=&quot;fnref:fn1&quot;&gt;&lt;a href=&quot;#fn:fn1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and specific derivations for segmentation application&lt;sup id=&quot;fnref:fn2&quot;&gt;&lt;a href=&quot;#fn:fn2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-generic-auto-encoding-variational-bayes-aevb&quot;&gt;1. Generic Auto-Encoding Variational Bayes (AEVB)&lt;/h2&gt;
+&lt;h3 id=&quot;11-problem-scenario&quot;&gt;1.1. Problem scenario&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/1ch85gktT6CXHwGuMpGPeIn9a_Dfgc_4ZsOydCtUlybuuiwTi4fJmnYwM6q1FQQ6i8H66JzgyeW2&quot; alt=&quot;figure 1&quot; height=&quot;200px&quot; width=&quot;200px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 1. Directed graphical model considered&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Consider a model consisting of a dataset $X = { x^{(i)} }^N_{i=1}$ and its associated latent variables $z$, shown in Figure 1. Values of variable $z$ are generated from a prior distribution $p_\theta(z)$; values of variable $x$ are generated from the conditional distribution  $p_\theta(x|z)$.&lt;/p&gt;
+
+&lt;p&gt;Inference based on this model can be intractable. Specifically, the marginal likelihood $p_\theta(x) = \int p_\theta(z)p_\theta(x|z) \mathop{dz}$ is intractable as it requires integrating over the latent variable $z$. As a result, the posteriror density $p_\theta(z|x) = \frac{p_\theta(x|z)p_\theta(z)}{p_\theta(x)}$ is also intractable as it involves evaluating $p_\theta(x)$ first.&lt;/p&gt;
+
+&lt;p&gt;The Auto-Encoding Variational Bayes (AEVB) approach is proposed for inference of marginal likelihood $p_\theta(x)$ and posterior density $p_\theta(z|x)$, the approximate of which also help to estimate the parameters $\theta$ using ML or MAP.&lt;/p&gt;
+
+&lt;h3 id=&quot;12-variational-lower-bound&quot;&gt;1.2. Variational lower bound&lt;/h3&gt;
+
+&lt;p&gt;We start by introducing an approximation $q_\phi(z|x)$ to the intractable true posterior $p_\theta(z|x)$. We can consider the KL divergence between these two distribution:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+KL [q_\phi(z|x) || p_\theta(z|x)] &amp;= \mathbb{E}_q [\log q_\phi(z|x) - \log p_\theta(z|x)] \\
+&amp; = \mathbb{E}_q [\log q_\phi(z|x) - \log \frac{p_\theta(x,z)}{p_\theta(x)}] \\
+&amp; = \mathbb{E}_q [\log q_\phi(z|x) - \log p_\theta(x,z) + \log p_\theta(x)] \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Rearranging the terms gives:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E}_q [\log p_\theta(x)] = KL [q_\phi(z|x) || p_\theta(z|x)] - \mathbb{E}_q [\log q_\phi(z|x) - \log p_\theta(x,z)]&lt;/script&gt;
+
+&lt;p&gt;Since the first term is the non-negative KL divergence, the second term is the lower bound of the log marginal likelihood $\log p_\theta(x)$, also called the variational lower bound.  The variational lower bound can be written in two forms:&lt;/p&gt;
+
+&lt;p&gt;1) The joint-contrastive form&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathcal{L}(\theta,\phi;x) &amp;= \mathbb{E}_q  [-\log q_\phi(z|x) + \log p_\theta(x,z)]
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;2)  The prior-contrastive form&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathcal{L}(\theta,\phi;x) &amp;= \mathbb{E}_q  [-\log q_\phi(z|x) + \log p_\theta(x,z)] \\
+&amp; = \mathbb{E}_q  [-\log q_\phi(z|x) + \log (p_\theta(x|z)p_\theta(z))] \\
+&amp; = \mathbb{E}_q  [-\log q_\phi(z|x) + \log p_\theta(x|z) + \log p_\theta(z)] \\
+&amp; = \mathbb{E}_q [\log p_\theta(x|z)] - \mathbb{E}_q [\log q_\phi(z|x) - \log p_\theta(z)] \\
+&amp; = \mathbb{E}_q [\log p_\theta(x|z)] -  KL [q_\phi(z|x) || p_\theta(z)]
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The prior-contrastive form can be related to auto-encoders: the KL term acts as a regularisation term while the expectation term is the reconstruction error ($z$ is sampled from $x$ by $g(\epsilon,x)$; $x$ is then sampled from $z$ by $p_\theta(x|z)$).&lt;/p&gt;
+
+&lt;h3 id=&quot;13-stochastic-gradient-variational-bayes-sgvb-estimator&quot;&gt;1.3. Stochastic Gradient Variational Bayes (SGVB) estimator&lt;/h3&gt;
+
+&lt;p&gt;In order to optimise the $\mathcal{L}(\theta,\phi;x)$, we need to differentiate it w.r.t. $\theta$ and $\phi$. However, differentiating w.r.t. $\phi$ is problematic as the usual Monte Carlo gradient estimator exhibits high variance&lt;sup id=&quot;fnref:fn3&quot;&gt;&lt;a href=&quot;#fn:fn3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. The usual Monte Carlo method estimates the &lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}_q[\cdot]&lt;/script&gt; terms by sampling $z$ from $q_\phi(z|x)$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\nabla_\phi \mathbb{E}_q [f(z)] &amp;= \mathbb{E}_q [f(z) \nabla_q \log q_\phi(z)] \\
+&amp; \approx \frac{1}{L} \sum^L_{l=1} f(z) \nabla_q \log q_\phi(z[l])
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Instead, we use a reparametrisation trick so that the Monte Carlo estimate becomes differentiable. We reparametrise $z$ as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{aligned}
+z = g_\phi(\epsilon,x) \quad with \quad \epsilon \sim p(\epsilon)
+\end{aligned}&lt;/script&gt;
+
+&lt;p&gt;where the transformation $g_\phi(\cdot)$ and auxiliary noise $\epsilon$ are chosen based on the form of $q_\phi(z|x)$.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/BK0ZkSWopD6KfK37JU-38qFU0Ycm3nJ0TWSg3iDfjmY1y2xvqPwY876JCsZ5_Yy33MRTJon8SxjH&quot; alt=&quot;figure 2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 2 How reparametrisation trick changes network structure&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Essentially, we are assuming that sampling $z$ from $q_\phi(z|x)$ is equivalent to sampling $\epsilon$ from $p(\epsilon)$ (Figure 2). As a result, we can rewrite integrals involving $q_\phi(z|x)$ in forms involving $\epsilon$ instead:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\int q_\phi(z|x) f(z) \mathop{dz} &amp;= \int p(\epsilon)  f(g_\phi(\epsilon,x)) \mathop{d\epsilon} \\
+&amp; \approx \frac{1}{L} \sum^L_{l=1} f(g_\phi(x,\epsilon[l]))
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;We can then compute the SGVB estimator for both forms of variational lower bound:&lt;/p&gt;
+
+&lt;p&gt;1)  The joint-contrastive form&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{aligned}
+\widetilde{\mathcal{L}}(\theta,\phi;x) =  \frac{1}{L} \sum^L_{l=1} (-\log q_\phi(z[l]|x) + \log p_\theta(x,z[l]))
+\end{aligned}&lt;/script&gt;
+
+&lt;p&gt;2)  The prior-contrastive form&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{aligned}
+\widetilde{\mathcal{L}}(\theta,\phi;x) =\frac{1}{L} \sum^L_{l=1} (\log p_\theta(x|z[l])) -  KL [q_\phi(z|x) || p_\theta(z)]
+\end{aligned}&lt;/script&gt;
+
+&lt;p&gt;The prior-contrastive form typically has less variance, but relies on the KL term having closed form to work. In particular, if both the true prior and the approximate posterior are Gaussian, the KL term can be easily computed.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-application-to-biomedical-segmentation&quot;&gt;2. Application to biomedical segmentation&lt;/h2&gt;
+&lt;h3 id=&quot;21-problem-scenario&quot;&gt;2.1. Problem scenario&lt;/h3&gt;
+
+&lt;p&gt;CNN-based Biomedical segmentation usually requires large set of annotated data and does not take into account of anatomical knowledge. In the Dalca et al. paper&lt;sup id=&quot;fnref:fn2:1&quot;&gt;&lt;a href=&quot;#fn:fn2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, an two-step AEVB approach is proposed to carry out unsupervised segmentation learning, with anatomical prior incorporated.&lt;/p&gt;
+
+&lt;p&gt;Consider a model consisting of image data $x$, its segmentation map $s$, and the latent variable $z$, which represents the underlying shape embedding (Figure 3).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/X7srV2YDKAxDnkIx5mP5lxBV0O92KPlCHHjtWoYLBj0bY8r6TQwdyT1jYrpfyHYFA6bDA6VT1yLE&quot; alt=&quot;figure 3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 3 Generative model for the segmentation problem&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The model generates values based on the following prior and likelihood densities:&lt;/p&gt;
+
+&lt;p&gt;1)   the prior probability of the latent variable $z$ is modeled by a standard normal distribution&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(z) = \mathcal{N}(z;0,\mathrm{I})&lt;/script&gt;
+
+&lt;p&gt;2)   the labels $s$ are drawn from a categorical distribution given $z$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_{\theta_{s|z}}(s|z) = \prod_j f_{j,s[j]} (z|\theta_{s|z})&lt;/script&gt;
+
+&lt;p&gt;where $f_{j,m}(\cdot; \theta_{s|z})$ is the probability of label $m$ at voxel $j$&lt;/p&gt;
+
+&lt;p&gt;3)  the voxel intensity values $x$ are drawn from normal distributions with diagonal covariance matrix&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_{\theta_{x|s}}(x|s) = \prod_j \prod_m \mathcal{N} (x[j]; \mu_m, \sigma_m^2)^{\delta(s[j]=m)}&lt;/script&gt;
+
+&lt;p&gt;where $\delta(s[j]=m) = 1$ if $s[j]=m$ and $0$ otherwise.&lt;/p&gt;
+
+&lt;p&gt;We aim to learn segmentation from an image using maximum a posteriori (MAP) estimation:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\hat{s} &amp;= \mathop{\mathrm{arg\,max}}_{s} \log p_\theta(s|x) \\
+&amp; =\mathop{\mathrm{arg\,max}}_{s} \log \frac{p_\theta(s, x)}{p(x)} \\
+&amp; =\mathop{\mathrm{arg\,max}}_{s} \log p_\theta(s, x)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;However, $p_\theta(s,x)$ is intractable as it requires integrating over $z$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_\theta(s, x) = p_\theta(x|s)p(s) = p_\theta(x|s) \int p_\theta(s|z)p(z) \mathop{dz}&lt;/script&gt;
+
+&lt;p&gt;Similarly, $p_\theta(z|x,s)$ is also intractable, which mean EM algorithm does not work in this case.&lt;/p&gt;
+
+&lt;p&gt;Instead, we will optimise $\log p_\theta(x)$ and $\log p_\theta(s)$ by optimising their variational lower bounds respectively. Note that we cannot optimise the two probability distributions together because we do not have paired sets of $x$ and $s$ in unsupervised learning setting. Nevertheless, we want to learn mappings between the latent space and both the image space and the label space, so that we can apply anatomical knowledged learnt from label-latent mapping to new images.&lt;/p&gt;
+
+&lt;h3 id=&quot;22-sgvb-estimator-derivations&quot;&gt;2.2. SGVB estimator derivations&lt;/h3&gt;
+&lt;h4 id=&quot;221-learning-anatomical-prior&quot;&gt;2.2.1. Learning anatomical prior&lt;/h4&gt;
+
+&lt;p&gt;Using the AEVB framework, we approximate the true posterior $p_\theta(z|s)$ with $q_\phi(z|s)$. $q_\phi(z|s)$ is modeled as a normal distribution with diagnoal covariance matrix:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;q_\phi(z|s) = \mathcal{N} (z; \mu_{z|s}, \sigma_{z|s}^2)&lt;/script&gt;
+
+&lt;p&gt;The respective variational lower bound is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}(\theta,\phi;s) = \mathbb{E}_q [\log p_\theta(s|z)] -  KL [q_\phi(z|s) || p(z)]&lt;/script&gt;
+
+&lt;p&gt;Using the reparametrisation trick, we can estimate the expectation term as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathbb{E}_q [\log p_\theta(s|z)] &amp;\approx \frac{1}{L} \sum^L_{l=1} \log p_\theta(s|z[l]) \\
+&amp; = \frac{1}{L} \sum_l \log (\prod_j f_{j,s[j]} (z[l]|\theta_{s|z})) \\
+&amp; = \frac{1}{L} \sum_l \sum_j \log f_{j,s[j]} (z[l]|\theta_{s|z})
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Since both the true prior $p(z)$ and the approximate posterior $q_\phi(z|s)$ are gaussian, the KL term has a closed form (see Appendix A for the proof):&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;KL [q_\phi(z|s) || p(z)] = \frac{1}{2} \sum_j (1 + \log (\sigma_{z|s}[j]^2) - \mu_{z|s}[j]^2 - \sigma_{z|s}[j]^2)&lt;/script&gt;
+
+&lt;h4 id=&quot;222-unsupervised-learning&quot;&gt;2.2.2. Unsupervised learning&lt;/h4&gt;
+
+&lt;p&gt;Similar to the previous section, we approximate the true posterior  $p_\theta(z|x)$ with $q_\phi(z|x)$. $q_\phi(z|x)$ is modeled as a normal distribution with diagnoal covariance matrix:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;q_\phi(z|x) = \mathcal{N} (z; \mu_{z|x}, \sigma_{z|x}^2)&lt;/script&gt;
+
+&lt;p&gt;The respective variational lower bound is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}(\theta,\phi;x) = \mathbb{E}_q [\log p_\theta(x|z)] -  KL [q_\phi(z|x) || p(z)]&lt;/script&gt;
+
+&lt;p&gt;Again, the KL term has a closed-form solution:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;KL [q_\phi(z|x) || p(z)] = \frac{1}{2} \sum_j (1 + \log (\sigma_{z|x}[j]^2) - \mu_{z|x}[j]^2 - \sigma_{z|x}[j]^2)&lt;/script&gt;
+
+&lt;p&gt;The expectation term, on the other hand, is intractable as we cannot compute $p_\theta(x|z)$. Instead, we will use a lower bound of the term derived based on Jensen’s inequality (more details in Appendix B):&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathbb{E}_q [\log p_\theta(x|z)] &amp;= \mathbb{E}_q [\log \int_s p_\theta(x,s|z) \mathop{ds}] \\
+&amp; = \mathbb{E}_q [\log \int_s p_\theta(s|z) p_\theta(x|s) \mathop{ds}] \\
+&amp; \ge \mathbb{E} [\int p_\theta(s|z) \log p_\theta(x|s) \mathop{ds}] \\
+&amp; = \int_s \prod_j f_{j,s[j]} (z|\theta_{s|z}) \log \prod_j \prod_m \mathcal{N} (x[j]; \mu_m, \sigma_m^2)^{\delta(s[j]=m)} \mathop{ds} \\
+&amp; = \int_s \prod_j f_{j,s[j]} (z|\theta_{s|z}) \sum_j \sum_m \delta(s[j]=m) \log \mathcal{N} (x[j]; \mu_m, \sigma_m^2) \mathop{ds} \\
+&amp; = \sum_j \sum_m \int_s \delta(s[j]=m) \prod_j f_{j,s[j]} (z|\theta_{s|z}) \mathop{ds} \log \mathcal{N} (x[j]; \mu_m, \sigma_m^2) \\
+&amp; = \sum_j \sum_m f_{j,m} (z|\theta_{s|z}) \log \mathcal{N} (x[j]; \mu_m, \sigma_m^2) \\
+&amp; \sim \sum_j \sum_m f_{j,m} (z|\theta_{s|z}) \frac{-(x[j]-\mu_m)^2}{2\sigma_m^2} \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;We can then estimate the expectation term, sampling $z$ using the reparametrisation trick:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E} [\int p_\theta(s|z) \log p_\theta(x|s) \mathop{ds}] = \frac{1}{L} \sum_l \sum_j \sum_m f_{j,m} (z[l]|\theta_{s|z}) \frac{-(x[j]-\mu_m)^2}{2\sigma_m^2}&lt;/script&gt;
+
+&lt;h3 id=&quot;23-network-architecture&quot;&gt;2.3. Network architecture&lt;/h3&gt;
+
+&lt;p&gt;Two CNNs are used, one for learning the anatomical prior and one for unsupervised learning of segmentation from image.&lt;/p&gt;
+
+&lt;p&gt;Figure 4 shows the auto-encoder architecture for learning anatomical prior. This network learns the mapping between the latent space and the label space, using only segmentation maps.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/ahkaKoqSOR0GFLkz3_xODtrvQUp9JyKCjNUlwu5gSnj8JlcXafGvZZiNJvxBnGJcubWB5eyf1dgb&quot; alt=&quot;figure 4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 4 Auto-encoder to learn anatomical prior&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Given an input segmentation map $s$, the encoder outputs the parameter of the posterior $q_\phi(z|s)$, $\mu_{z|s}$ and $\sigma_{z|s}$. The latent variable $z$ is then sampled using reparametrisation trick, where $z \sim g(\epsilon,s) = \mu_{z|s} + \sigma_{z|s} \epsilon$. The transformation $g(\cdot)$ approximates normal distribution by adding a scaled noise (or variance) to the mean. Finally, $s$ is reconstructed by the decoder with $p_\theta(s|z)$, represented by the top output layer in Figure 4.&lt;/p&gt;
+
+&lt;p&gt;An additional prior is added in actual implementation, represented by the bottom output layer in Figure 4. This location prior $p_{loc}(s)$ is computed as the voxel-wise frequency of labels in the prior training dataset. By multiplying the prior $p_{loc}(s)$ with the reconstructed segmentation map from $p_\theta(s|z)$ (adding the logarithms in actual implementation), the output segmentation is obtained.&lt;/p&gt;
+
+&lt;p&gt;The parameters of $q_\phi(z|s)$ and $p_\theta(s|z)$, as well as the output segmentation labels $s[j]$, are then used to estimate and optimise the SGVB lower bound.&lt;/p&gt;
+
+&lt;p&gt;Figure 5 shows the architecture for unsupervised learning of segmentation from input images. The decoder part of this network is copied from the prior-learning network from Figure 4, which helps to incorporate the prior anatomical knowledge learnt.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/ItyP2IhSon5MJ4E_Hc4a9Gc85JjX1HEJ0cbsJFmJtxHYpzuQx_FXWdKz-ArUexKPLM0GcB_sVGlj&quot; alt=&quot;figure 5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 5 Architecture for unsupervised learning&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The image encoder is first trained in a similar fashion as the prior auto-encoder; the pre-trained weights are used for initialisation during actual training.&lt;/p&gt;
+
+&lt;p&gt;Given an input scan $x$, the image encoder outputs the parameter of the posterior $q_\phi(z|x)$, $\mu_{z|x}$ and $\sigma_{z|x}$. The latent variable $z$ is then sampled using reparametrisation trick, where $z \sim g(\epsilon,x) = \mu_{z|x} + \sigma_{z|x} \epsilon$. Then, the already trained prior decoder outputs $s$, which is used to generate the reconstructed $x$ with $p_\theta(x|s)$.&lt;/p&gt;
+
+&lt;p&gt;The parameters of $q_\phi(z|x)$ and $p_\theta(x|s)$, as well as the reconstructed image $x$, are then used to estimate and optimise the SGVB lower bound.&lt;/p&gt;
+
+&lt;h3 id=&quot;24-results&quot;&gt;2.4. Results&lt;/h3&gt;
+
+&lt;p&gt;The networks are tested on two datasets (Figure 6):&lt;/p&gt;
+
+&lt;p&gt;1)  T1w scan dataset: more than 14,000 T1-weighted MRI scans from ADNI, ABIDE, GSP, etc., all resampled to 256x256x256 (1mm isotropic) and cropped to 160x192x224 to remove entirely-background voxels.&lt;/p&gt;
+
+&lt;p&gt;2)  T2-FLAIR scan dataset: 3800 T2-FLAIR scans from ADNI (5mm slice spacing), linearly registered to T1w images (using ANTs). No ground truth.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/sEmtOUA3wpT3-D5q5yh3SNmA-uKhxSsVdJpQDr6StSfz9UkOdlpDSuaD6tyZTyUuP4jdnIWDFqMf&quot; alt=&quot;figure 6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 6 Example T1w and T2-FLAIR images&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;A prior training set is composed using 5000 T1w images with ground truth segmentation maps generated by FreeSurfer (with manual correction and QC). This set is used to train the prior auto-encoder. The rest of the T1w images are split into trianing, validation and test sets for unsupervised learning. In the T2 scan case, subjects common to both datasets are excluded from the prior training set.&lt;/p&gt;
+
+&lt;p&gt;Figure 7 shows segmentation results from 3 subjects in the T1w scan dataset, in comparison to their respective ground truth. Figure 8 shows one subject’s segmentation results from the T2-FLAIR scan dataset. The estimated segmentation boundaries are generally aligned with the ground truth boudnaries, but much smoother, lacking of fine details.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/SE46WYx9Un1fEJxoh65SZ3-h94imVxaQtBBp3Oh3j33_-WmkDlf9fc3DFhQPOdYgp6rOQcAeAuv6&quot; alt=&quot;figure 7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 7 Example segmentation results for T1w scan dataset&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/e1mMzIoxUV4xdH-TH0Y2Kg8LRDz1CsAgYUvnIeJB1gXGMEWcMTEwSrLEeEO0nbM4STqbhDUbaS5y&quot; alt=&quot;figure 8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 8 Example segmentation results for T2-FLAIR scan dataset&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;appendix&quot;&gt;Appendix&lt;/h2&gt;
+
+&lt;h3 id=&quot;a-closed-form-solution-for-kl-divergence&quot;&gt;A. Closed-form solution for KL divergence&lt;/h3&gt;
+
+&lt;p&gt;When two distributions are both gaussian, the KL divergence distance between them has a closed form. I will start with the proof for the generic case, and then show the solutions for a special case.&lt;/p&gt;
+
+&lt;p&gt;Consider two mutivariate normal distribution of dimension $k$, $p(x) \sim \mathcal{N} (\mu_1, \Sigma_1)$ and $q(x) \sim \mathcal{N} (\mu_2, \Sigma_2)$. There is no constraint on the form of covariance matrix. Since the KL divergence is defined as $KL(p(x)||q(x)) = \mathbb{E}_p [\log p(x) - \log q(x)]$ for continuous distributions, we start by expressing log likelihood for the two distributions.&lt;/p&gt;
+
+&lt;p&gt;For $p(x)$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\log p(x) &amp;= \log (\frac{1}{(2\pi)^{\frac{k}{2}} |\Sigma_1|^{\frac{1}{2}}} \exp^{-\frac{1}{2} (x-\mu_1)^T \Sigma_1^{-1} (x-\mu_1)}) \\
+&amp; = -\frac{k}{2} \log 2\pi - \frac{1}{2} \log |\Sigma_1|  - \frac{1}{2} (x-\mu_1)^T \Sigma_1^{-1} (x-\mu_1)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\vert \cdot \vert&lt;/script&gt; is the matrix determinant.&lt;/p&gt;
+
+&lt;p&gt;Similarly for q(x):&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\log q(x) = -\frac{k}{2} \log 2\pi - \frac{1}{2} \log |\Sigma_2|  - \frac{1}{2} (x-\mu_2)^T \Sigma_2^{-1} (x-\mu_2)&lt;/script&gt;
+
+&lt;p&gt;Then we have:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+KL(p(x)||q(x)) &amp;= \mathbb{E}_p [\log p(x) - \log q(x)] \\
+&amp; = \mathbb{E}_p [( -\frac{k}{2} \log 2\pi - \frac{1}{2} \log |\Sigma_1|  - \frac{1}{2} (x-\mu_1)^T \Sigma_1^{-1} (x-\mu_1)) \\ 
+&amp; \quad  - (-\frac{k}{2} \log 2\pi - \frac{1}{2} \log |\Sigma_2|  - \frac{1}{2} (x-\mu_2)^T \Sigma_2^{-1} (x-\mu_2))] \\
+&amp; = \mathbb{E}_p [\frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|}  - \frac{1}{2} (x-\mu_1)^T \Sigma_1^{-1} (x-\mu_1) + \frac{1}{2} (x-\mu_2)^T \Sigma_2^{-1} (x-\mu_2)] \\
+&amp; = \frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|} - \frac{1}{2} \mathrm{Tr} [(x-\mu_1)^T \Sigma_1^{-1} (x-\mu_1)] + \frac{1}{2} \mathbb{E}_p [(x-\mu_2)^T \Sigma_2^{-1} (x-\mu_2)] \\
+&amp; = \frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|} - \frac{1}{2} \mathrm{Tr} (\Sigma_1 \Sigma_1^{-1}) + \frac{1}{2} \mathbb{E}_p [(x-\mu_2)^T \Sigma_2^{-1} (x-\mu_2)] \\
+&amp; = \frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|} - \frac{1}{2} \mathrm{Tr} (\mathrm{I}_k) + \frac{1}{2} \mathbb{E}_p [(x-\mu_1+\mu_1-\mu_2)^T \Sigma_2^{-1} (x-\mu_1+\mu_1-\mu_2)] \\
+&amp; = \frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|} - \frac{k}{2} +  \frac{1}{2} \mathbb{E}_p [(x-\mu_1)^T\Sigma_2^{-1}(x-\mu_1) \\
+&amp; \quad + 2(x-\mu_1)^T \Sigma_2^{-1} (\mu_1-\mu_2) +  (\mu_1-\mu_2)^T \Sigma_2^{-1} (\mu_1-\mu_2)] \\
+&amp; = \frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|} - \frac{k}{2} + \frac{1}{2} \mathrm{Tr} (\Sigma_1 \Sigma_2^{-1}) + 0 +  \frac{1}{2}(\mu_1-\mu_2)^T \Sigma_2^{-1} (\mu_1-\mu_2) \\
+&amp; = \frac{1}{2} [\log \frac{|\Sigma_2|}{|\Sigma_1|} - k + \mathrm{Tr} (\Sigma_1 \Sigma_2^{-1}) + (\mu_1-\mu_2)^T \Sigma_2^{-1} (\mu_1-\mu_2)]
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Some tricks used are:&lt;/p&gt;
+
+&lt;p&gt;1)  trace trick: $\mathbb{E}[x] = \mathbb{E}[\mathrm{Tr}(x)]$ if x is scalar&lt;/p&gt;
+
+&lt;p&gt;2)  $\mathbb{E}_p [ (x-\mu_1)^T \Sigma_2^{-1} (\mu_1-\mu_2)]$: this is equal to 0. The expression is essentially the expectation of a scaled and rotated version of $(x-\mu_1)$, which are still straight lines passing through the origin.&lt;/p&gt;
+
+&lt;p&gt;Now, consider a special case, where $p(x) \sim \mathcal{N} (\mu_1, \sigma_1^2)$ and $q(x) \sim \mathcal{N} (0, \mathrm{I})$. In this case, we will be able to simplify the solution even further:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+KL(p(x)||q(x)) &amp;= \frac{1}{2} [\log \frac{|\Sigma_2|}{|\Sigma_1|} - k + \mathrm{Tr} (\Sigma_1 \Sigma_2^{-1}) + (\mu_1-\mu_2)^T \Sigma_2^{-1} (\mu_1-\mu_2)] \\
+&amp; = \frac{1}{2} [\log \frac{|\mathrm{I}|}{\sigma_1^2} - k + \mathrm{Tr} (\sigma_1^2 \mathrm{I}^{-1}) + (\mu_1-0)^T \mathrm{I}^{-1} (\mu_1-0)] \\
+&amp; = \frac{1}{2} (-\log \sigma_1^2 - k + \sigma_1^2 + \mu_1^2)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;This is the solution used in section 2.2.&lt;/p&gt;
+
+&lt;h3 id=&quot;b-jensens-inequality&quot;&gt;B. Jensen’s inequality&lt;/h3&gt;
+
+&lt;p&gt;Jensen’s inequality states that the secant line of a convex function lies above the graph of the function. The concept is intuitive.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/QshruYudFhIRlWl34iPqYev9dtB9yC5YVNbuUSUt-Z1MJyZTwrIqYPc-7Dqa-haD59lVsR4SrcEA&quot; alt=&quot;jensen&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Mathematically, for any convex function $f$, Jensen’s inequality is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(\lambda x_1 + (1-\lambda) x_2) \le \lambda f(x_1) + (1-\lambda) f(x_2)&lt;/script&gt;
+
+&lt;p&gt;Conversely, for any concave function $g$, the sign is simply flipped:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;g(\lambda x_1 + (1-\lambda) x_2) \ge \lambda g(x_1) + (1-\lambda) g(x_2)&lt;/script&gt;
+
+&lt;p&gt;When probability density functions are involved (e.g. when computing expectation), Jensen’s inequality is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(\int_p p(x) g(x) \mathop{dx}) \le \int_p p(x) f(g(x)) \mathop{dx}&lt;/script&gt;
+
+&lt;p&gt;where $f$ is the convex function, $g$ is any real-valued measurable function, and $p(x)$ is the probability density function (i.e. $\int_p p(x) \mathop{dx} = 1$).&lt;/p&gt;
+
+&lt;p&gt;In section 2.2.2, $\log$ is a concave function, and $p_\theta(s|z)$ is the probability density function. Therefore:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\log (\int_s p_\theta(s|z) g(x) \mathop{ds}) \ge \int_s p_\theta(s|z) \log(g(x)) \mathop{ds}&lt;/script&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:fn1&quot;&gt;
+      &lt;p&gt;Diederik P Kingma and Max Welling. “Auto-Encoding Variational Bayes”. In: ArXiv e-prints (2013). arXiv: 1312.6114 &lt;a href=&quot;#fnref:fn1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn2&quot;&gt;
+      &lt;p&gt;Adrian V Dalca, John Guttag, and Mert R Sabuncu. “Anatomical Pri- ors in Convolutional Networks for Unsupervised Biomedical Segmenta- tion”. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2018, pp. 9290–9299. &lt;a href=&quot;#fnref:fn2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:fn2:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fn3&quot;&gt;
+      &lt;p&gt;David M Blei, Michael I Jordan, and John W Paisley. “Variational Bayesian Inference with Stochastic Search”. In: Proceedings of the 29th International Conference on Machine Learning (ICML-12). 2012, pp. 1367– 1374. &lt;a href=&quot;#fnref:fn3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name></name></author><category term="notes" /><summary type="html">This set of notes include explanation and derivations for my Journal club presentation on 9 July 2018 (application), as well as some derivations for Minh’s presentation on 2 July 2018 (general).</summary></entry></feed>

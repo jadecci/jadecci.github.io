@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+
+    
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>DataLad Cheetsheet | Jade Sea</title>
+<meta name="generator" content="Jekyll v3.8.7" />
+<meta property="og:title" content="DataLad Cheetsheet" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="General Notes" />
+<meta property="og:description" content="General Notes" />
+<link rel="canonical" href="http://localhost:4000/notes/Datalad.html" />
+<meta property="og:url" content="http://localhost:4000/notes/Datalad.html" />
+<meta property="og:site_name" content="Jade Sea" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-19T16:07:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="DataLad Cheetsheet" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/notes/Datalad.html","headline":"DataLad Cheetsheet","dateModified":"2020-08-19T16:07:00+02:00","datePublished":"2020-08-19T16:07:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/notes/Datalad.html"},"description":"General Notes","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=">
+    <link rel="stylesheet" href="/assets/css/syntax.css">
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+  </head>
+  <body>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">DataLad Cheetsheet</h1>
+      <h2 class="project-tagline">General Notes</h2>
+      
+      
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <h2 id="0--installation">0.  Installation</h2>
+
+<ul>
+  <li>Linux</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>datalad
+</code></pre></div></div>
+
+<ul>
+  <li>HPC (with MiniConda installed)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge datalad
+</code></pre></div></div>
+
+<ul>
+  <li>macOS</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git-annex
+python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="o">[</span><span class="nt">--user</span><span class="o">]</span> datalad~<span class="o">=</span>0.12
+</code></pre></div></div>
+
+<ul>
+  <li>Windows 10 (with MiniConda installed)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge git
+<span class="o">(</span><span class="nb">install </span>git-annex into MiniConda Library directory<span class="o">)</span>
+pip <span class="nb">install </span>datalad~<span class="o">=</span>0.12
+</code></pre></div></div>
+
+<h2 id="1-setting-up-datasets">1. Setting Up Datasets</h2>
+
+<ul>
+  <li>create a dataset
+    <ul>
+      <li><code class="highlighter-rouge">text2git</code> configuration option allows text files to be stored in git instead of git-annex, preventing them from being locked</li>
+      <li>use <code class="highlighter-rouge">-f/--force</code> to convert existing directory into dataset/sub-dataset</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad create <span class="o">[</span><span class="nt">-d</span> <span class="nv">$super_dataset</span><span class="o">]</span> <span class="o">[</span><span class="nt">-f</span>/--force] <span class="nt">--description</span> <span class="s2">"..."</span> <span class="se">\</span>
+<span class="nt">-c</span> config_option <span class="nv">$target_dir</span>
+</code></pre></div></div>
+
+<ul>
+  <li>check and commit updates</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad status
+datalad save <span class="o">[</span><span class="nt">-d</span> <span class="nv">$dataset</span><span class="o">]</span> <span class="nt">-m</span> <span class="s2">"..."</span> <span class="o">[</span><span class="nt">--to-git</span><span class="o">]</span> <span class="o">[</span><span class="nt">--version-tag</span> <span class="nv">$tag</span><span class="o">]</span> <span class="nv">$file_names</span> 
+</code></pre></div></div>
+
+<ul>
+  <li>add and commit content from URL</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad download-url <span class="nv">$link</span> <span class="nt">--dataset</span> <span class="nv">$target_dataset</span> <span class="nt">-m</span> <span class="s2">"..."</span> <span class="nt">-O</span> <span class="nv">$output_name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>clone another dataset into an existing dataset &amp; download some content physically
+    <ul>
+      <li>note that sub-datasets have their separate commit histories</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad clone <span class="nt">-d</span> <span class="nv">$existing_dataset</span> <span class="nv">$git_link</span> <span class="nv">$target_dir</span>
+datalad get <span class="nv">$file</span>
+</code></pre></div></div>
+
+<ul>
+  <li>after cloning a dataset, check its sub-datasets &amp; get the files in its sub-dataset (and sub-sub-datasets below) without downloading their content</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad subdatasets
+datalad get <span class="nt">-n</span> <span class="nt">-r</span> <span class="o">[</span><span class="nt">--recursion-limit</span> <span class="nv">$limit</span><span class="o">]</span> <span class="nv">$sub_dataset</span>
+</code></pre></div></div>
+
+<ul>
+  <li>add a container image (requires <code class="highlighter-rouge">datalad_container</code> extension)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad containers-add <span class="nv">$image_name</span> <span class="nt">--url</span> <span class="nv">$image_path</span>
+</code></pre></div></div>
+
+<h2 id="2-managing-provenance">2. Managing Provenance</h2>
+
+<ul>
+  <li>automatically track all provenance from a command run
+    <ul>
+      <li>commit is saved to the dataset of the current directory (a commit is only made if there is actual change)</li>
+      <li>input files are downloaded &amp; output files unlocked before command is run (replaced by <code class="highlighter-rouge">{inputs}</code>, <code class="highlighter-rouge">{inputs[0]}</code>, <code class="highlighter-rouge">outputs}</code>, etc. in <code class="highlighter-rouge">$command</code>)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad run <span class="nt">-m</span> <span class="s2">"..."</span> <span class="nt">-i</span>/--input <span class="nv">$input_files</span> <span class="nt">-o</span>/--output <span class="nv">$output_files</span> <span class="s2">"</span><span class="nv">$command</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<ul>
+  <li>run a command ignoring unstaged changes</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad run <span class="nt">-m</span> <span class="s2">"..."</span> <span class="nt">--explicit</span> <span class="s2">"</span><span class="nv">$command</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<ul>
+  <li>rerun a previously run command with provenance tracking
+    <ul>
+      <li>also only commits if there is actual change</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad rerun <span class="nv">$commit_number</span>
+</code></pre></div></div>
+
+<ul>
+  <li>rerun all commands between a tag and the current state</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad rerun <span class="nt">--since</span> <span class="nv">$tag</span>
+</code></pre></div></div>
+
+<ul>
+  <li>manually unlock a file</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad unlock <span class="nv">$file_name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>check the differences between commits (or current state)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>modified files<span class="o">)</span> datalad diff <span class="o">[</span><span class="nt">-f</span>/--from <span class="nv">$commit_curr</span><span class="o">]</span> <span class="nt">-t</span>/--to <span class="nv">$commit_to_compare</span>
+<span class="o">(</span>modified content<span class="o">)</span> git diff <span class="nv">$commit_curr</span> <span class="nv">$commit_to_compare</span>
+</code></pre></div></div>
+
+<ul>
+  <li>run a command in a container image (requires <code class="highlighter-rouge">datalad_container</code> extension)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad containers-run <span class="nt">-m</span> <span class="s2">"..."</span> <span class="nt">--containers-name</span> <span class="nv">$image_name</span> <span class="se">\</span>
+<span class="o">[</span><span class="nt">--input</span> <span class="nv">$input_files</span><span class="o">]</span> <span class="o">[</span><span class="nt">--output</span> <span class="nv">$output_files</span><span class="o">]</span> <span class="s2">"</span><span class="nv">$command</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h2 id="3-maintaining-the-dataset">3. Maintaining the Dataset</h2>
+
+<ul>
+  <li>only commit already tracked files</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> datalad save <span class="nt">-m</span> <span class="s2">"..."</span> <span class="nt">-u</span>/--updated
+</code></pre></div></div>
+
+<ul>
+  <li>merge changes from the origin</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>git pull equivalent<span class="o">)</span> datalad update <span class="nt">--merge</span> <span class="o">[</span><span class="nt">-d</span>/--dataset <span class="nv">$orig_dataset</span><span class="o">]</span> <span class="o">[</span><span class="nt">-r</span><span class="o">]</span>
+<span class="o">(</span>git fetch equivalent<span class="o">)</span> datalad update <span class="o">[</span><span class="nt">-d</span>/--dataset <span class="nv">$orig_dataset</span><span class="o">]</span> <span class="o">[</span><span class="nt">-r</span><span class="o">]</span>
+</code></pre></div></div>
+
+<ul>
+  <li>check the current size &amp; actual size of the dataset (or sub-dataset depending on the current directory)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad status <span class="nt">--annex</span> all
+</code></pre></div></div>
+
+<ul>
+  <li>find all files whose content are not locally available</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="k">in </span>super-dataset<span class="o">)</span> git annex find <span class="nt">--not</span> <span class="nt">--in</span><span class="o">=</span>here
+<span class="o">(</span><span class="k">in </span>sub-datasets<span class="o">)</span> git submodule foreach <span class="nt">--quiet</span> <span class="nt">--recursive</span> <span class="se">\</span>
+ <span class="s1">'git annex find --not --in=here --format=$displaypath/$\\{file\\}\\n'</span>
+</code></pre></div></div>
+
+<ul>
+  <li>check the list of container (requires <code class="highlighter-rouge">datalad_container</code> extension)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad containers-list
+</code></pre></div></div>
+
+<ul>
+  <li>remove annexed data completely (irretrievable)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad drop <span class="o">[</span><span class="nt">-r</span>/--recursive] <span class="o">[</span><span class="nt">--nocheck</span><span class="o">]</span> <span class="nv">$files</span>
+</code></pre></div></div>
+
+<ul>
+  <li>drop unused annexed data</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git annex unused
+<span class="o">(</span>one item<span class="o">)</span> git annex dropunused <span class="nv">$item_number</span>
+<span class="o">(</span>multiple item<span class="o">)</span> git annex dropunused <span class="nv">$item_start</span>-<span class="nv">$item_stop</span>
+<span class="o">(</span>all<span class="o">)</span> git annex dropunused all
+</code></pre></div></div>
+
+<ul>
+  <li>remove the super-dataset (when outside the super-dataset)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad remove <span class="nt">--recursive</span> <span class="nt">--nocheck</span> <span class="nv">$super_dataset</span>
+</code></pre></div></div>
+
+<h2 id="4-managing-sub-datasets--siblings">4. Managing sub-datasets &amp; Siblings</h2>
+
+<ul>
+  <li>check changes in a sub-dataset</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>files <span class="k">in </span>the sub-datset<span class="o">)</span> datalad status <span class="nv">$sub_dataset</span>/
+<span class="o">(</span>the sub-dataset itself<span class="o">)</span> datalad status <span class="nv">$sub_dataset</span>
+<span class="o">(</span>all<span class="o">)</span> datalad status <span class="nt">--recursive</span>
+</code></pre></div></div>
+
+<ul>
+  <li>similarly, save changes from a sub-dataset</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>to the sub-datset<span class="o">)</span> datalad save <span class="nt">-d</span> <span class="nv">$sub_dataset</span> <span class="nt">-m</span> <span class="s2">"..."</span>
+<span class="o">(</span>to the super-dataset<span class="o">)</span> datalad save <span class="nt">-d</span> <span class="nv">$super_dataset</span> <span class="nt">-m</span> <span class="s2">"..."</span>
+<span class="o">(</span>all<span class="o">)</span> datalad save <span class="nv">$super_dataset</span> <span class="nt">--recursive</span>
+</code></pre></div></div>
+
+<ul>
+  <li>remove a sub-dataset</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>can <span class="k">do </span>datalad get again<span class="o">)</span> datalad uninstall <span class="nv">$sub_dataset</span>
+<span class="o">(</span>completely gone<span class="o">)</span> datalad remove <span class="nt">-m</span> <span class="s2">"..."</span> <span class="nt">-d</span> <span class="nv">$dataset</span> <span class="nv">$sub_dataset</span>
+</code></pre></div></div>
+
+<ul>
+  <li>add a clone of the dataset as sibling/remote</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad siblings add <span class="nt">-d</span> <span class="nv">$this_dataset</span> <span class="nt">-s</span>/--name <span class="nv">$name</span> <span class="nt">--url</span> <span class="nv">$sibling_dataset</span>
+</code></pre></div></div>
+
+<ul>
+  <li>check the list of siblings and remove one</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad siblings
+datalad siblings remove <span class="nt">-s</span>/--name <span class="nv">$name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>merge changes from a sibling</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad update <span class="nt">--merge</span> <span class="nt">-s</span>/--name <span class="nv">$name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>if git shows error “commits don’t follow merge-base” for a sub-dataset</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reset HEAD <span class="nv">$sub_dataset</span>
+</code></pre></div></div>
+
+<h2 id="5-dataset-configuration">5. Dataset Configuration</h2>
+
+<ul>
+  <li>add/modify/remove a configuration in <code class="highlighter-rouge">.git/config</code> of the current dataset</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--local</span> <span class="nt">--add</span> <span class="nv">$section</span>.[<span class="nv">$sub_section</span>.]<span class="nv">$variable</span> <span class="s2">"</span><span class="nv">$value</span><span class="s2">"</span>
+git config <span class="nt">--local</span> <span class="nt">--replace-all</span> <span class="nv">$section</span>.[<span class="nv">$sub_section</span>.]<span class="nv">$variable</span> <span class="s2">"</span><span class="nv">$value</span><span class="s2">"</span>
+git config <span class="nt">--local</span> <span class="nt">--unset</span> <span class="nv">$section</span>.[<span class="nv">$sub_section</span>.]<span class="nv">$variable</span>
+</code></pre></div></div>
+<ul>
+  <li>prevent a specific file from being annexed in the current dataset</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>add to .gitattribute<span class="o">)</span> <span class="nv">$file_name</span> annex.largefiles<span class="o">=</span>nothing
+</code></pre></div></div>
+
+<ul>
+  <li>modify configurations in <code class="highlighter-rouge">.gitmodules</code> or <code class="highlighter-rouge">.datalad/config</code></li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">-f</span>/--file<span class="o">=</span><span class="nv">$config_file</span> <span class="nt">--replace-all</span> <span class="nv">$section</span>.[<span class="nv">$sub_section</span>.]<span class="nv">$variable</span> <span class="s2">"</span><span class="nv">$value</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<ul>
+  <li>apply a configuration procedure after dataset is created</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad run-procedure <span class="nt">-d</span> <span class="nv">$dataset</span> <span class="nv">$procedure_name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>add a result hook to the dataset
+    <ul>
+      <li>possible <code class="highlighter-rouge">type</code>: <code class="highlighter-rouge">file</code>, <code class="highlighter-rouge">dataset</code>, <code class="highlighter-rouge">symlink</code>, <code class="highlighter-rouge">directory</code></li>
+      <li>possible <code class="highlighter-rouge">action</code>: <code class="highlighter-rouge">install</code>, <code class="highlighter-rouge">get</code>, <code class="highlighter-rouge">drop</code>, <code class="highlighter-rouge">status</code>, etc.</li>
+      <li>possible <code class="highlighter-rouge">status</code>: <code class="highlighter-rouge">ok</code>, <code class="highlighter-rouge">notneeded</code>, <code class="highlighter-rouge">impossible</code>, <code class="highlighter-rouge">error</code></li>
+      <li>substitutions for <code class="highlighter-rouge">$command</code>: <code class="highlighter-rouge">"{dsarg}"</code> for<code class="highlighter-rouge">dataset</code>, <code class="highlighter-rouge">"{path}"</code> for <code class="highlighter-rouge">path</code>, etc.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--local</span> <span class="nt">--add</span> datalad.result-hook.<span class="nv">$hook_name</span>.call-json <span class="s1">'$command'</span>
+git config <span class="nt">--local</span> <span class="nt">--add</span> datalad.result-hook.<span class="nv">$hook_name</span>.match-json <span class="se">\</span>
+ <span class="s1">'{"type": "$type","action":"$action","status":"$status"}'</span>
+</code></pre></div></div>
+
+<h2 id="6-sharing-datasets">6. Sharing Datasets</h2>
+
+<ul>
+  <li>publish dataset to Github/Gitlab</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad create-sibling-github/gitlab <span class="nt">-d</span> <span class="nv">$dataset</span> <span class="nv">$repo_name</span>
+datalad push <span class="nt">--to</span> github/gitlab
+</code></pre></div></div>
+
+<ul>
+  <li>also push the tags to Github/Gitlab</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push github/gitlab <span class="nt">--tags</span>
+<span class="o">(</span>or<span class="o">)</span>
+git config <span class="nt">--local</span> remote.github/gitlab.push <span class="s1">'refs/tags/*'</span>
+</code></pre></div></div>
+
+<ul>
+  <li>share annexed data through Github Large File Storage (LFS)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad create-sibling-github <span class="nv">$repo_name</span>
+git annex initremote github-lfs <span class="nb">type</span><span class="o">=</span>git-lfs <span class="nv">url</span><span class="o">=</span><span class="nv">$repo_link</span> <span class="nv">encryption</span><span class="o">=</span>none <span class="nv">embedcreds</span><span class="o">=</span>no
+datalad push <span class="nt">--to</span><span class="o">=</span>github
+</code></pre></div></div>
+
+<ul>
+  <li>publish dataset to GIN
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad siblings add <span class="nt">-d</span> <span class="nv">$dataset</span> <span class="nt">--name</span> gin <span class="nt">--url</span> <span class="nv">$gin_link</span>
+datalad push <span class="nt">--to</span> gin
+</code></pre></div>    </div>
+  </li>
+  <li>add sub-datasets to GIN</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datalad subdatasets <span class="nt">--contains</span> <span class="nv">$sub_dataset</span> <span class="nt">--set-property</span> url <span class="nv">$git_link</span>
+</code></pre></div></div>
+
+<ul>
+  <li>push/fetch annexed data content (make sure remote is set with ssh-url instead of http-url)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git annex <span class="nb">sync</span> <span class="nt">--content</span>
+</code></pre></div></div>
+
+<h2 id="other-useful-git-commands">Other useful git commands</h2>
+
+<ul>
+  <li>edit the commit message after committing</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">--amend</span>
+</code></pre></div></div>
+
+<ul>
+  <li>edit the last <code class="highlighter-rouge">N</code> commit messages (<em>only do this if you know very well what you are doing</em>)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase <span class="nt">-i</span> HEAD~N
+</code></pre></div></div>
+
+<ul>
+  <li>check commit history</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>last commit <span class="k">in </span>detail<span class="o">)</span> git log <span class="nt">-p</span> <span class="nt">-n</span> 1
+<span class="o">(</span>all commits each <span class="k">in </span>a line<span class="o">)</span> git log <span class="nt">--oneline</span>
+<span class="o">(</span>sub-dataset commits<span class="o">)</span> git <span class="nt">-C</span> <span class="nv">$sub_dataset</span> log <span class="nt">--oneline</span>
+<span class="o">(</span>of a specific file<span class="o">)</span> git log <span class="nt">--</span> <span class="nv">$file_name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>locate copies of an annexed file</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git annex whereis <span class="nv">$file_name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>commit a file name change</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git <span class="nb">mv</span> <span class="nv">$old_file</span> <span class="nv">$new_file</span>
+git commit <span class="nt">-m</span> <span class="s2">"..."</span>
+</code></pre></div></div>
+
+<ul>
+  <li>stop annexing a file (track with git instead)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git annex unannex <span class="nv">$file_name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>soft reset (keeping work done)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>with annexed content<span class="o">)</span> datalad unlock <span class="nv">$file_name</span>
+git reset <span class="nv">$commit</span>
+</code></pre></div></div>
+
+<ul>
+  <li>reverting commit(s)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git revert <span class="o">[</span><span class="nt">--no-commit</span><span class="o">]</span> <span class="nv">$commit</span> <span class="o">[</span><span class="nv">$newer_commit</span> ...]
+</code></pre></div></div>
+
+<ul>
+  <li>check file content at an older commit</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git cat-file <span class="nt">--textconv</span> <span class="nv">$commit</span>:<span class="nv">$file_name</span>
+</code></pre></div></div>
+
+<ul>
+  <li>apply configuration from a <code class="highlighter-rouge">.gitignore</code> file globally (use absolute path)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> core.excludesfile <span class="nv">$gitignore_file</span>
+</code></pre></div></div>
+
+<h2 id="other-useful-console-commands">Other useful console commands</h2>
+
+<ul>
+  <li>view folder structure of current directory</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree <span class="nt">-d</span>
+</code></pre></div></div>
+
+<ul>
+  <li>find the type for a file</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file <span class="nt">--mime-type</span> <span class="nv">$file_name</span>
+</code></pre></div></div>
+
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>

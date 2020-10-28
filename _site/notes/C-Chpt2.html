@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+
+    
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Chapter 2. Solution of Linear Algebraic Equations | Jade Sea</title>
+<meta name="generator" content="Jekyll v3.8.7" />
+<meta property="og:title" content="Chapter 2. Solution of Linear Algebraic Equations" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Numerical Recipes in C" />
+<meta property="og:description" content="Numerical Recipes in C" />
+<link rel="canonical" href="http://localhost:4000/notes/C-Chpt2.html" />
+<meta property="og:url" content="http://localhost:4000/notes/C-Chpt2.html" />
+<meta property="og:site_name" content="Jade Sea" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-09-19T16:07:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 2. Solution of Linear Algebraic Equations" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/notes/C-Chpt2.html","headline":"Chapter 2. Solution of Linear Algebraic Equations","dateModified":"2019-09-19T16:07:00+02:00","datePublished":"2019-09-19T16:07:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/notes/C-Chpt2.html"},"description":"Numerical Recipes in C","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=">
+    <link rel="stylesheet" href="/assets/css/syntax.css">
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+  </head>
+  <body>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Chapter 2. Solution of Linear Algebraic Equations</h1>
+      <h2 class="project-tagline">Numerical Recipes in C</h2>
+      
+      
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <p>Codes for implementing algorithms mentioned in this chapter are available at <a href="https://github.com/jadecci/numerical_recipes_c">my Github repository</a>. Each script runs the respective algorithm with example data.</p>
+
+<p>The general problem posed in this chapter is $Ax = b$, i.e.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} a_{11} & a_{12} & ... & a_{1N} \\ a_{21} & a_{22} & ... & a_{aN} \\ & ... \\ a_{M1} & a_{M2} & ... & a_{MN} \end{bmatrix} 
+\begin{bmatrix} x_1 \\ x_2 \\ ... \\ x_M \end{bmatrix}
+= \begin{bmatrix} b_1 \\ b_2 \\ ... \\ b_M \end{bmatrix} %]]></script>
+
+<p>where $A$ and $b$ are given, while $x$ and/or $A^{-1}$ need to be solved.</p>
+
+<h2 id="1--gauss-jordan-elimination">1.  Gauss-Jordan Elimination</h2>
+
+<p>Gauss-Jordan elimination solves the posed problem by solving for both $x$ and $A^{-1}$. As a result, it may not be computationally efficient if only $x$ is needed. It is also not efficient in its memory usage as a large right-hand-side (RHS) matrix needs to be stored and manipulated. Nevertheless, it is a straightforward and stable method that is suitable as a starting point, or baseline, for solving linear algebraic equations.</p>
+
+<p>First, we quickly look at the basic operations in Gauss-Jordan elimination without pivoting. We want to find $A^{-1}$ by solving $Ay = I$, where $I$ is the identity matrix. Therefore, the full matrix to solve is:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} a_{11} & a_{12} & ... & a_{1N} \\ a_{21} & a_{22} & ... & a_{2N} \\ & ... \\ a_{M1} & a_{M2} & ... & a_{MN} \end{bmatrix} 
+\begin{bmatrix} x_1 & y_{11} & y_{12} & ... & y_{1N} \\ x_2 & y_{21} & y_{22} & ... & y_{2N} \\ ... \\ x_M & y_{M1} & y_{M2} & ... & y_{MN}  \end{bmatrix}
+= \begin{bmatrix} b_1 & 1 & 0 & ... & 0\\ b_2 & 0 & 1 & ... & 0 \\ ... \\ b_M & 0 & 0 & ... & 1\end{bmatrix} %]]></script>
+
+<p>Note that every row across the 3 matrices form one linear equation. Hence, we can replace any row with a linear combinations of itself and another row without affect the solutions, as long as the operation is done to both $A$ and $b$ (or $[b \mkern9mu I]$) in the same row. To start, we divide the first row by $a_{11}$, so that the first element in the first row of the matrix $A$ is in the form of an identity matrix (i.e. $a_{11} = 1$).</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} a_{11} & a_{12} & ... & a_{1N} \\ a_{21} & a_{22} & ... & a_{aN} \\ & ... \\ a_{M1} & a_{M2} & ... & a_{MN} \end{bmatrix} 
+= \begin{bmatrix} 1 & \frac{a_{12}}{a_{11}} & ... & \frac{a_{1N}}{a_{11}}  \\ a_{21} & a_{22} & ... & a_{aN} \\ & ... \\ a_{M1} & a_{M2} & ... & a_{MN} \end{bmatrix} %]]></script>
+
+<p>Then we transform the first element in the second row to the form of an identity matrix, i.e. we want $a_{21}$ to be $0$. To do this, we subtract the second row with a linearly scaled version of the first row.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} 1 & \frac{a_{12}}{a_{11}} & ... & \frac{a_{1N}}{a_{11}}  \\ a_{21} & a_{22} & ... & a_{aN} \\ & ... \\ a_{M1} & a_{M2} & ... & a_{MN} \end{bmatrix}
+= \begin{bmatrix} 1 & \frac{a_{12}}{a_{11}} & ... & \frac{a_{1N}}{a_{11}}  \\ a_{21}  - a_{21}(1) = 0 & a_{22} - a_{21}(\frac{a_{12}}{a_{11}}) & ... & a_{aN} - a_{21}(\frac{a_{1N}}{a_{11}}) \\ & ... \\ a_{M1} & a_{M2} & ... & a_{MN} \end{bmatrix} %]]></script>
+
+<p>Remember that the operations must also be done to the matrix on the RHS of the equation. Therefore, the other two matrices now look like this:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} b_1 & 1 & 0 & ... & 0\\ b_2 & 0 & 1 & ... & 0 \\ ... \\ b_M & 0 & 0 & ... & 1\end{bmatrix}
+= \begin{bmatrix} \frac{b_1}{a_{11}} & \frac{1}{a_{11}} & 0 & ... & 0\\ b_2 - a_{21}(\frac{b_1}{a_{11}}) & 0 - a_{21}(\frac{1}{a_{11}}) & 0 & ... & 0 \\ ... \\ b_M & 0 & 0 & ... & 1\end{bmatrix} %]]></script>
+
+<p>By also doing this subtraction to the remaining rows, all elements in the first column of $A$ would be in the form of an identity matrix (i.e. $a_{31} = a_{41} = … = a_{M1} = 0$). Repeat the procedure of division followed by subtractions for the remaining columns, at the end of which $A$ would be transformed into an identity matrix. Now, the first column of the RHS matrix is the solution for $x$, while the rest is the square matrix $A^{-1}$.</p>
+
+<p>An obvious problem to this approach is that any zero element on the diagonal would cause a divide-by-zero operation. To resolve this problem, <strong>pivoting</strong> is needed. The basic idea is to switch rows and/or columns to ensure that diagonal values are non-zero. In practice, the largest element is usually picked as the pivot to put on the diagonal.</p>
+
+<p>While exchanging rows is trivial, exchanging columns in $A$ means that the corresponding rows of $[x \mkern9mu y]$ need to be exchanged, so that the matrix multiplication outcome (i.e. RHS of the equation) stays the same.</p>
+
+<h3 id="11-gaussian-elimination-with-back-substitution">1.1. Gaussian Elimination with Back-substitution</h3>
+
+<p>A faster implementation of the Gauss-Jordan elimination is the Gaussian elimination. First, we do not solve for $Ay = I$ anymore, meaning that the equation only consists of $Ax = b$. Second, only rows switching is done for pivoting (also known as <strong>partial pivoting</strong>). Finally, during the subtraction step, only rows below the pivot row are processed. This means that the final equation is in the form of:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} a_{11} & a_{12} & a_{13} & ... & a_{1(N-1)} & a_{1N} \\ 0 & a_{22} & a_{23} & ... & a_{2(N-1)} & a_{2N} \\ 0 & 0 & a_{33} & ... & a_{3(N-1)} & a_{3N} \\ & ... \\ 0 & 0 & 0 & ... & a_{(M-1)(N-1)} & a_{(M-1)N} \\ 0 & 0 & 0 & ... & 0 & a_{MN} \end{bmatrix} 
+\begin{bmatrix} x_1 \\ x_2 \\ x_3\\ ... \\ x_{M-1} \\ x_M \end{bmatrix}
+= \begin{bmatrix} b_1 \\ b_2 \\ b_3 \\ ... \\ b_{M-1} \\ b_M \end{bmatrix} %]]></script>
+
+<p>The solution for $x$ can then be obtained through back-substitution. We start by working out the value for $x_M$, which is obviously $\frac{b_M}{a_{MN}}$. By substituting this value back into the row above, we can solve for $x_{M-1}$ as $\frac{b_{M-1} - a_{(M-1)N} x_M}{a_{(M-1)(N-1)}}$. Accordingly, the rest of $x$ can be solved following:</p>
+
+<script type="math/tex; mode=display">x_i = \frac{1}{a_{ii}} [b_i - \sum_{j=i+1}^M a_{ij}x_j]</script>
+
+<h2 id="2-lu-decomposition">2. LU Decomposition</h2>
+
+<p>The goal here is to decompose a matrix $A$ into a lower triangular matrix ($L$) and an upper triangular matrix ($U$):</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} a_{11} & a_{12} & ... & a_{1N} \\ a_{21} & a_{22} & ... & a_{2N} \\ & ... \\ a_{N1} & a_{N2} & ... & a_{NN} \end{bmatrix} = A = LU 
+= \begin{bmatrix} \alpha_{11} & 0 & ... & 0 \\ \alpha_{21} & \alpha_{22} & ... & 0 \\ & ... \\ \alpha_{N1} & \alpha_{N2} & ... & \alpha_{NN} \end{bmatrix} 
+\begin{bmatrix} \beta_{11} & \beta_{12} & ... & \beta_{1N} \\ 0 & \beta_{22} & ... & \beta_{2N} \\ & ... \\ 0 & 0 & ... & \beta_{NN} \end{bmatrix} %]]></script>
+
+<p>Now, the general problem $Ax = b$ is transformed into $LUx = b$, and can be solved in 2 steps:</p>
+
+<ol>
+  <li>solve for vector $y$ such that $Ly = b$</li>
+  <li>solve for vector $x$ such that $Ux = y$</li>
+</ol>
+
+<p>Both steps can be easily solved using the substitution method in section 1.1. But, importantly, we need to first solve for $L$ and $U$. Based on the decomposition equation, we can find an expression for each $a_{ij}$ in row $i$ and column $j$:</p>
+
+<script type="math/tex; mode=display">a_{ij} = \alpha_{i1}\beta_{1j} + \alpha_{i2}\beta_{2j} + ... + \alpha_{iN}\beta_{Nj}</script>
+
+<p>Note that some of the terms involved would be zero. Indeed, the number of nonzero terms to construct a diagonal element (i.e. $i = j$) is $i^2 = j^2$. The number of nonzero terms to construct an off-diagonal element is equal to the smaller value between $i$ and $j$.</p>
+
+<p>The set of equations expressing all $a_{ij}$ is obviously underdetermined, meaning that multiple solutions exist. In fact, we can make our lives easier by only search for solution in a constrained space, by setting all the diagonal elements of $L$ to $1$ (i.e. $\alpha_{ij} = 1 \text{ for } i = j$). Conceptually, as the diagonal elements of $L$ is always multiplied by an element in $U$, never used alone to express any element in $A$, specifying their values do not affect the validity of the solution. This is the first step in solving for $L$ and $U$ using <strong>Crout’s algorithm</strong>.</p>
+
+<p>To follow, we iterate through the columns of $U$ and $L$ to solve for the rest of the elements:</p>
+
+<ol>
+  <li>We start from column $j = 1$ and repeat for all $j = 1, …, N$</li>
+  <li>Solve for elements in column $j$ of matrix $U$, i.e. $\beta_{ij}$ for $i = 1, …, j$. Referring to the expression of elements in $A$, these can be solved as $\beta_{ij} = \frac{a_{ij} - \sum_{k=1}^{i-1} \alpha_{ik}\beta_{kj}}{\alpha_{ii}} = a_{ij} - \sum_{k=1}^{i-1} \alpha_{ik}\beta_{kj}$</li>
+  <li>Solve for off-diagonal elements in column $j$ in $L$ (since diagonal elements have already been specified), i.e. $\alpha_{ij}$ for $i = j+1, …, N$. Again, this is solved as $\alpha_{ij} = \frac{a_{ij} - \sum_{k=1}^{i-1} \alpha_{ik}\beta_{kj}}{\beta_{jj}}$</li>
+</ol>
+
+<p>Note that at any time in step 2, the only elements from $L$ needed in the equation are either elements from previous columns or diagonal elements, i.e. either already specified values or or those calculated in step 3 in the previous iteration. Similarly, for step 3, only elements from $U$ calculated in previous iterations or diagonal elements calculated in step 2 in the same iteration are needed. Also, since each element in $A$ is only used to solve for the element in the same row and column in $L$ or $U$, each of these elements can be replaced by the corresponding element in $L$ or $U$ without the need to store the results separately. Since diagonals of $L$ have been specified to equal to $1$, they do not need to be stored during the computation.</p>
+
+<p>Again, this method can be numerically unstable without <strong>pivoting</strong>, since zero diagonal elements in $A$ easily lead to zero diagonal elements in $U$, and hence divide-by-zeros when computing elements in $L$. <strong>Partial pivoting</strong> can be used to switch rows of $A$ to avoid this problem. The trick is to compute up to $\beta_{(j-1)j}$ in step 2 instead, but compute $\alpha_{jj}$ in step 3. As the rows are switched, $\alpha_{jj}$ might be moved to another row and become non-diagonal, while some $\alpha_{kj}$ might be moved to the $j$-th row and become the pivot (i.e. $\beta_{jj}$).</p>
+
+<p>Another technique called <strong>implicit pivoting</strong> is also used in the example codes for LU decomposition. Basically, instead of finding the pivot by comparing the raw values of the elements, we compare the scaled values. The scaled values are the raw values multiplied by the inverse of the largest absolute element in the row of the corresponding element, or equivalently, divided by the largest absolute element in the row. The choice of pivot is hence less dependent on the original scaling of each row.</p>
+
+<h2 id="3-cholesky-decomposition">3. Cholesky Decomposition</h2>
+
+<p>For symmetric and positive definite matrix $A$, the Cholesky decomposition is a faster way to decompose the matrix. By being positive definite, we mean that $vAv &gt; 0$ for any vector $v$, or all eigenvalues of $A$ are positive. Because of the special properties of matrix $A$, it can be decomposed into $A = LL^T$ instead:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} a_{11} & a_{12} & ... & a_{1N} \\ a_{12} & a_{22} & ... & a_{2N} \\ & ... \\ a_{1N} & a_{2N} & ... & a_{NN} \end{bmatrix} = A = LL^T 
+= \begin{bmatrix} \alpha_{11} & 0 & ... & 0 \\ \alpha_{21} & \alpha_{22} & ... & 0 \\ & ... \\ \alpha_{N1} & \alpha_{N2} & ... & \alpha_{NN} \end{bmatrix} 
+\begin{bmatrix} \alpha_{11} & \alpha_{21} & ... & \alpha_{N1} \\ 0 & \alpha_{22} & ... & \alpha_{N2} \\ & ... \\ 0 & 0 & ... & \alpha_{NN} \end{bmatrix} %]]></script>
+
+<p>Equivalently, for $i = 1, …, N$ and $j = i+1, …, N$:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+a_{ii} & = \sum_{k=1}^{i-1} \alpha_{ik}^2 + \alpha_{ii}^2 \\
+a_{ij} & = \sum_{k=1}^{i-1} \alpha_{ik} \alpha_{jk} + \alpha_{ii} \alpha_{ji}
+\end{aligned} %]]></script>
+
+<p>We do not need to be concerned with cases where $j&lt;i$ since we only need to solve for the lower half of the matrix $L$. Following the equations above, the elements in $L$ can be computed from top to bottom in each column from left to right (i.e. we solve for $\alpha_{11}$ to $\alpha_{N1}$ in sequence, then $\alpha_{22}$ to $\alpha_{N2}$ and so on). The computation is straightforward as any element needed in the equation has always been solved for in previous steps. Similar to the LU decomposition, the matrix $L$ here can be stored in the lower half portion of matrix $A$ during actual implementation, with the exception that the diagonal elements in $L$ need to be stored in a separate vector.</p>
+
+<p>In the Cholesky decomposition, only the diagonal elements in $L$ would appear in the denominator of the equation when solving for non-diagonal elements in $L$. We can be sure that the diagonal elements in $L$ should be non-zero if $A$ is positive definite (see <a href="https://en.wikipedia.org/wiki/Definiteness_of_a_matrix#Cholesky_decomposition">Wikipedia</a>). Therefore, no pivoting is required.</p>
+
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>

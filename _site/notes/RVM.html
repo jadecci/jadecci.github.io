@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+
+    
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Relevance Vector Machine and Fast Implementation | Jade Sea</title>
+<meta name="generator" content="Jekyll v3.8.7" />
+<meta property="og:title" content="Relevance Vector Machine and Fast Implementation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Derivation Notes" />
+<meta property="og:description" content="Derivation Notes" />
+<link rel="canonical" href="http://localhost:4000/notes/RVM.html" />
+<meta property="og:url" content="http://localhost:4000/notes/RVM.html" />
+<meta property="og:site_name" content="Jade Sea" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-31T17:06:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Relevance Vector Machine and Fast Implementation" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/notes/RVM.html","headline":"Relevance Vector Machine and Fast Implementation","dateModified":"2019-01-31T17:06:00+01:00","datePublished":"2019-01-31T17:06:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/notes/RVM.html"},"description":"Derivation Notes","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=">
+    <link rel="stylesheet" href="/assets/css/syntax.css">
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+  </head>
+  <body>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Relevance Vector Machine and Fast Implementation</h1>
+      <h2 class="project-tagline">Derivation Notes</h2>
+      
+      
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <p>This note includes derivations for Relevance Vector Machine (RVM)<sup id="fnref:fn1"><a href="#fn:fn1" class="footnote">1</a></sup> and for a fast implementation of RVM<sup id="fnref:fn2"><a href="#fn:fn2" class="footnote">2</a></sup>.</p>
+
+<h2 id="1-support-vector-machine-svm">1. Support Vector Machine (SVM)</h2>
+
+<p>As RVM is an improvement over SVM, we first revise the formulation of SVM.</p>
+
+<h3 id="11-decision-boundary-and-margin">1.1. Decision boundary and margin</h3>
+
+<p>With a set of inputs $x_i$ and its corresponding binary class labels $y_i$ for $i = 1, …, N$, we can try to separate the inputs with a straight line (<strong>decision boundary</strong>, $w^Tx+b=0$ in Figure 1). SVM finds the best decision boundary by maximising the <strong>margin</strong>, the width by which we can extend the decision boundary before misclassification occurs (distance between $w^Tx+b=1$ and $w^Tx+b=-1$ in Figure 1).</p>
+
+<p><img src="https://lh3.googleusercontent.com/hd_6hAJnSIKe3vQQhkAuNfW1msQRji1D2L8gQlOVBO10_lcybZyrZWfUGyQxu2_ftHgUCVOTvvEB" alt="figure1" /></p>
+
+<p><em>Figure 1. Illustration of SVM</em></p>
+
+<p>The normal to the decision boundary, $w^Tx+b$, are the projection of inputs $x$ onto a weight vector $w$, with offset $b$. The perpendicular line at  $w^Tx+b$ is the decision boundary. Classification is done by finding the projection value:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+& \text{if} \quad w^Tx_i + b \geq 1, \quad y_{i,pred} = 1 \\
+& \text{if}  \quad w^Tx_i + b \leq -1, \quad y_{i,pred} = -1 
+\end{aligned} %]]></script>
+
+<p>To compute the margin, it is first obvious that the distance between $w^Tx+b=0$ and $w^Tx+b=| | w | |$ is the length of the weight vector, $| | w | |$. It follows that the distance between $w^Tx+b=0$ and $w^Tx+b=1$ is simply $\frac{1}{ | | w | |}$. The margin is therefore $\frac{2}{ | | w | |}$.</p>
+
+<h3 id="12-cost-function">1.2 Cost function</h3>
+
+<p>Now, to maximise $\frac{2}{ | | w | |}$ is equivalent to minimising $| | w | |$, or to minimise $| | w | |^2 = w^Tw$.</p>
+
+<p>Since we want to only extend the boundaries until misclassification occurs, the minimisation need to be constrained such that:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+& \text{if} \quad y_i = 1, \quad w^Tx_i + b \geq 1\\
+& \text{if} \quad y_i = -1, \quad w^Tx_i + b \leq -1 \\
+& \text{which is equivalent to} \quad y_i (w^Tx_i+b) \geq 1
+\end{aligned} %]]></script>
+
+<p>The constrained form of the cost function is usually formulated as:</p>
+
+<script type="math/tex; mode=display">\text{minimise} \quad \frac{1}{2} w^Tw \\
+\text{s.t.} \quad y_i (w^Tx_i+b) \geq 1 \quad \text{for all } i</script>
+
+<p>By setting the Lagrange multiplier<sup id="fnref:fn3"><a href="#fn:fn3" class="footnote">3</a></sup>, we can also get the penalised form of the cost function:</p>
+
+<script type="math/tex; mode=display">L = \frac{1}{2} w^Tw - \sum_i \alpha_i [y_i (w^Tx_i+b)-1] \\
+ \text{s.t.} \quad \alpha_i \geq 0 \quad \text{for all } i</script>
+
+<h3 id="13-optimisation">1.3 Optimisation</h3>
+
+<p>To minimise $L$, we differentiate it with respect to $w$ and $b$. The stationary points are where both derivatives equals to $0$.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+& \frac{\partial L}{\partial w} = w - \sum_i \alpha_i y_i x_i  = 0, \quad \text{i.e. } w = \sum_i \alpha_i y_i x_i  \\
+& \frac{\partial L}{\partial b} = - \sum_i \alpha_i y_i = 0
+\end{aligned} %]]></script>
+
+<p>At the stationary point, the cost function becomes:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+L &= \frac{1}{2} \sum_{i,j} (\alpha_i y_i x_i) (\alpha_j y_j x_j ) - \sum_i \alpha_i \{y_i [(\sum_i \alpha_i y_i x_i )^Tx_i+b]-1\} \\
+& = \frac{1}{2} \sum_{i,j} \alpha_i \alpha_j y_i y_j x_i x_j - \sum_{i,j} \alpha_i \alpha_j y_i y_j x_i x_j  - b \sum_i \alpha_i y_i + \sum_i \alpha_i \\
+& = - \frac{1}{2} \sum_{i,j} \alpha_i \alpha_j y_i y_j x_i x_j  + \sum_i \alpha_i
+\end{aligned} %]]></script>
+
+<p>In the end, only those $x_i$ with $\alpha_i &gt; 0$ are important to the cost function, and are hence called the <strong>support vectors</strong>.</p>
+
+<h3 id="14-kernels">1.4 Kernels</h3>
+
+<p>Notice that at the stationary point $L$ only involves inner products of $x$. This lets us apply kernels to $x$ very easily. Consider $\Phi(x)$ as the mapping of $x$ to a new space. A kernel applied to $x$ is simply $K(x_i, x_j) = \Phi (x_i)^T \Phi (x_j)$. The cost function also turns into $L = - \frac{1}{2} \sum_{i,j} \alpha_i \alpha_j y_i y_j K(x_i, x_j)   + \sum_i \alpha_i$.</p>
+
+<p>For example, for $\Phi(x) = (x_{(1)}^2, x_{(2)}^2, \sqrt{2} x_{(1)} x_{(2)}, \sqrt{2} x_{(1)}, \sqrt{2} x_{(2)}, 1)$, the corresponding kernel would be $K(x_1, x_2) = (x_1^T x_2 + 1)^2$, where $x_i$ is the i-th observation and $x_{(i)}$ is the i-th dimension.</p>
+
+<p>A kernel is only valid if it satisfies the <strong>Mercer’s Theorem</strong>, which states that:</p>
+
+<blockquote>
+  <p>$k: \mathbb{R}^n \times \mathbb{R}^n$ For $k$ to be a valid (Mercer) kernel, it is necessary and sufficient that for any ${ x_1, …, x_m }$, $m &lt; \infty$, the corresponding kernel matrix is symmetric positive semi-definite<sup id="fnref:fn4"><a href="#fn:fn4" class="footnote">4</a></sup> .</p>
+</blockquote>
+
+<p>where a kernel matrix is a matrix $K$, with $K_{i,j} = K(x_i, x_j)$. Some commonly used kernels are:</p>
+
+<ol>
+  <li>Linear kernel: $K(x, y) = x^Ty$</li>
+  <li>Polynomial kernel: $K(x, y) = (x^Ty+1)^n$</li>
+  <li>Radial basis function (RBF) kernel: $K(x, y) = \exp (- \frac{ | | x-y | |^2}{\sigma})$</li>
+</ol>
+
+<h3 id="15-problems">1.5 Problems</h3>
+
+<p>There are four main limitations of SVM:</p>
+
+<ol>
+  <li>SVM predictions are not probabilistic. Therefore estimating uncertainty or incorporating class priors are not possible.</li>
+  <li>The number of support vectors usually grow linearly with training size, causing bad scaling of computational complexity.</li>
+  <li>For soft-margin SVM, trade-off parameters need to be estimated with cross-validation.</li>
+  <li>Kernels must satisfy Mercer’s Theorem</li>
+</ol>
+
+<h2 id="2-relevance-vector-machine">2. Relevance Vector Machine</h2>
+
+<p>RVM is a probabilistic sparse kernel model, which is identical in functional form to SVM. However, it does not suffer from the non-probabilistic problem like SVM, and usually results in much fewer kernel functions.</p>
+
+<h3 id="21-model-specification">2.1 Model specification</h3>
+
+<p>Again we have a set of inputs $x_i$ and its corresponding binary class labels $y_i$ for $i = 1, …, N$. For RVM, we further introduce the prediction targets $t_i$ so that the prediction probability can take the form of a Gaussian. Similar to the SVM model, we identify basis functions based on kernels: $\phi_n(x) = K(x, x_n)$. We can further define a ‘design’ matrix consisting of all the basis functions: $\Phi = [\phi(x_1), \phi(x_2), …, \phi(x_N)]^T$.The model assumes that:</p>
+
+<script type="math/tex; mode=display">y(x; w) = \sum^N_{i=1} w_i \phi(x_i) + w_0 \\
+t_i = y(x_i; w) + \epsilon_i\\
+p(t_i|x) = \mathcal{N} (t_i |  y(x_i), \sigma^2) \\</script>
+
+<p>If we assume that targets $t_i$ are independent, then we can get the <strong>likelihood</strong>:</p>
+
+<script type="math/tex; mode=display">p(t|w, \sigma^2) = (2 \pi \sigma)^{-\frac{N}{2}} \exp (\frac{||t - \Phi w||^2}{-2\sigma^2})</script>
+
+<p>To enforce sparsity, we set up the <strong>prior</strong> for $w$ to be an Automatic Relevance Determination (ARD) prior:</p>
+
+<script type="math/tex; mode=display">p(w|\alpha) = \prod_{i=0}^N \mathcal{N} (w_i | 0, \alpha_i^{-1}) \\
+p(\alpha) = \prod_i \mathcal{Gamma} (\alpha_i | a, b) = \frac{b^a}{\Gamma(a)} \alpha_i^{a-1} \exp (-b\alpha)\\
+\text{where} \quad \Gamma(a) = \int_0^\infty t^{a-1}e^{-t} \mathop{dt}</script>
+
+<p>The <strong>prior</strong> for the noise variance is set as:</p>
+
+<script type="math/tex; mode=display">p(\beta) = p(\sigma^{-2}) = \mathcal{Gamma} (\beta | c, d)</script>
+
+<p>By setting the parameters $a$, $b$, $c$, and $d$ to very small values, these priors become non-informative. This helps to make the prediction scale-invariant.</p>
+
+<p>The main idea of the ARD prior is to use $\alpha$, the precision of distribution of $w$, to represent the sparsity of $w$. Based on the data, if a particular $w_i$ is mostly estimated to be small, its values would be clustered around $0$, the mean of distribution. The precision $\alpha_i$ would hence be high. A pruning step can then be taken, where $w_i$s with large $\alpha_i$ could be set straight to zero. In practice, most $w_i$s would be set to zero, causing high sparsity.</p>
+
+<h3 id="22-inference">2.2 Inference</h3>
+
+<p>In Bayesian context, we compute the values of the parameters by finding their <strong>posterior</strong> probability:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+posterior & = \frac{likelihood \times prior}{evidence} \\[3mm]
+p(w, \alpha, \sigma^2 | t) & = \frac{p(t | w, \alpha, \sigma^2) p(w, \alpha, \sigma^2)}{p(t)} \\
+& = p(w | t, \alpha, \sigma^2)p(\alpha, \sigma^2 | t)
+\end{aligned} %]]></script>
+
+<p>Using the exploit from <sup id="fnref:fn1:1"><a href="#fn:fn1" class="footnote">1</a></sup>, we can find the expression for the first term, which is a <strong>posterior</strong> over the weights. First note that:</p>
+
+<script type="math/tex; mode=display">p(w | t, \alpha, \sigma^2)  = \frac{p(t | w, \sigma^2) p(w | \alpha)}{p(t | \alpha, \sigma^2 )} \\[3mm]
+p(w | t, \alpha, \sigma^2) p(t | \alpha, \sigma^2 )  = p(t | w, \sigma^2) p(w | \alpha)</script>
+
+<p>Then we expand the RHS, grouping terms with $w$ together and completing the square:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+p(t | w, \sigma^2) p(w | \alpha) & =  \mathcal{N} (t |  \Phi w, \sigma^2) \prod_{i=0}^N \mathcal{N} (w_i | 0, \alpha_i^{-1}) \\
+& = (2 \pi \sigma)^{-\frac{N}{2}} \exp (\frac{||t - \Phi w||^2}{-2\sigma^2})  \prod_{i=0}^N (2 \pi \alpha_i^{-1})^{-\frac{1}{2}} \exp (\frac{w_i}{-2\alpha_i^{-1}})\\
+& =  (2 \pi )^{-\frac{N}{2}} |\sigma^2 I|^{-\frac{1}{2}} \exp (\frac{||t - \Phi w||^2}{-2\sigma^2})  (2 \pi )^{-\frac{N+1}{2}} |A|^{\frac{1}{2}} \exp (-\frac{1}{2}A||w||^2) \\
+& = (2 \pi )^{-\frac{N+1}{2}} (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}} \exp [-\frac{1}{2} (\sigma^{-2} t^Tt  - 2 (\sigma^{-2} \Phi t) w + \sigma^{-2} \Phi^T \Phi ||w||^2 + A ||w||^2)] \\
+& = (2 \pi )^{-\frac{N+1}{2}} (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}}  \exp [-\frac{1}{2} (\sigma^{-2} t^Tt  - 2\Sigma^{-1} \mu w + \Sigma^{-1}||w||^2)] \\
+& =  (2 \pi )^{-\frac{N+1}{2}} (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}}  \exp [-\frac{1}{2} (\sigma^{-2} t^Tt   + (w-\mu)^T \Sigma^{-1} (w-\mu) - \Sigma^{-1} \mu^T \mu)]
+\end{aligned} %]]></script>
+
+<p>where</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\mu & = \sigma^{-2} \Sigma \Phi^T t \\
+\Sigma & = (\sigma^{-2} \Phi^T \Phi + A)^{-1} \\
+A & = diag(\alpha_0, \alpha_1, ..., \alpha_N)
+\end{aligned} %]]></script>
+
+<p>As $p(t | \alpha, \sigma^2 )$ should not involve any term with $w$, we know that grouping terms with $w$ helps us contruct $p(w | t, \alpha, \sigma^2)$. By inspection, we can expect the <strong>posterior</strong> over weights to be:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+p(w | t, \alpha, \sigma^2)  & = (2 \pi )^{-\frac{N+1}{2}} |\Sigma|^{-\frac{1}{2}} \exp [-\frac{1}{2} (w-\mu)^T \Sigma^{-1} (w-\mu)] \\
+& = \mathcal{N} (w | \mu, \Sigma)
+\end{aligned} %]]></script>
+
+<p>Note that we grouped $(2 \pi )^{-\frac{N+1}{2}}$ as $w_i$s are defined for $i = 0, 1, …, N$. Following this, we can also derive the expression for the <strong>evidence</strong>:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+p(t | \alpha, \sigma^2 ) & = (2 \pi )^{-\frac{N}{2}} |\sigma^{-2} A|^{\frac{1}{2}}  |\Sigma|^{\frac{1}{2}} \exp [-\frac{1}{2} (\sigma^{-2} t^Tt  - \Sigma^{-1} \mu^T \mu)] \\
+& = (2 \pi )^{-\frac{N}{2}} |\frac{\sigma^{-2} A}{\sigma^{-2} \Phi^T \Phi + A}|^{\frac{1}{2}} \exp [-\frac{1}{2} t^T (\sigma^{-2}  - \sigma^{-4}\Phi \Sigma \Phi^T) t] \\
+& = (2 \pi )^{-\frac{N}{2}} |\frac{1}{\Phi A^{-1} \Phi^T + \sigma^2 I}|^{\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2}  (1 - \sigma^{-2}\Phi \Sigma \Phi^T) t] \\
+& = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2}  ((\sigma^{-2} \Phi^T \Phi + A)(\sigma^{-2} \Phi^T \Phi + A)^{-1} - \sigma^{-2}\Phi \Sigma \Phi^T) t] \\
+& = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2}  (\sigma^{-2} \Phi^T \Phi + A - \sigma^{-2}\Phi^T \Phi)\Sigma t] \\
+& = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T \sigma^{-2} A \Sigma t] \\
+& = (2 \pi )^{-\frac{N}{2}} | \sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T (\sigma^2 I + \Phi A^{-1} \Phi^T)^{-1} t] \\
+& = \mathcal{N} (t | 0, \sigma^2 I + \Phi A^{-1} \Phi^T)
+\end{aligned} %]]></script>
+
+<p>As for the second term, we will approximate $p(\alpha, \sigma^2 | t)$ with its value at its mode, $\alpha_{MP}$ and $\sigma^2_{MP}$. We want that:</p>
+
+<script type="math/tex; mode=display">\int p(t_{new} | \alpha, \sigma^2) \delta (\alpha_{MP}, \sigma^2_{MP}) \mathop{d\alpha} \mathop{d\sigma^2} = \int p(t_{new} | \alpha, \sigma^2) p(\alpha, \sigma^2 | t) \mathop{d\alpha} \mathop{d\sigma^2}</script>
+
+<p>Therefore, in order to maximise posterior, we neex to maximise $p(\alpha, \sigma^2 | t)$ wrt. $\alpha$ and $\sigma^2$, i.e. maximisation of $p(\alpha, \sigma^2 | t) \propto p(t | \alpha, \sigma^2) p(\alpha) p(\sigma^2)$. With non-informative (uniform) pirors $p(\alpha)$ and $p(\sigma^2)$, we need only maximise $p(t | \alpha, \sigma^2 )$.</p>
+
+<p>This is the same as the <strong>evidence</strong> we have evaluated before. Below is an alternative way to evaluate  $p(t | \alpha, \sigma^2 )$, by treating its normalising integral as  Gaussian convolution<sup id="fnref:fn5"><a href="#fn:fn5" class="footnote">5</a></sup>:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+p(t | \alpha, \sigma^2 ) &= \int p(t | w, \sigma^2) p(w | \alpha) \mathop{dw} \\
+& = \int \mathcal{N} (t |  \Phi w, \sigma^2 I) \prod_i \mathcal{N} (w_i | 0, \alpha_i^{-1}) \mathop{dw} \\
+& = \int |\Phi^T\Phi|^{-\frac{1}{2}} \mathcal{N} (\Phi^{-1} t - w | 0, (\sigma^{-2} \Phi^T \Phi)^{-1})\prod_i \mathcal{N} (w_i | 0, \alpha_i^{-1}) \mathop{dw} \\
+& = |\Phi^T\Phi|^{-\frac{1}{2}} \mathcal{N} (\Phi^{-1} t | 0, (\sigma^{-2} \Phi^T \Phi)^{-1} + A^{-1}) \\
+& = |\Phi^T\Phi|^{-\frac{1}{2}} |2\pi|^{-\frac{N}{2}} |\sigma^2 (\Phi^T \Phi)^{-1} + A^{-1}|^{-\frac{1}{2}} \exp [-\frac{1}{2} (\Phi^{-1} t)^T (\sigma^2(\Phi^T \Phi)^{-1} + A^{-1})^{-1} (\Phi^{-1} t)] \\
+& =  |2\pi|^{-\frac{N}{2}} |\sigma^2 I + \Phi A^{-1} \Phi^T|^{-\frac{1}{2}} \exp [-\frac{1}{2} t^T (\sigma^2 I + \Phi A^{-1} \Phi^T)^{-1} t] \\
+& = \mathcal{N} (t | 0, \sigma^2 I + \Phi A^{-1} \Phi^T)
+\end{aligned} %]]></script>
+
+<h3 id="23-optimisation">2.3 Optimisation</h3>
+
+<p>The optimisation of the hyperparameters $\alpha$ and $\beta = \sigma^{-2}$ can be obtained by maximising their <strong>posterior</strong> $p(\alpha, \beta | t) \propto p(t | \alpha, \beta) p(\alpha) p(\beta)$. In the general case, the <strong>log likelihood</strong> cost function is found to be:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+L & = \log p(t | \alpha, \beta) + \log p(\alpha) + \log p(\beta) \\
+& = -\frac{1}{2} [ N \log 2\pi + \log |\beta^{-1} I + \Phi A^{-1} \Phi^T| + t^T (\beta^{-1} I + \Phi A^{-1} \Phi^T)^{-1} t] + \log p(\alpha) + \log p(\beta)
+\end{aligned} %]]></script>
+
+<p>We can split the cost function into 3 parts and evaluate them one by one:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+(1) \quad \log |\beta^{-1} I + \Phi A^{-1} \Phi^T| &  = \log |A^{-1}| |\beta^{-1} I| |A + \beta \Phi \Phi^T|  \\
+& =  -\log A - N \log \beta - \log |\Sigma| \\
+\end{aligned} %]]></script>
+
+<p>For the second term, we need to use the Woodbury identity<sup id="fnref:fn6"><a href="#fn:fn6" class="footnote">6</a></sup> to first evaluate the inverse:
+<script type="math/tex">% <![CDATA[
+\begin{aligned}
+(2)  \quad t^T (\beta^{-1} I + \Phi A^{-1} \Phi^T)^{-1} t  & =  t^T [\beta I - \beta \Phi (A + \beta \Phi \Phi^T)^{-1} \beta \Phi ]t \\
+& = \beta t^Tt - \beta t^T \Phi \Sigma \Phi^T \beta t \\
+& = \beta t^T (t - \Phi^T \mu) \\
+\text{or} \quad & = \beta t^Tt - \beta t^T \Phi \mu - \beta t^T \Phi \mu +  \beta t^T \Phi \mu  - \beta \mu^T \Phi^T \Phi \mu + \beta \mu^T \Phi^T \Phi \mu\\
+& = \beta ||t - \Phi \mu||^2 +  \mu \Sigma^{-1} \mu - \beta \mu^T \Phi^T \Phi \mu\\
+& = \beta ||t - \Phi \mu||^2 + \mu A \mu \\
+\end{aligned} %]]></script></p>
+
+<p>For convenience, we evaluate $p(\log \alpha)$ and $p(\log \beta)$ instead of $p(\alpha)$ and $p(\beta)$. Since $p(\log \alpha) \mathop{d \log \alpha} = p(\alpha) \mathop{d\alpha}$, we can get $p(\log \alpha) = p(\alpha) \frac{\mathop{d\alpha}}{\mathop{d \log \alpha}} = \alpha p(\alpha)$. The same applies to $p(\log \beta)$ since both prior have the form of Gamma distribution.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+(3) \quad \log p(\log \alpha) + \log p(\log \beta) & = \log \alpha \prod_i \frac{b^a}{\Gamma(a)} \alpha_i^{a-1} e^{-b\alpha_i} + \log \beta\frac{d^c}{\Gamma(c)} \beta^{c-1} e^{-d\beta} \\
+& \propto \sum_i \log \alpha_i^a e^{-b\alpha_i} + \log \beta^c e^{-d\beta} \\
+& = \sum_i (a \log \alpha_i - b\alpha_i) + c \log \beta - d\beta
+\end{aligned} %]]></script>
+
+<p>To obtain the updates for $\alpha$ and $\beta$, we first differentiate the cost function wrt. $\alpha$ and $\beta$ <sup id="fnref:fn7"><a href="#fn:fn7" class="footnote">7</a></sup> :</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \log \alpha_i} L & = \frac{\partial \alpha_i}{\partial \log \alpha_i} \frac{\partial}{\partial \alpha_i} \frac{1}{2} [\log A + N \log \beta + \log |\Sigma| - \beta t^T (t - \Phi^T \mu) ] +  \sum_n (a \log \alpha_n - b\alpha_n) + c \log \beta - d\beta \\
+& = \alpha_i \frac{\partial}{\partial \alpha_i} \{ \frac{1}{2} [\log \alpha_i + \log \Sigma_{ii} + \beta t_i \phi_i^T \mu_i ] +  \sum_n (a \log \alpha_n - b\alpha_n) \} \\
+& = \alpha_i \{\frac{1}{2} [\frac{1}{\alpha_i} +  \frac{-\Sigma_{ii}^2}{\Sigma_{ii}} + \beta t_i \phi_i^T \phi t_i \beta (-\Sigma_{ii}^2) ]  + \frac{a}{\alpha_i} - b\} \\
+& = \frac{1}{2} ( 1 - \alpha_i \Sigma_{ii} - \alpha_i \mu_i ^2) + a - b \alpha_i \\
+\frac{\partial}{\partial \log \beta} L & = \frac{\partial \beta}{\partial \log \beta} \frac{\partial}{\partial \beta} \frac{1}{2} [\log A + N \log \beta + \log |\Sigma| - \beta t^T (t - \Phi^T \mu) ] +  \sum_n (a \log \alpha_n - b\alpha_n) + c \log \beta - d\beta \\
+& = \beta \frac{\partial}{\partial \beta} \frac{1}{2} [N \log \beta + \log |(\beta \Phi^T \Phi + A)^{-1}| - \beta t^T t + \beta^2 t^T \Phi \Sigma \Phi^T t) ] + c \log \beta - d\beta \\
+& = \beta \{  \frac{1}{2} [\frac{N}{\beta} + \frac{-|\Sigma| tr(\Phi^T \Sigma \Phi)}{|\Sigma|} - t^T t + 2\beta t^T \Phi \Sigma \Phi^T t + \beta^2 t^T \Phi (-\Sigma^2 \Phi \Phi^T) \Phi^T t]  + \frac{c}{\beta} - d \} \\
+& = \frac{1}{2} [N - \sum_i \beta \frac{\phi_i^T \phi_i}{\beta \phi_i^T \phi_i + \alpha_i} - \beta (t^Tt - 2 t^T \Phi \mu + \beta \mu^2 \Phi^T \Phi)] + c - d \beta \\
+& = \frac{1}{2}[N - \sum_i \frac{\beta \phi_i^T \phi_i + \alpha_i - \alpha_i}{\beta \phi_i^T \phi_i + \alpha_i}  - \beta ||t - \Phi \mu ||^2] + c - d \beta \\
+& = \frac{1}{2}[N -  \sum_i (1 - \alpha_i\Sigma_{ii}) - \beta ||t - \Phi \mu ||^2] + c - d \beta \\
+where \quad \frac{\partial}{\partial \alpha_i} \Sigma_{ii} &=  \frac{\partial}{\partial \alpha_i} (\beta \phi_i^T \phi_i + \alpha_i)^{-1} = (-1)(\beta \phi_i^T \phi_i + \alpha_i)^{-2} = -\Sigma_{ii}^2 \\
+\frac{\partial}{\partial \alpha_i} \mu_i & = \beta \phi_i^T t_i \frac{\partial}{\partial \alpha_i} \Sigma_{ii} = -\beta \Sigma_{ii}^2 \phi_i^T t_i \\
+\frac{\partial}{\partial \beta} |\Sigma| & = \mathrm{tr} (\mathrm{adj} (\Sigma) \frac{\partial \Sigma}{\partial \beta} ) = \mathrm{tr} (\mathrm{adj} (\Sigma) (-\Phi^T \Sigma^2 \Phi)) = |\Sigma| \mathrm{tr} (-\Phi^T \Sigma \Phi)
+\end{aligned} %]]></script>
+
+<p>Now we find the stationary points by equating the differentials to zero:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \log \alpha_i} L = 0 &= \frac{1}{2} ( 1 - \alpha_i \Sigma_{ii} - \alpha_i \mu_i^2 ) + a - b \alpha_i \\
+0 & = 1 + 2a - \alpha_i (\Sigma_{ii} + \mu_i^2 + 2b) \\
+\alpha_i & = \frac{1 + 2a}{\Sigma_{ii} + \mu_i^2 + 2b} \\
+\frac{\partial}{\partial \log \beta} L = 0 & =\frac{1}{2}[N -  \sum_i (1 - \alpha_i\Sigma_{ii}) - \beta ||t - \Phi \mu ||^2] + c - d \beta \\
+0 & = N - \sum_i (1 - \alpha_i \Sigma_{ii}) + 2c - \beta (||t - \Phi \mu ||^2 + 2d) \\
+\beta & = \frac{N - \sum_i (1 - \alpha_i \Sigma_{ii}) + 2c}{||t - \Phi \mu ||^2 + 2d}
+\end{aligned} %]]></script>
+
+<p>In pracrtice, since non-informative (uniform) priors are used, $a=b=c=d=0$. By defining a quantity $\gamma_i = 1 - \alpha_i \Sigma_{ii}$, we can further simplify the update equations:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\alpha_i & = \frac{1}{\Sigma_{ii} + \mu_i^2} = \frac{1 - \alpha_i \Sigma_{ii}}{\mu_i^2} = \frac{\gamma_i}{\mu_i^2} \\[3mm]
+\beta & = \frac{N - \sum_i (1 - \alpha_i \Sigma_{ii}) + 2c}{||t - \Phi \mu ||^2 + 2d} = \frac{N - \sum_i \gamma_i}{||t - \Phi \mu ||^2}
+\end{aligned} %]]></script>
+
+<p>The optimisation of the weights can be done by updating $\Sigma$ and $\mu$ based on the updated value of $\alpha$ and $\sigma^2$.</p>
+
+<h3 id="24-marginal-likelihood">2.4 Marginal Likelihood</h3>
+
+<p>While RVM generates results with higher sparsity than SVM, the aforementioned optimisation causes it to be much slower than SVM. A faster optimisation is proposed in <sup id="fnref:fn2:1"><a href="#fn:fn2" class="footnote">2</a></sup> using marginal likelihood instead of the whole log likelihood cost function.</p>
+
+<p>First remember that, with non-informative prior, the log likelihood cost function is:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+L & = -\frac{1}{2} [ N \log 2\pi + \log |\beta^{-1} I + \Phi A^{-1} \Phi^T| + t^T (\beta^{-1} I + \Phi A^{-1} \Phi^T)^{-1} t]\\
+& = -\frac{1}{2} (N \log 2\pi + \log |C| + t^T C^{-1} t) \\
+where \quad C & = \beta^{-1} I + \Phi A^{-1} \Phi^T
+\end{aligned} %]]></script>
+
+<p>The new quantity $C$ contains all the dependency on $\alpha_i$ in the cost function. We can therefore decompose $C$ into $\alpha_i$-related components and the remaining:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+C & = \beta^{-1} I + \Phi A^{-1} \Phi^T \\
+& = \beta^{-1} I + \sum_m \alpha_m^{-1} \phi_m \phi_m^T \\
+& = \beta^{-1} I + \sum_{m \ne i} \alpha_m^{-1} \phi_m \phi_m^T + \alpha_i^{-1} \phi_i \phi_i^T \\
+& = C_{-i} + \alpha_i^{-1} \phi_i \phi_i^T 
+\end{aligned} %]]></script>
+
+<p>We can then compute the relevant terms and decompose $L$ as well:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+|C| & = |C_{-i} \alpha_i^{-1} \phi_i \phi_i^T| = |C_{-i}| (1 + \alpha_i^{-1} \phi_i^T C_{-i}^{-1} \phi_i) \\
+C^{-1} & = \frac{1}{C_{-i} + \alpha_i^{-1} \phi_i \phi_i^T} = \frac{C_{-i}^{-1} \alpha_i}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i} = C_{-i}^{-1} - \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i} \\
+L & = -\frac{1}{2} (N \log 2\pi + \log |C| + t^T C^{-1} t) \\
+& = -\frac{1}{2} [N \log 2\pi + \log |C_{-i}| + \log (1 + \alpha_i^{-1} \phi_i^T C_{-i}^{-1} \phi_i) + t^T C_{-i}^{-1} t - t^T \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i} t] \\
+& = -\frac{1}{2} (N \log 2\pi + \log |C_{-i}| + t^T C_{-i}^{-1} t) - \frac{1}{2} [\log \frac{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}{\alpha_i} - \frac{(\phi_i^T C_{-i}^{-1} t)^2}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}] \\
+& = L(\alpha_{-i}) + \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+& = L(\alpha_{-i}) + l(\alpha_i) \\
+where \quad s_i & = \phi_i^T C_{-i}^{-1} \phi_i, \quad q_i = \phi_i^T C_{-i}^{-1} t
+\end{aligned} %]]></script>
+
+<p>Now we can consider change in likelihood wrt. $\alpha_i$, which is the change in $l(\alpha_i)$. This is convenient as we can now optimise the likelihood by adding or removing basis functions $\phi_i$ and assessing its related change in $l(\alpha_i)$:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \alpha_i} L(\alpha) & = \frac{\partial}{\partial \alpha_i} l(\alpha_i) = \frac{\partial}{\partial \alpha_i} \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+& = \frac{1}{2} [\frac{1}{\alpha_i} - \frac{1}{\alpha_i + s_i} - \frac{q_i^2}{(\alpha_i + s_i)^2}] \\
+\end{aligned} %]]></script>
+
+<p>The stationary points for optimising $L(\alpha)$ are now:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\frac{\partial}{\partial \alpha_i} L(\alpha) = 0 & = \frac{1}{2} [\frac{1}{\alpha_i} - \frac{1}{\alpha_i + s_i} - \frac{q_i^2}{(\alpha_i + s_i)^2}] \\
+& = (\alpha_i + s_i)^2 - \alpha_i (\alpha_i + s_i) - \alpha_i q_i^2 \\
+& = \alpha_i s_i + s_i^2 - \alpha_i q_i^2 \\
+s^2 & = \alpha_i (q_i^2 - s_i) \\
+\alpha_i & = 
+    \begin{cases}
+      \frac{s_i^2}{q_i^2 - s_i} , & \text{if}\ q_i^2 > s_i \\
+      \infty , & \text{otherwise}
+    \end{cases}
+\end{aligned} %]]></script>
+
+<p>Basically, if $q_i^2 &gt; s_i$, the log likelihood function can be optimised by adding the basis vector $\phi_i$ with $\alpha_i = \frac{s_i^2}{q_i^2 - s_i}$. Otherwise, the corresponding $\alpha_i$ should be set to infinity, equivalent to excluding $\phi_i$ from the model.</p>
+
+<p>To update the associated $s_i$ and $q_i$ for each basis vector, it is more convenient to maintain and update values of $S_i$ and $Q_i$ instead, where:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+S_i &= \phi_i^T C^{-1} \phi_i = \phi_i^T (C_{-i}^{-1} - \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}) \phi_i = s_i - \frac{s_i^2}{\alpha_i + s_i} = \frac{\alpha_i s_i}{\alpha_i + s_i} \\
+Q_i &= \phi_i^T C^{-1} t = \phi_i^T (C_{-i}^{-1} - \frac{C_{-i}^{-1} \phi_i \phi_i^T C_{-i}^{-1}}{\alpha_i + \phi_i^T C_{-i}^{-1} \phi_i}) t = q_i - \frac{q_i s_i}{\alpha_i + s_i} = \frac{\alpha_i q_i}{\alpha_i + s_i} \\
+\therefore \quad s_i &=  \frac{\alpha_i S_i}{\alpha_i - S_i}, \quad q_i = \frac{\alpha_i Q_i}{\alpha_i - S_i} 
+\end{aligned} %]]></script>
+
+<p>In practice, the values of $S_i$ and $Q_i$ are computed using the Woodbury identity<sup id="fnref:fn6:1"><a href="#fn:fn6" class="footnote">6</a></sup>:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+S_i & = \phi_i^T [\beta I - \beta I \Phi (A + \Phi^T \beta I \Phi)^{-1} \Phi^T \beta I] \phi_i = \phi_i^T B \phi_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i \\
+Q_i & = \phi_i^T [\beta I - \beta I \Phi (A + \Phi^T \beta I \Phi)^{-1} \Phi^T \beta I] t = \phi_i^T B t - \phi_i^T B \Phi \Sigma \Phi^T B t = B(\phi_i^T t - \phi_i^T \Phi \mu)
+\end{aligned} %]]></script>
+
+<p>where $B = \beta I$</p>
+
+<h4 id="241-model-update-actions">2.4.1 Model update actions</h4>
+
+<p>For any basis vector, we need to consider the available actions we can perform (i.e. adding/removing it from the model, or re-estimating its $\alpha_i$ value). In practice, we can check the change in log likelihood ($\Delta L$) each action will bring for all $i$, then picking an action with highest $\Delta L$ to perform.</p>
+
+<p>First, for basis vector not in the model, if $q_i^2 &gt; s_i$, we consider adding the basis vector by looking at the change in log likelihood caused. Note that since $\phi_i$ is not in the model yet, $C_{-i}^{-1} = C^{-1}$, hence $s_i = S_i$ and $q_i = Q_i$. Also since $q_i^2 &gt; s_i$, the value of $\alpha_i$ can be directly estimated to be $\frac{s_i^2}{q_i^2 - s_i} = \frac{S_i^2}{Q_i^2 - S_i}$.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\Delta L_{add} & = l(\alpha_i) =  \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+& = \frac{1}{2} [\log \frac{\frac{S_i^2}{Q_i^2 - S_i}}{\frac{S_i^2}{Q_i^2 - S_i} + S_i} + \frac{Q_i^2}{\frac{S_i^2}{Q_i^2 - S_i}+ S_i}] \\
+& = \frac{1}{2} [\log \frac{S_i}{S_i + (Q_i^2 - S_i)} + \frac{Q_i^2}{\frac{S_i^2 + S_i Q_i^2 - S_i^2}{Q_i^2 - S_i}}] \\
+& = \frac{1}{2} [\log \frac{S_i}{Q_i^2} + \frac{Q_i^2 - S_i}{S_i }]
+\end{aligned} %]]></script>
+
+<p>Adding the basis vector causes the model to become $\hat \Phi = [\Phi; \phi_i]$ with $\hat \alpha = [\alpha; \alpha_i]$. We can then use these two quantities to compute the new values for the other parameters:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\hat \Sigma & = (\beta [\Phi; \phi_i]^T [\Phi; \phi_i] + diag[\alpha; \alpha_i])^{-1}\\
+& = \begin{bmatrix} \beta \Phi^T \Phi + A & \beta \Phi^T \phi_i \\ (\beta \Phi^T \phi_i)^T & \beta \phi_i \phi_i  + \alpha_i \\ \end{bmatrix} ^{-1} \\
+& = \frac{1}{(\beta \phi_i \phi_i  + \alpha_i)(\beta \Phi^T \Phi + A) - (\beta \Phi \phi_i)^T (\beta \Phi \phi_i)}
+\begin{bmatrix} \beta \phi_i \phi_i  + \alpha_i & -\beta \Phi^T \phi_i \\ -(\beta \Phi^T \phi_i)^T & \beta \Phi^T \Phi + A \\ \end{bmatrix} \\
+& = \frac{\Sigma}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i}
+\begin{bmatrix} \beta \phi_i \phi_i  + \alpha_i & -\beta \Phi^T \phi_i \\ -(\beta \Phi^T \phi_i)^T & \Sigma^{-1} \\ \end{bmatrix} \\
+& = \Sigma_{ii} \Sigma \begin{bmatrix} \beta \phi_i \phi_i  + \alpha_i & -\beta \Phi^T \phi_i \\ -(\beta \Phi^T \phi_i)^T & \Sigma^{-1} \\ \end{bmatrix} 
+\quad \text{where} \quad \Sigma_{ii} = \frac{1}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i} = \frac{1}{\alpha_i + S_i} \\
+ & = \begin{bmatrix} \Sigma \frac{B \phi_i \phi_i  + \alpha_i}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i}  & - \beta \Sigma_{ii} \Sigma \Phi^T \phi_i \\ - \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T & \Sigma_{ii} \\ \end{bmatrix} \\
+ & = \begin{bmatrix} \Sigma (1 + \frac{\phi_i^T B \Phi \Sigma \Phi^T B \phi_i}{B \phi_i \phi_i  + \alpha_i - \phi_i^T B \Phi \Sigma \Phi^T B \phi_i} ) & - \beta \Sigma_{ii} \Sigma \Phi^T \phi_i \\ - \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T & \Sigma_{ii} \\ \end{bmatrix} \\
+ & = \begin{bmatrix} \Sigma + \beta^2 \Sigma_{ii} \phi_i^T \Phi \Sigma \Phi^T \phi_i \Sigma & - \beta \Sigma_{ii} \Sigma \Phi^T \phi_i \\ - \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T & \Sigma_{ii} \\ \end{bmatrix} \\
+\hat \mu & = \beta \hat \Sigma \hat \Phi^T t = \begin{bmatrix} \beta (\Sigma + \beta^2 \Sigma_{ii} \phi_i^T \Phi \Sigma \Phi^T \phi_i \Sigma) \Phi^T t - \beta (\beta \Sigma_{ii} \Sigma \Phi^T \phi_i) \phi_i^T t \\ \beta (- \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T) \Phi^T t + \beta \Sigma_{ii} \phi_i^T t \\ \end{bmatrix} \\
+& = \begin{bmatrix} \beta \Sigma \Phi^T t + \Sigma_{ii} (\beta \Sigma \Phi^T \phi_i ) (\beta^2 \phi_i^T \Phi \Sigma \Phi^T t - \beta \phi_i^T t) \\ \Sigma_{ii} (- \beta^2 \phi_i^T \Phi \Sigma \Phi^T t + \beta \phi_i^T t) \\ \end{bmatrix} \\
+& = \begin{bmatrix} \mu - (\beta \Sigma \Phi^T \phi_i ) \Sigma_{ii} Q_i \\ \Sigma_{ii} Q_i \\ 
+\end{bmatrix} \\
+& = \begin{bmatrix} \mu - \mu_i \beta \Sigma \Phi^T \phi_i  \\ \mu_i \\ \end{bmatrix} \quad \text{where} \quad \mu_i = \Sigma_{ii} Q_i \\
+\hat S & =  \phi_i^T B \phi_i - \phi_i^T B \hat \Phi \hat \Sigma \hat \Phi^T B \phi_i \\
+& =  \phi_i^T B \phi_i - \phi_i^T B \{ \Phi [(\Sigma + \beta^2 \Sigma_{ii} \phi_i^T \Phi \Sigma \Phi^T \phi_i \Sigma) \Phi^T - (\beta \Sigma_{ii} \Sigma \Phi^T \phi_i) \phi_i^T ] + \phi_i [(- \beta \Sigma_{ii} (\Sigma \Phi^T \phi_i)^T) \Phi^T + \Sigma_{ii} \phi_i^T] \} B \phi_i \\
+& =  \phi_i^T B \phi_i - \phi_i^T B \hat \Phi \hat \Sigma \hat \Phi^T B \phi_i \\
+& =  \phi_i^T B \phi_i - \phi_i^T B \{ \Phi \Sigma \Phi^T + \Phi \Sigma_{ii} (\beta \phi_i^T \Phi \Sigma)^2 \Phi^T - \Phi \Sigma_{ii} (\beta \phi_i^T \Phi \Sigma) \phi_i^T - \phi_i \Sigma_{ii} (\beta \phi_i^T \Phi \Sigma) \Phi^T + \phi_i \Sigma_{ii} \phi_i^T] \} B \phi_i \\
+& =  S_i - \Sigma_{ii} \phi_i^T B \{ \Phi (\beta \phi_i^T \Phi \Sigma)^2 \Phi^T - 2 \Phi (\beta \phi_i^T \Phi \Sigma) \phi_i^T + \phi_i \phi_i^T] \} B \phi_i \\
+& =  S_i - \Sigma_{ii} \phi_i^T B (\Phi \beta \phi_i^T \Phi \Sigma - \phi_i)^2 B \phi_i \\
+& = S_i - \Sigma_{ii} (\beta \phi_i^T e_i)^2 \quad \text{where} \quad e_i = \phi_i - \beta \Phi \Sigma \Phi^T \phi_i \\
+\hat Q & = B(\phi_i^T t - \phi_i^T \hat \Phi \hat \mu) \\
+& = B \phi_i^T t - B \phi_i^T [\Phi (\mu - \mu_i \beta \Sigma \Phi^T \phi_i) + \phi_i \mu_i] \\
+& = B \phi_i^T t - B \phi_i^T \Phi \mu + \mu_i B \phi_i (\beta \Phi \Sigma \Phi^T \phi_i - \phi_i)\\ 
+& = Q_i - \mu_i B \phi_i e_i 
+\end{aligned} %]]></script>
+
+<p>Second, for basis vector already in the model, if $q_i^2 &gt; s_i$, we consider re-estimating its $\alpha_i$ value:
+<script type="math/tex">% <![CDATA[
+\begin{aligned}
+\Delta L_{re-estimate} & = l(\hat \alpha_i) - l(\alpha_i) \\
+& = \frac{1}{2} [\log \hat \alpha_i - \log(\hat \alpha_i + s_i) + \frac{q_i^2}{\hat \alpha_i + s_i}] - \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+& = \frac{1}{2} [\log \frac{\hat \alpha_i (\alpha_i + s_i)}{\alpha_i (\hat \alpha_i + s_i)} + q_i^2 \frac{(\alpha_i + s_i) - (\hat \alpha_i + s_i)}{(\hat \alpha_i + s_i) (\alpha_i + s_i)}] \\
+& = \frac{1}{2} [ q_i^2 \frac{\alpha_i - \hat \alpha_i}{(\hat \alpha_i + s_i) (\alpha_i + s_i)} - \log \frac{\alpha_i (\hat \alpha_i + s_i)}{\hat \alpha_i (\alpha_i + s_i)} ] \\
+& = \frac{1}{2} [ q_i^2 \alpha_i^2 \frac{\alpha_i - \hat \alpha_i}{\alpha_i^2 (\hat \alpha_i + s_i) (\alpha_i + s_i)} - \log \frac{\alpha_i \hat \alpha_i + \alpha_i s_i + \hat \alpha_i s_i - \hat \alpha_i s_i}{\hat \alpha_i (\alpha_i + s_i)} ] \\
+& = \frac{1}{2} [ q_i^2 \alpha_i^2 \frac{\alpha_i - \hat \alpha_i}{\alpha_i (\alpha_i \hat \alpha_i + \alpha_i s_i + \hat \alpha_i s_i - \hat \alpha_i s_i) (\alpha_i + s_i)} - \log \frac{\hat \alpha_i (\alpha_i + s_i) + s_i (\alpha_i - \hat \alpha_i)}{\hat \alpha_i (\alpha_i + s_i)} \\
+& = \frac{1}{2} [ q_i^2 \alpha_i^2 \frac{\alpha_i - \hat \alpha_i}{\alpha_i [s_i (\alpha_i - \hat \alpha_i) (\alpha_i + s_i) + \hat \alpha_i (\alpha_i + s_i)(\alpha_i + s_i)]} - \log [1 + \frac{s_i (\alpha_i - \hat \alpha_i)}{\hat \alpha_i (\alpha_i + s_i)}] \\
+& = \frac{1}{2} [ \frac{q_i^2 \alpha_i^2}{(\alpha_i + s_i)^2} \frac{\alpha_i - \hat \alpha_i}{\frac{\alpha_i s_i  (\alpha_i - \hat \alpha_i)}{(\alpha_i + s_i)}  + \alpha_i \hat \alpha_i } - \log [1 + \frac{\alpha_i s_i}{(\alpha_i + s_i)} \frac{(\alpha_i - \hat \alpha_i)}{\alpha_i \hat \alpha_i}] \\
+& = \frac{1}{2} [ \frac{Q_i^2}{\frac{\alpha_i s_i}{(\alpha_i + s_i)}  + \frac{\alpha_i \hat \alpha_i}{\alpha_i - \hat \alpha_i} } - \log [1 + S_i \frac{(\alpha_i - \hat \alpha_i)}{\alpha_i \hat \alpha_i}] \\
+& = \frac{1}{2} [ \frac{Q_i^2}{S_i  + (\alpha_i^{-1} - \hat \alpha_i^{-1})^{-1} } - \log [1 + S_i (\alpha_i^{-1} - \hat \alpha_i^{-1})]\\
+\end{aligned} %]]></script></p>
+
+<p>In this case, the value of $\alpha_i$ is updated to be $\hat \alpha_i = \frac{s_i^2}{q_i^2 - s_i}$. This allows us to update the other parameters:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\Delta \Sigma & = \hat \Sigma - \Sigma = (\beta \Phi^T \Phi + \hat A)^{-1}  - (\beta \Phi^T \Phi + A)^{-1}\\
+& = \frac{A - \hat A}{(\beta \Phi^T \Phi + \hat A)(\beta \Phi^T \Phi + A)} \\
+& = \frac{diag[0, ..., \alpha_i - \hat \alpha_i..., 0] \Sigma}{(\beta \Phi^T \Phi + A - diag[0, ..., \alpha_i - \hat \alpha_i..., 0])} \\
+& = \frac{diag[0, ..., \alpha_i - \hat \alpha_i..., 0] \Sigma^T \Sigma}{1 - diag[0, ..., \alpha_i - \hat \alpha_i..., 0] \Sigma} \\
+& = \frac{(\alpha_i - \hat \alpha_i) \Sigma_i^T \Sigma_i}{1 - (\alpha_i - \hat \alpha_i) \Sigma_{ii}} \\
+& = - \kappa_i \Sigma_i^T \Sigma_i  \quad \text{where} \quad \kappa_i = \frac{1}{\Sigma_{ii} + \frac{1}{\hat \alpha_i - \alpha_i}}\\
+\Delta \mu & = \beta \Delta \Sigma \Phi^T t = - \beta \kappa_i \Sigma_i^T \Sigma_i  \Phi^T t= - \kappa_i \Sigma_i^T \mu_i \\
+\Delta S & =  - \phi_i^T B \Phi \Delta \Sigma \Phi^T B \phi_i = - \phi_i^T B \Phi (- \kappa_i \Sigma_i^T \Sigma_i) \Phi^T B \phi_i = \kappa_i (\Sigma_i^T \Phi^T B \phi_i)^2 \\
+\Delta Q & = - \phi_i^T B \Phi \Delta \Sigma \Phi^T B t = - \phi_i^T B \Phi (- \kappa_i \Sigma_i^T \Sigma_i) \Phi^T B t = - \phi_i^T B \Phi \Delta \mu_i\\ 
+\end{aligned} %]]></script>
+
+<p>Finally, for basis vector already in the model but with $q_i^2 \le s_i$, we consider removing it from the model:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\Delta L_{remove} & = - l(\alpha_i) =  - \frac{1}{2} [\log \alpha_i - \log(\alpha_i + s_i) + \frac{q_i^2}{\alpha_i + s_i}] \\
+& = - \frac{1}{2} [\log \frac{\alpha_i + s_i - s_i}{\alpha_i + s_i} + \frac{\alpha_i^2 q_i^2}{\frac{\alpha_i^2 (\alpha_i + s_i)^2}{\alpha_i + s_i}}] \\
+& =- \frac{1}{2} [\log (1 - \frac{s_i}{\alpha_i + s_i}) + \frac{Q_i^2}{\frac{\alpha_i^2}{\alpha_i + s_i}}] \\
+& =- \frac{1}{2} [\log (1 - \frac{\alpha_i s_i}{\alpha_i (\alpha_i + s_i)}) + \frac{Q_i^2}{\frac{\alpha_i^2 + \alpha_i s_i - \alpha_i s_i}{\alpha_i + s_i}}] \\
+& =- \frac{1}{2} [\log (1 - \frac{S_i}{\alpha_i}) + \frac{Q_i^2}{\alpha_i - \frac{\alpha_i s_i}{\alpha_i + s_i}}] \\
+& =\frac{1}{2} [ \frac{Q_i^2}{S_i - \alpha_i}  - \log (1 - \frac{S_i}{\alpha_i}) ] \\
+\end{aligned} %]]></script>
+
+<p>Computation-wise, removing $\phi_i$ is equivalent to re-estimating $\alpha_i$ by setting $\hat \alpha_i = \infty$. This mean that $\kappa_i = \frac{1}{\Sigma_{ii} + \frac{1}{\hat \alpha_i - \alpha_i}} = \frac{1}{\Sigma_{ii}}$. Therefore the updates would be:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\Delta \Sigma & = - \kappa_i \Sigma_i^T \Sigma_i  = \frac{1}{\Sigma_{ii}} \Sigma_i^T \Sigma_i \\
+\Delta \mu & = - \kappa_i \Sigma_i^T \mu_i  = - \frac{1}{\Sigma_{ii}} \Sigma_i^T \mu_i \\
+\Delta S & = \kappa_i (\Sigma_i^T \Phi^T B \phi_i)^2  = \frac{1}{\Sigma_{ii}} (\Sigma_i^T \Phi^T B \phi_i)^2\\
+\Delta Q & = - \phi_i^T B \Phi \Delta \mu_i = \frac{1}{\Sigma_{ii}} \phi_i B \Phi  \Sigma_i^T \mu_i \\ 
+\end{aligned} %]]></script>
+
+<p>In practice, the values of $\Sigma_i$ and $\mu_i$ would be stored in a temporary variable for update computation, while the corresponding row/column in $\Sigma$ and $\mu$ are removed before the update is computed.</p>
+
+<h4 id="242-marginal-likelihood-optimisation-algorithm">2.4.2 Marginal likelihood optimisation algorithm</h4>
+
+<p>Actual implementation details are shown here in quoted text below each step, as found in SparseBayes library for Matlab (v2.0).</p>
+
+<ol>
+  <li>Initialise $\sigma^2 = var[t] \times 0.1$
+    <blockquote>
+      <p>$\beta = \frac{1}{(\max([1e^{-6}, \ std(t)]) * 0.1)^2}$)</p>
+    </blockquote>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Initialise with a single $\phi_i = \frac{ | | \phi_i^T t | |^2}{ | | \phi_i</td>
+          <td>|</td>
+          <td>^2}$, which is the largest normalised projection onto target. Set all $\alpha_{m \ne i} = \infty$ and $\alpha_i = \frac{s_i^2}{q_i^2 - s_i}  = \frac{ | | \phi_i^T C_{-i}^{-1} \phi_i | |^2}{ | | \phi_i^T C_{-i}^{-1} t | |^2 - \phi_i^T C_{-i}^{-1} \phi_i} = \frac{\phi_ ^2}{\frac{ \phi_i^|^2}{ | | \phi_i</td>
+          <td>|</td>
+          <td>^2} - C_{-i}} = \frac{ | |</td>
+          <td> </td>
+          <td>\phi_i | |</td>
+          <td>^2}{\frac{ | |</td>
+          <td> </td>
+          <td>\phi_i^T t | |^2}{ | | \phi_i</td>
+          <td>|</td>
+          <td>^2} - (\sigma^2 I + \sum_{m \ne i} \alpha_m \phi_m \phi_m^T)} = \frac{ | | \phi_i |</td>
+          <td>^2}{\frac{ | |</td>
+          <td> </td>
+          <td>\phi_i^T t | |^2}{ | | \phi_i</td>
+          <td>|</td>
+          <td>^2} - \sigma^2}$</td>
+        </tr>
+        <tr>
+          <td>&gt; $[\sim, index] = max(abs(\Phi^T t)); \ \phi_i = \Phi (index); \ \alpha_i = \frac{(\beta | |</td>
+          <td> </td>
+          <td>\phi_i | |</td>
+          <td>^2)^2}{\beta^2 | |</td>
+          <td> </td>
+          <td>\phi_i^T t | |</td>
+          <td>^2 - \beta | |</td>
+          <td> </td>
+          <td>\phi_i | |</td>
+          <td>^2} = \frac{ | |</td>
+          <td> </td>
+          <td>\phi_i | |</td>
+          <td>^2}{\frac{ | |</td>
+          <td> </td>
+          <td>\phi_i^T t | |}{ | | \phi_i</td>
+          <td>|</td>
+          <td>^2} - \beta^{-1}}$</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Compute values of $\Sigma$, $\mu$, $S_i$, $Q_i$, $s_i$ and $q_i$ for all bases
+    <blockquote>
+      <p>$U = \text{chol} (\Phi^T \Phi \beta + A); \ \Sigma = U^{-1} U^{-T} = (\Phi^T \Phi \beta + A)^{-1}$
+$\mu = \beta \Sigma \Phi^T t$
+$S_i = \beta - | | \beta \Phi^T \phi_i | |^2 \Sigma; \ Q_i = \beta \phi_i^T t - \beta \Phi^T \phi_i \mu$
+$s_i = \frac{\alpha S_i}{\alpha - S_i}; \ q_i = \frac{\alpha Q_i}{\alpha - S_i}$</p>
+    </blockquote>
+  </li>
+  <li>Compute $\Delta L$ for all candidate $\phi_i$s and pick the action giving the greatest $\Delta L$
+    <blockquote>
+      <p>$\Delta L_{add}(i) = \frac{1}{2} [\frac{Q_i^2}{S_i} - 1 - \log \frac{Q_i^2}{S_i}]$
+$\Delta L_{re-estimate}(i) = \frac{1}{2} [(\frac{1}{\hat \alpha_i} - \frac{1}{\alpha_i}) \frac{Q_i^2}{ (\frac{1}{\hat \alpha_i} - \frac{1}{\alpha_i}) S_i + 1} - \log (1 + S_i (\frac{1}{\hat \alpha_i} - \frac{1}{\alpha_i}) )]$
+$\Delta L_{remove}(i) = \frac{1}{2} [- \frac{q_i^2}{s_i + \alpha_i} + \log (1 + \frac{s_i}{\alpha_i})]$ 
+For $\Delta L_{remove}$ the signs are flipped so that $\Delta L$ would be positive. Similarly for $\alpha_i$, the signs are flipped because $q_i^2 - s_i &lt; 0$ now</p>
+    </blockquote>
+  </li>
+  <li>Compute $\hat \alpha_i$ and check the convergence criterion. Also check $\phi_i$ alignment with existing basis vectors.
+    <blockquote>
+      <p>$\hat \alpha_i = \frac{s_i^2}{q_i^2 - s_i}$
+Terminate if: $\Delta L_{best} \le 0$ or for re-estimation $| \log \hat \alpha_i - \log \alpha_i | &lt; 1e^{-3}$
+Skip adding $\phi_i$ if $\phi_i^T \Phi &gt; (1 - 1e^{-3})$</p>
+    </blockquote>
+  </li>
+  <li>Carry out the action by updating the values of $\Sigma$, $\mu$, $S_i$ and $Q_i$, and the content of $\alpha$ and $\Phi$. The update formulae are as computed in the previous section.</li>
+  <li>Update the value of $\beta$ according to the update equation in section 2.3, i.e. $\beta = \frac{N - \sum_i \gamma_i}{| | t - \Phi \mu | |^2}$. If necessary (change in $\beta$ is significant), re-compute values for $\Sigma$, $\mu$, $S_i$ and $Q_i$ (as was done in step 3).
+    <blockquote>
+      <p>For the first 10 iterations, update $\beta$ every iteration. Afterwards, update $\beta$ every 5 iterations.
+$\beta = \frac{N - \sum_i (1 - \alpha_i \Sigma_{ii})}{(t - y)^T(t - y)}; \beta = min([\beta, \frac{1e^6}{var(t)}])$
+Re-compute $\Sigma$, $\mu$, $S_i$ and $Q_i$ if $\Delta \log \beta &gt; 1e^{-6}$</p>
+    </blockquote>
+  </li>
+  <li>Go back to step 4
+iein</li>
+</ol>
+
+<h2 id="appendix">Appendix</h2>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:fn1">
+      <p>M. E. Tipping. Sparse Bayesian learning and the relevance vector machine. <em>Journal of Machine Learning Research</em>. 2001, pp. 211–244. <a href="#fnref:fn1" class="reversefootnote">&#8617;</a> <a href="#fnref:fn1:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:fn2">
+      <p>M. E. Tipping and A. C. Faul. Fast marginal likelihood maximisation for sparse Bayesian models. In: Proceedings of the Ninth International Workshop on Artificia Intelligence and Statistics. 2006. <a href="#fnref:fn2" class="reversefootnote">&#8617;</a> <a href="#fnref:fn2:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:fn3">
+      <p>Langrange multiplier: to minimise $f$ subject to $g=0$, we look for $\nabla f = \lambda \nabla g$. Then, we set $\nabla L = \nabla f - \lambda \nabla g$. This gives $L = f - \lambda g$. <a href="#fnref:fn3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:fn4">
+      <p>If a matrix $M$ is positive-semi-definite, it satisfies $z^TMz \geq 0$ for any non-zero column vector $z$. <a href="#fnref:fn4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:fn5">
+      <p>Convolution of two Gaussians: $\int \mathcal{N} (\tau | \mu_1, \sigma_1^2) \mathcal{N} (t - \tau | \mu_2, \sigma_2^2) \mathop{d\tau} = \mathcal{N} (t | \mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ <a href="#fnref:fn5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:fn6">
+      <p>Woodbury identity: $(A + UCV)^{-1} = A^{-1} + A^{-1} U (C^{-1} + V A^{-1} U)^{-1} V A^{-1}$ <a href="#fnref:fn6" class="reversefootnote">&#8617;</a> <a href="#fnref:fn6:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:fn7">
+      <p>Jacobi’s formula: $\frac{d}{dt} A = \mathrm{tr} (\mathrm{adj}(A) \frac{dA}{dt})$ where $\mathrm{adj}(A)$ is the adjugate matrix of A. The adjugate matrix is defined such that $\mathrm{adj}(A) = | A | A^{-1}$ <a href="#fnref:fn7" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>
