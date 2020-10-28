@@ -26,7 +26,12 @@ github_username:  jadecci
 markdown: kramdown
 theme: jekyll-theme-cayman
 plugins:
-  - jekyll-feed
+- jekyll-feed
+
+# Markdown processors
+kramdown:
+  eable_coderay: true
+  syntax_highlighter: coderay
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
