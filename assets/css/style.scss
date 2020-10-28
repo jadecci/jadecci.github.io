@@ -4,10 +4,10 @@
 $header-bg-color: #52a367;
 $header-bg-color-secondary: #000a04;
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
 @import "{{ site.theme }}";
 @import url('https://fonts.googleapis.com/css?family=Hepta+Slab');
 @import url('https://fonts.googleapis.com/css?family=Cinzel');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
 
 header {
     h1, h2, h3, h4, h5, h6 {
