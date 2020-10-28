@@ -29,10 +29,10 @@ plugins:
 - jekyll-feed
 
 # Markdown processors
-kramdown:
-  eable_coderay: true
-  syntax_highlighter: coderay
-  syntax_highlighter_opts: {coderay_css: class}
+#kramdown:
+#    enable_coderay: true
+#    syntax_highlighter: coderay
+#    syntax_highlighter_opts: {coderay_css: class}
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
