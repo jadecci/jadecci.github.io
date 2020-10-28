@@ -7,6 +7,7 @@ $header-bg-color-secondary: #000a04;
 @import "{{ site.theme }}";
 @import url('https://fonts.googleapis.com/css?family=Hepta+Slab');
 @import url('https://fonts.googleapis.com/css?family=Cinzel');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
 
 header {
     h1, h2, h3, h4, h5, h6 {
@@ -32,9 +33,9 @@ header h1::first-letter {
 }
 
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     h1, h2, h3, h4, h5, h6 {
-    font-family: "Hepta Slab", Arial, Helvetica, serif;
+        font-family: "Hepta Slab", Arial, Helvetica, serif;
     }
 }
 
