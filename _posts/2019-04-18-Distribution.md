@@ -7,7 +7,6 @@ categories: notes
 
 This set of notes include information and derivations for some statistical distributions, including gamma distribution and the t-distribution. 
 
-# Distributions and Derivations
 
 This note includes information and derivations for some useful statistical distributions. Currently this includes gamma, beta, $\chi^2$ (incomplete) and t distributions.
 
