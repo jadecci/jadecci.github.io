@@ -50,11 +50,11 @@ $header-bg-color-secondary: #000a04;
 .main-content {
     @include large {
         padding: 2rem 2rem;
-        font-size: 1.2rem;
+        font-size: 1.6rem;
     }
     @include medium {
         padding: 2rem 2rem;
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -71,5 +71,5 @@ pre {
 }
 
 .MJXc-display{
-    margin: 2em 0 !important;
+    margin: 2rem 0 !important;
 }
