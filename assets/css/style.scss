@@ -7,7 +7,7 @@ $header-bg-color-secondary: #000a04;
 @import "{{ site.theme }}";
 @import url('https://fonts.googleapis.com/css?family=Hepta+Slab');
 @import url('https://fonts.googleapis.com/css?family=Cinzel');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300');
 
 .page-header {
     h1, h2, h3, h4, h5, h6 {
@@ -50,7 +50,7 @@ $header-bg-color-secondary: #000a04;
 .main-content {
     @include large {
         padding: 2rem 2rem;
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
     @include medium {
         padding: 2rem 2rem;
