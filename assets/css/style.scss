@@ -22,11 +22,17 @@ header h1::first-letter {
 }
     
 
-body {
-    h1, h2, h3, h4, h5, h6 {
-        font-family: "Hepta Slab", Arial, Helvetica, serif;
+.main-content {
+    @include large {
+        padding: 2rem 2rem;
     }
-    padding: 2rem 2rem;
+    @include medium {
+        padding: 2rem 2rem;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Hepta Slab", Arial, Helvetica, serif;
 }
 
 pre {
