@@ -77,3 +77,28 @@ pre {
 .MJXc-display{
     margin: 2rem 0 !important;
 }
+
+.topnav {
+    background-color: $header-bg-color;
+    background-image: linear-gradient(180deg, $header-bg-color-secondary, $header-bg-color);
+    overflow: hidden;
+}
+
+.topnav a{
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 1rem 1rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.topnav a:hover{
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active{
+    background-color: $header-bg-color;
+    color: white;
+}
