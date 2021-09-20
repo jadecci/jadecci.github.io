@@ -4,11 +4,9 @@ source "https://rubygems.org"
 # uncomment the line below. To upgrade, run `bundle update github-pages`.
  gem "github-pages", group: :jekyll_plugins
 
-# If you have any plugins, put them here!
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.6"
 end
-
 gem "jekyll-theme-cayman"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -27,3 +25,6 @@ gem 'kramdown-parser-gfm'
 
 # https://github.com/jekyll/jekyll/issues/8523
 gem 'webrick'
+
+# Dependabot
+gem 'activesupport', '>= 4.1.11'
