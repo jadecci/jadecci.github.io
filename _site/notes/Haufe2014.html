@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+
+    
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Interpreting backward models (Haufe et al. 2014) | Jade Sea</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Interpreting backward models (Haufe et al. 2014)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Derivation Notes" />
+<meta property="og:description" content="Derivation Notes" />
+<link rel="canonical" href="http://localhost:4000/notes/Haufe2014.html" />
+<meta property="og:url" content="http://localhost:4000/notes/Haufe2014.html" />
+<meta property="og:site_name" content="Jade Sea" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-20T09:09:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Interpreting backward models (Haufe et al. 2014)" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/notes/Haufe2014.html","@type":"BlogPosting","headline":"Interpreting backward models (Haufe et al. 2014)","dateModified":"2021-09-20T09:09:00+02:00","datePublished":"2021-09-20T09:09:00+02:00","description":"Derivation Notes","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/notes/Haufe2014.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#02fa5d">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=f19ffc6ed6635593c5d706bceb44e08d069d6fd3">
+    <link rel="stylesheet" href="/assets/css/syntax.css">
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+  </head>
+  <body>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Interpreting backward models (Haufe et al. 2014)</h1>
+      <h2 class="project-tagline">Derivation Notes</h2>
+      
+        <a href="https://github.com/jadecci/jadecci.github.io" class="btn">View on GitHub</a>
+      
+      
+    </header>
+    
+    <div class="topnav">
+      <a class="active" href="/index.html">Home</a>
+      <a href="#notes">Notes List</a>
+      <a href="#others">Others</a>
+      <a href="#about">About Me</a>
+    </div>
+
+    <main id="content" class="main-content" role="main">
+      <p>This set of notes include explanation and derivations for the backward model interpretation approach from Haufe et al. 2014<sup id="fnref:fn1" role="doc-noteref"><a href="#fn:fn1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h2 id="1-forward-models--backward-models">1. Forward Models &amp; Backward Models</h2>
+
+<p>To start, we define forward and backward models with respect to the same data. Assume we have $N$ samples (or subjects), each with $M$ channels (or features); also, assume we have $K$ latent factors (or target variables). Our data matrix would be $\bm{x}(n) = [x_1(n), …, x_M(n)]^T \in \mathbb{R}^{M \times N}$, while the target matrix would be $\bm{y}(n) = [y_1(n), …, y_K(n)]^T \in \mathbb{R}^{K \times N}$.</p>
+
+<p>Forward models, also called generative models, represent the observed data as functions of latent variables. A linear forward model, in our case, would be $\bm{x}(n) = \bm{A}\bm{y}(n) + \epsilon(n)$, where the activation pattern $\bm{A} = [\bm{a_1}, …, \bm{a_K}] \in \mathbb{R}^{M \times K}$ and the noise vector $\epsilon(n) \in \mathbb{R}^M$. The parameters of this forward model ($\bm{A}$) are interpretable directly, i.e. the magnitudes of the parameters can be used to assess how strongly the latent variables are related to the data.</p>
+
+<p>Backward models, also called discriminative models, represent the target variables as functions of observed data. In many scenarios, backward models need to be employed as forward models may be difficult to formulate or simply intractable. However, parameters in backward models cannot be interpreted simply by looking at their magnitudes (see the next section for 1 example from the original paper). In our case, a linear backward model would be $\bm{y}(n) = \bm{W}^T\bm{x}(n)$, where the transformation matrix $\bm{W} \in \mathbb{R}^{M \times K}$.</p>
+
+<h2 id="2-a-classification-example">2. A Classification Example</h2>
+
+<p>Here is an example from Haufe et al. 2014<sup id="fnref:fn1:1" role="doc-noteref"><a href="#fn:fn1" class="footnote" rel="footnote">1</a></sup>, which demonstrates how classifier can assign larger (and positive) weights to features not containing the signal of interest, than the signal-related features. Consider data consisting of 2 classes, which are multivariate Gaussian distributed with different means ($\mu_+ = [1.5, 0]^T$) but equal covariance matrices ($\Sigma = \begin{bmatrix} 1.02 &amp; -0.30 \ -0.30 &amp; 0.15 \end{bmatrix}$). These are the blue and red data points in Figure 1.</p>
+
+<p>By applying linear discriminant analysis (LDA) to the data, one can obtain a neat separation between the 2 classes, with a projection vector $\bm{w}_{LDA} \propto [1, 2]^T$ (purple arrow in Figure 1, resulting in the purple dashed line as separation). We could achieve a correlation of $r = 0.92$ between projected data and class labels ($y(n) \in {-1, +1}$) with this projection. Simply looking at the magnitude of weights, it may seem that channel $x_2$ is more important than (or twice as important as) channel $x_1$. Nevertheless, this is mostly because the variance contained in channel $x_2$ needs to be amplified to provide sufficient information for the classification problem.</p>
+
+<p>To see which channel really contains the signal of interest, in this case, we can project the data onto the two channels separately. This correspond to the light gray ( projection to $x_1$) and black (projection to $x_2$) arrows/lines in Figure 1. These give us data-class correlation values of $r = 0.83$ for projection to $x_1$ and $r = 0.04$ for projection to $x_2$. Clearly, channel $x_1$ contains the class-specific information which is driving the class separation here.</p>
+
+<p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S1053811913010914-gr1.jpg" alt="figure 1" /></p>
+
+<p><em>Figure 1 (Haufe et al. 2014<sup id="fnref:fn1:2" role="doc-noteref"><a href="#fn:fn1" class="footnote" rel="footnote">1</a></sup>) Two-dimensional example of a binary classification setting</em></p>
+
+<h2 id="3-contructing-activation-patterns-for-backward-models">3. Contructing Activation Patterns for Backward Models</h2>
+
+<p>In order to interpret backward model parameters, we can obtain an corresponding activation pattern matrix $\bm{A}$ based on $\bm{W}$. In general cases, where $K \le M$, we need to solve for $\bm{A}$ satisfying the linear forward model $\bm{x}(n) = \bm{A}\bm{y}(n) + \epsilon(n)$.</p>
+
+<p>We will make 3 assumptions (without loss of generality):</p>
+
+<ol>
+  <li>$\mathbb{E}[\bm{x}(n)]_n = \mathbb{E}[\bm{y}(n)]_n = \mathbb{E}[\epsilon(n)]_n = 0$, i.e. their covariance matrices are given by $\Sigma_x = \mathbb{E}[\bm{x}(n)\bm{x}(n)^T]_n$, etc.</li>
+  <li>$\bm{y}(n)$ are linearly independent ($\bm{W}$ has full rank), i.e. $\text{rank}(\bm{W}) = K$</li>
+  <li>$\epsilon(n)$ and $\bm{y}(n)$ are uncorrelated, i.e. $\mathbb{E}[\epsilon(n)\bm{y}(n)^T]_n = 0$</li>
+</ol>
+
+<p>This leads us to <strong>Theorem 1</strong> which states that the corresponding forward model for our backward model is unique and its parameters are obtained by $\bm{A} = \Sigma_{\bm{x}}\bm{W}\Sigma_{\bm{y}}^{-1}$.</p>
+
+<h3 id="31-proof-of-existence-of-a-corresponding-forward-model">3.1. Proof of existence of a corresponding forward model</h3>
+
+<p>Assumptions 1 and 2 can be applied in general to properly processed data. Due to assumption 2, we know that the covariance matrix $\Sigma_{\bm{y}}$ is invertible; hence, $\bm{A}$ is well-defined.</p>
+
+<p>Now, we can show that assumption 3 is true when the forward model $\bm{x}(n) = \bm{A}\bm{y}(n) + \epsilon(n)$ and the activation pattern $\bm{A} = \Sigma_{\bm{x}}\bm{W}\Sigma_{\bm{y}}^{-1}$ are concerned. Specifically, these two formulations lead to</p>
+
+\[\epsilon(n) = \bm{x}(n) - \bm{A} \bm{y}(n) = \bm{x}(n) - \Sigma_{\bm{x}} \bm{W} \Sigma_{\bm{y}}^{-1} \bm{y}(n)\]
+
+<p>This in turn leads to</p>
+
+\[\begin{aligned}
+\mathbb{E} [\epsilon(n) \bm{y}(n)^T]_n &amp; = \mathbb{E} [\bm{x}(n) \bm{y}(n)^T] - \mathbb{E} [\Sigma_{\bm{x}} \bm{W} \Sigma_{\bm{y}}^{-1} \bm{y}(n) \bm{y}(n)^T] \\
+&amp; = \mathbb{E} [\bm{x}(n) \bm{y}(n)^T] - \mathbb{E} [\Sigma_{\bm{x}} \bm{W}] \quad \text{(assumption 1)} \\
+&amp; = \mathbb{E} [\bm{x}(n) \bm{y}(n)^T] - \mathbb{E} [\bm{x}(n) \bm{x}(n)^T \bm{W}] \quad \text{(assumption 1)} \\
+&amp; = \mathbb{E} [\bm{x}(n) \bm{y}(n)^T] - \mathbb{E} [\bm{x}(n) \bm{y}(n)^T] \quad \text{(backward model)} \\
+&amp; = 0
+\end{aligned}\]
+
+<h3 id="32-proof-of-theorem-1">3.2. Proof of Theorem 1</h3>
+
+<p>Assuming the corresponding forward model exists, we can start proving <strong>Theorem 1</strong> by combining the formulation of the forward and backward model:</p>
+
+\[\bm{y}(n) = \bm{W}^T \bm{x}(n) = \bm{W}^T (\bm{A} \bm{y}(n) + \epsilon(n)) = \bm{W}^T \bm{A} \bm{y}(n) + \bm{W}^T \epsilon(n)\]
+
+<p>Then, we multiply both sides of the equation by $\bm{y}(n)^T$ and take the expected values over samples:</p>
+
+\[\begin{aligned}
+\mathbb{E} [\bm{y}(n) \bm{y}(n)^T] &amp; = \mathbb{E} [\bm{W}^T \bm{A} \bm{y}(n) \bm{y}(n)^T] + \mathbb{E} [\bm{W}^T \epsilon(n) \bm{y}(n)^T] \\
+&amp; = \bm{W}^T \bm{A} \mathbb{E} [\bm{y}(n) \bm{y}(n)^T] + \bm{W}^T \mathbb{E} [\epsilon(n) \bm{y}(n)^T] \quad \text {($\bm{W}$ and $\bm{A}$ persist across samples) } \\
+&amp; = \bm{W}^T \bm{A} \mathbb{E} [\bm{y}(n) \bm{y}(n)^T] \quad \text {(assumption 3) } \\
+\end{aligned}\]
+
+<p>Since $\bm{y}(n)$ are linearly independent (assumption 2), $\mathbb{E} [\bm{y}(n) \bm{y}(n)^T]$ should have full rank. For the equation above to be true, it follows then that $\bm{W}^T \bm{A} = \bm{I}$.</p>
+
+<p>Similarly, we can insert the backward model equation into the forward model equation:</p>
+
+\[\bm{x}(n) = \bm{A} \bm{y}(n) + \epsilon(n) = \bm{A} \bm{W}^T \bm{x}(n) + \epsilon(n) \\
+\text{or} \\
+\epsilon(n) = \bm{x}(n) - (\bm{A} \bm{y}(n) + \epsilon(n)) = \bm{x}(n) - \bm{A} \bm{W}^T \bm{x}(n) = (\bm{I} - \bm{A} \bm{W}^T) \bm{x}(n)\]
+
+<p>Then, we can show that</p>
+
+\[\begin{aligned}
+\bm{W}^T \mathbb{E} [\epsilon(n) \epsilon(n)] &amp; = \bm{W}^T \mathbb{E} [ (\bm{I} - \bm{A} \bm{W}^T) \bm{x}(n) \epsilon(n)] \\
+&amp; = \bm{W}^T (\bm{I} - \bm{A} \bm{W}^T) \mathbb{E} [ \bm{x}(n) \epsilon(n)] \\
+&amp; = (\bm{W}^T - \bm{W}^T \bm{A} \bm{W}^T) \mathbb{E} [ \bm{x}(n) \epsilon(n)] \\
+&amp; = (\bm{W}^T - \bm{W}^T) \mathbb{E} [ \bm{x}(n) \epsilon(n)] \quad \text{since $\bm{W}^T \bm{A} = \bm{I}$} \\
+&amp; = 0
+\end{aligned}\]
+
+<p>Finally, let’s see if we can obtain $\bm{A}$:</p>
+
+\[\begin{aligned}
+\Sigma_x \bm{W} \Sigma_{\bm{y}}^{-1} &amp; = \mathbb{E} [\bm{x}(n) \bm{x}(n)^T] \bm{W} \Sigma_{\bm{y}}^{-1} \\
+&amp; = \mathbb{E} [(\bm{A} \bm{y}(n) + \epsilon(n)) (\bm{A} \bm{y}(n) + \epsilon(n))^T] \bm{W} \Sigma_{\bm{y}}^{-1} \quad \text {(forward model)} \\
+&amp; = (\bm{A} \mathbb{E} [ \bm{y}(n) \bm{A}^T \bm{y}(n)^T] + \bm{A} \mathbb{E} [\bm{y}(n) \epsilon(n)^T] + \mathbb{E} [ \epsilon(n) \bm{A}^T \bm{y}(n)^T] + \mathbb{E} [\epsilon(n) \epsilon(n)^T]) \bm{W} \Sigma_{\bm{y}}^{-1} \\
+&amp; = (\bm{A} \Sigma_{\bm{y}} \bm{A}^T  + \bm{A} \mathbb{E} [\bm{y}(n) \epsilon(n)^T] +\mathbb{E} [ \epsilon(n) \bm{A}^T \bm{y}(n)^T] + \Sigma_{\epsilon}) \bm{W} \Sigma_{\bm{y}}^{-1} \quad \text {(assumption 1)} \\
+&amp; = (\bm{A} \Sigma_{\bm{y}} \bm{A}^T + 0 + 0 + \Sigma_{\epsilon}) \bm{W} \Sigma_{\bm{y}}^{-1} \quad \text {(assumption 3)} \\
+&amp; = \bm{A} \Sigma_{\bm{y}} \bm{A}^T \bm{W} \Sigma_{\bm{y}}^{-1} + \Sigma_{\epsilon} \bm{W} \Sigma_{\bm{y}}^{-1}\\
+&amp; = \bm{A} + \Sigma_{\epsilon} \bm{W} \Sigma_{\bm{y}}^{-1} \quad \text{since $\bm{W}^T \bm{A} = \bm{I}$} \\
+&amp; = \bm{A} + 0 \quad \text {since $\bm{W}^T \mathbb{E} [\epsilon(n) \epsilon(n)] = \bm{W}^T \Sigma_{\epsilon} =  0$} \\
+&amp; = \bm{A}
+\end{aligned}\]
+
+<h3 id="33-special-cases">3.3. Special cases</h3>
+
+<ol>
+  <li>In the special case where $K = M$, we could simply compute $\bm{A} = \bm{W}^{-1}$</li>
+  <li>If $\bm{y}(n)$ are uncorrelated (trivially true for $K = 1$), we can simply compute $\bm{A} \propto \Sigma_{\bm{x}} \bm{W} = \mathbb{E} [\bm{x}(n) \bm{y}(n)]$</li>
+  <li>If both $\bm{x}(n)$ and $\bm{y}(n)$ are uncorrelated, then $\bm{A} \propto \bm{W}$. However, this is hardly ever the case for neuroimaging data.</li>
+</ol>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:fn1" role="doc-endnote">
+      <p>Haufe S, Meinecke F, Goergen K, Dahne S, Haynes JD, Blankertz B, &amp; Biessmann F. 2014. “On the Interpretation of Weight Vectors of Linear Models in Multivariate Neuroimaging”. <em>NeuroImage, 87</em>, 96-110. <a href="#fnref:fn1" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:fn1:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:fn1:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a></p>
+    </li>
+  </ol>
+</div>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/jadecci/jadecci.github.io">jadecci.github.io</a> is maintained by <a href="https://github.com/jadecci">jadecci</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>
