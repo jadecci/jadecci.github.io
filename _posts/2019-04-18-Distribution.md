@@ -1,9 +1,9 @@
 ---
 layout: default
 title:  "Distributions and Derivations"
-description: "Derivation Notes"
 date:   2019-04-17 15:07:00 +0100
 categories: notes
+tags: Derivation
 ---
 
 This set of notes include information and derivations for some statistical distributions, including gamma distribution and the t-distribution. 

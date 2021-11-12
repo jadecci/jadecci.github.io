@@ -9,6 +9,15 @@ $header-bg-color-secondary: #000a04;
 @import url('https://fonts.googleapis.com/css?family=Cinzel');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300');
 
+html {
+  scroll-behavior: smooth;
+}
+
+.inner {
+  max-width: fit-content;
+  min-width: 85%;
+}
+
 .page-header {
     h1, h2, h3, h4, h5, h6 {
         font-family: "Cinzel", Arial, Helvetica, serif;
@@ -60,6 +69,12 @@ $header-bg-color-secondary: #000a04;
         padding: 2rem 1rem;
         font-size: 1.2rem;
   }
+  min-width: 85%;
+  max-width: 100%;
+}
+
+.main-content :first-child {
+  margin-top: 4px;
 }
 
 body {
@@ -79,14 +94,15 @@ pre {
     margin: 2rem 0 !important;
 }
 
-.topnav {
+.navbar {
     background-color: $header-bg-color;
     background-image: linear-gradient(90deg, $header-bg-color-secondary, $header-bg-color);
     overflow: hidden;
 }
 
-.topnav a{
+.navbar a {
     float: left;
+    display: block;
     color: #f2f2f2;
     text-align: center;
     padding: 1rem 1rem;
@@ -94,12 +110,118 @@ pre {
     font-size: 1.2rem;
 }
 
-.topnav a:hover{
+.navbar a:hover {
     background-color: #ddd;
     color: black;
 }
 
-.topnav a.active{
+.navbar a.active {
     background-color: $header-bg-color;
-    color: white;
+    color: #f2f2f2;
+}
+
+.subnav {
+  float: left;
+  overflow: hidden;
+}
+
+.subnav .subnavbtn {
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+  color: #f2f2f2;
+  padding: 1rem 1rem;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.subnav-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  background-color: $header-bg-color;
+  background-image: linear-gradient(90deg, $header-bg-color-secondary, $header-bg-color);
+  width: 100%;
+  z-index: 1;
+}
+
+.subnav-content a {
+  float: left;
+  color: #f2f2f2;
+  text-decoration: none;
+}
+
+.navbar a:hover .subnav:hover .subnavbtn .subnav-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.subnav:hover .subnav-content{
+  display: block
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  float: left;
+  flex: 1 1 200px;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: white;
+  margin: 4px;
+}
+
+.containerTab {
+  padding: 1rem;
+  color: white;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.closebtn {
+  float: right;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: $header-bg-color;
+  color: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+#myBtn:hover {
+  background-color: #ddd;
+}
+
+ul.no-bullets {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+hr.dottted {
+  border-top: 3px dotted #bbb;
 }
