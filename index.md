@@ -4,13 +4,28 @@ layout: default
 
 <b>Latest Notes: </b>
 
-<ul class="no-bullets"> 
-    {% for post in site.posts limit: 10 %}
-    <li>
-        <a href="{{ post.url }}"> <b>{{ post.title }}</b> </a>
-        [{{ post.date | date_to_string }}]
-        <p>{{ post.excerpt }}</p>
-        <hr class="dotted">
-    </li>
-    {% endfor %}
-</ul>
+<div class="row">
+    <div class="leftcolumn">
+        <ul class="no-bullets"> 
+            {% for post in site.posts limit: 10 %}
+            <li>
+                <a href="{{ post.url }}"> <b>{{ post.title }}</b> </a>
+                [{{ post.date | date_to_string }}]
+                <p>{{ post.excerpt }}</p>
+                <hr class="dotted">
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="rightcolumn">
+        <div class="card">
+            <h2>Jianxiao @Jadecci</h2>
+            <img src="/images/profile.jpg">
+            <p style="font-size:14px">PhD student in Neuroscience</p>
+            <p style="font-size:14px">Neuroscience | Machine learning | Puzzles | Video games | Music | Sleeping</p>
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-4866-272X" href="https://orcid.org/0000-0002-4866-272X" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top; font-size:14px"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1rem;margin-right:.5rem;" alt="ORCID iD icon">https://orcid.org/0000-0002-4866-272X</a></div>
+            <div style="font-size:14px">Recommend me on <a href="https://www.winrepo.org/list/1496"><img src="https://www.winrepo.org/static/images/logo_fill_triangles_wb.webp" width="100"></a></div>
+            <div><a href="https://twitter.com/Jadecci" style="font-size:14px"><i class="fa fa-twitter"></i> @Jadecci</a></div>
+        </div>
+    </div>
+</div>

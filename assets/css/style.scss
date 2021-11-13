@@ -215,6 +215,24 @@ pre {
   clear: both;
 }
 
+.leftcolumn {
+  float: left;
+  width: 75%;
+}
+
+.rightcolumn {
+  float: left;
+  width: 25%;
+  padding-left: 1rem;
+}
+
+.card {
+  background-color: #f2f2f2;
+  padding: 1rem;
+  paddint-top: 0;
+  margin-top: 0;
+}
+
 #myBtn {
   display: none;
   position: fixed;
