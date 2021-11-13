@@ -2,6 +2,8 @@
 layout: default
 ---
 
+<b>Machine learning related notes: </b>
+
 <ul class="no-bullets"> 
     {% for post in site.tags.Machine-Learning %}
     <li>

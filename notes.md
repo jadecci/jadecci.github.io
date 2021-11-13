@@ -2,6 +2,8 @@
 layout: default
 ---
 
+<b>All Notes: </b>
+
 <ul class="no-bullets"> 
     {% for post in site.posts %}
     <li>
