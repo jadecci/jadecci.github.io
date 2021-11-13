@@ -2,10 +2,9 @@
 layout: default
 ---
 
-<b>Latest Notes: </b>
-
 <div class="row">
     <div class="leftcolumn">
+        <b>Latest Notes: </b>
         <ul class="no-bullets"> 
             {% for post in site.posts limit: 10 %}
             <li>
