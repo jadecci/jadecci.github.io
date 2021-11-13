@@ -351,6 +351,7 @@ html { scroll-behavior: smooth; }
 .main-content :first-child { margin-top: 4px; }
 
 body { font-family: "Roboto", sans-serif; font-size: 1.6rem; text-rendering: optimizeLegibility h1, h2, h3, h4, h5, h6; text-rendering-font-family: "Hepta Slab", Arial, Helvetica, serif; }
+body imgh { color: #52a367; }
 
 pre { padding: 10px 5px; }
 
@@ -370,21 +371,25 @@ pre { padding: 10px 5px; }
 
 .subnav-content { display: none; position: absolute; left: 0; background-color: #52a367; background-image: linear-gradient(90deg, #000a04, #52a367); width: 100%; z-index: 1; }
 
+.navbar a:hover, .subnav:hover .subnavbtn { background-color: #ddd; color: black; }
+
 .subnav-content a { float: left; color: #f2f2f2; text-decoration: none; }
 
-.navbar a:hover .subnav:hover .subnavbtn .subnav-content a:hover { background-color: #ddd; color: black; }
+.subnav-content a:hover { background-color: #ddd; color: black; }
 
 .subnav:hover .subnav-content { display: block; }
 
-.row { display: flex; flex-wrap: wrap; width: 100%; }
+.row { display: flex; flex-wrap: wrap; width: 100%; padding: 0.2rem; }
 
-.column { float: left; flex: 1 1 200px; padding: 0.5rem; text-align: center; font-size: 1.2rem; cursor: pointer; color: white; margin: 4px; }
+.column { float: left; flex: 40%; max-width: 50%; padding: 0.2rem; text-align: center; font-size: 1.2rem; color: white; margin: 4px; }
 
-.containerTab { padding: 1rem; color: white; }
+.column img { margin-top: 1rem; vertical-align: middle; width: 100%; }
+
+.content { background-color: white; padding: 0; position: relative; }
+
+.caption { position: absolute; bottom: 0; background: black; background: rgba(0, 0, 0, 0.5); color: #f2f2f2; width: 100%; padding: 0.5rem; }
 
 .row:after { content: ""; display: table; clear: both; }
-
-.closebtn { float: right; color: white; font-size: 1.5rem; cursor: pointer; }
 
 #myBtn { display: none; position: fixed; bottom: 20px; right: 20px; z-index: 99; border: none; outline: none; background-color: #52a367; color: white; cursor: pointer; padding: 10px 20px; border-radius: 10px; font-size: 1rem; }
 
