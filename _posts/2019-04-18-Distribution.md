@@ -17,7 +17,7 @@ Gamma function: $\Gamma(n) = \int^{\infty}_0 x^{n-1}e^{-x} \mathop{dx} = (n-1)!$
 Proof by math induction:
 
 $$
-\Gamma(1) =  \int^{\infty}_0 e^{-x} \mathop{dx} = -e^{-x}\big|^{\infty}_0= 1 = 0!\\
+\Gamma(1) =  \int^{\infty}_0 e^{-x} \mathop{dx} = -e^{-x}\big|^{\infty}_0= 1 = 0!
 \begin{aligned}
 \Gamma(n+1) &= \int^{\infty}_0 x^n e^{-x} \mathop{dx} \\
 & = -x^n e^{-x} \big|^{\infty}_0 + n\int^{\infty}_0 x^{n-1} e^{-x} \mathop{dx} \\
