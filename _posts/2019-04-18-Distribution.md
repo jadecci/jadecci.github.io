@@ -1,9 +1,9 @@
 ---
 layout: default
 title:  "Distributions and Derivations"
-description: "Derivation Notes"
 date:   2019-04-17 15:07:00 +0100
 categories: notes
+tags: Derivation
 ---
 
 This set of notes include information and derivations for some statistical distributions, including gamma distribution and the t-distribution. 
@@ -18,9 +18,6 @@ Proof by math induction:
 
 $$
 \Gamma(1) =  \int^{\infty}_0 e^{-x} \mathop{dx} = -e^{-x}\big|^{\infty}_0= 1 = 0!
-$$
-
-$$
 \begin{aligned}
 \Gamma(n+1) &= \int^{\infty}_0 x^n e^{-x} \mathop{dx} \\
 & = -x^n e^{-x} \big|^{\infty}_0 + n\int^{\infty}_0 x^{n-1} e^{-x} \mathop{dx} \\
