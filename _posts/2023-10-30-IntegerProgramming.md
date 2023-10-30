@@ -3,7 +3,7 @@ layout: default
 title:  "Integer Programming"
 date:   2023-10-30 17:06:00 +0100
 categories: notes
-tags: Derivation Machine-Learning
+tags: Computing
 ---
 
 This set of notes includes formulation and solving techniques for integer programming, based on the MIT computing course. 
