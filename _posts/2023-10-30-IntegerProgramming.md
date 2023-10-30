@@ -48,7 +48,7 @@ where $L_k$ is the length of the segment $\delta_k$, $\omega$ is an integer vara
 
 ### 2.1. Branch-and-Bound
 
-This is a divide-and-conquer strategy, based on the knowledge that the objective or penalty of an equivalent linear formuation ($z^0$) will always be an upper bound on the optimal objective of the integer formulation. The integer objective would be $z^* = floor(z^0)$ with a solution set of $x^0_j$s.
+This is a divide-and-conquer strategy, based on the knowledge that the objective or penalty of an equivalent linear formuation ($z^0$) will always be an upper bound on the optimal objective of the integer formulation. The integer objective would be $z^* = floor(z^0)$ with a solution set of $x^0_i$s.
 
 Then, we branch out for each $x_i$ dividing the solution space into $x_i \le ceil(x^0_i)$ and $x_i \le floor(x^0_i)$. For instance, if the optimal solution for $x_1$ is $x^0_1 = 3.25$, the two subdivisions of the solution space would thus be $x_1 \le 4$ and $x_1 \ge 3$. In this way, the optimal solution is contained in boths subdivisions. Note that within each branch, we need to recompute $x^0_{i+1}$ adding the constraints used for the division,  which gives us the conditions for splitting further for $x_{i+1}$. Some subdivisons may be infeasible as they violate constraints in the base formuation.
 
