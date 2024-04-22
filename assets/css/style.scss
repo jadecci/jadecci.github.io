@@ -71,6 +71,7 @@ html {
   }
   min-width: 30rem;
   max-width: 80rem;
+  text-align: justify;
 }
 
 .main-content :first-child {
@@ -81,7 +82,6 @@ body {
     font-family: "Roboto", sans-serif;
     font-size: 1.6rem;
     text-rendering: optimizeLegibility;
-    text-align: justify;
     h1, h2, h3, h4, h5, h6 {
         font-family: "Hepta Slab", Arial, Helvetica, serif;
     }
