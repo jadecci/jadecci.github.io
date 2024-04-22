@@ -7,7 +7,6 @@ categories: notes
 
 Summary of some German grammatical rules.
 
-# Deutsche Grammatik
 - cases: **N.** (Nominativ), **A.** (Akkusativ), **D.** (Dativ), **G.** (Gentiv)
 - gender: **m.** (maskulin), **n.** (neuter), **f.** (feminin), **pl.** (Plural)
 - articles: **bA.** (der bestimmte Artikel), **uA.** (der unbestimmte Artikel), **nA.** (der Negativartikel), **pA.** (der Possessivartikel)
