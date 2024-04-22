@@ -10,6 +10,7 @@ Summary of some German grammatical rules.
 # Deutsche Grammatik
 - cases: **N.** (Nominativ), **A.** (Akkusativ), **D.** (Dativ), **G.** (Gentiv)
 - gender: **m.** (maskulin), **n.** (neuter), **f.** (feminin), **pl.** (Plural)
+- articles: **bA.** (der bestimmte Artikel), **uA.** (der unbestimmte Artikel), **nA.** (der Negativartikel), **pA.** (der Possessivartikel)
 - **mV.** (mit Vokalwechsel)
 
 ## 1. Das Pronomen
@@ -24,146 +25,163 @@ Summary of some German grammatical rules.
 
 ### 2.1. Plural
 
-Art | (m.) -er / -en / -el | (m.) einsilbig | (f.) -richt / -e | (etwas n.) | (foreign)
-- | - | - | - | - | - | - | - | - | -
--> pl. | (gleich **mV.**) | +*e* (**mV.**) | +*en* / + *n* | +*er* (**mV.**) | +*s*
-z.B. | Drucker, *Ä*pfel | M*ä*us*e*, Tag*e* | Nachricht*en*, Stunde*n* | B*ü*ch*er*, Bild*er* | Laptop*s*
+| -          | (m.) -er/-en/-el | (m.) einsilbig | (f.) -richt/-e | (etwas n.)    | (foreign) |
+| :--------: | :--------------: | :------------: | :------------: | :-----------: | :-------: | 
+| **-> pl.** | (gleich **mV.**) | -e (**mV.**)   | -en / en       | -er (**mV.**) | -s        |
 
 ## 3. Der Artikel
+### 3.1. Nominativ
 
-N. | ich | du | er/es | sie | wir | ihr | sie/Sie | bestimmter Artikel | unbestimmter Artikel | Negativartikel
-- | - | - | - | - | - | - | - | - | - | -
-**m.** | mein | dein | sein | ihr | unser | euer | ihr/Ihr | der | ein | kein
-**n.** | mein | dein | sein | ihr | unser | euer | ihr/Ihr | das | ein | kein
-**f.** | meine | deine | seine | ihre | unsere | `eure` | ihre/Ihre | die | eine | keine
-**pl.** | meine | deine | seine | ihre | unsere | `eure` | ihre/Ihre | die | - | keine
+| -       | ich   | du    | er/es | sie  | wir    | ihr    | sie/Sie   | bA. | uA.  | nA.   |
+| :-----: | :---: | :---: | :---: | :--: | :----: | :----: | :-------: | :-: | :--: | :---: |
+| **m.**  | mein  | dein  | sein  | ihr  | unser  | euer   | ihr/Ihr   | der | ein  | kein  |
+| **n.**  | mein  | dein  | sein  | ihr  | unser  | euer   | ihr/Ihr   | das | ein  | kein  |
+| **f.**  | meine | deine | seine | ihre | unsere | eu`re` | ihre/Ihre | die | eine | keine |
+| **pl.** | meine | deine | seine | ihre | unsere | eu`re` | ihre/Ihre | die | -    | keine |
 
-A. | ich | du | er/es | sie | wir | ihr | sie/Sie | bestimmter Artikel | unbestimmter Artikel | Negativartikel
-- | - | - | - | - | - | - | - | - | - | -
-**m.** | `meinen` | `deinen` | `seinen` | `ihren` | | | | `den` | `einen` | `keinen`
-**n.** | mein | dein | sein | ihr | | | | das | ein | kein
-**f.** | meine | deine | seine | ihre | | | | die | eine | keine
-**pl.** | meine | deine | seine | ihre | | | | die | - | keine
+### 3.2. Akkusativ
 
-D. | ich | du | er/es | sie | wir | ihr | sie/Sie | bestimmter Artikel | unbestimmter Artikel | Negativartikel
-- | - | - | - | - | - | - | - | - | - | -
-**m.** |  |  |  |  | | | | `dem` | `einem` | `keinem`
-**n.** |  | | |  | | | | `dem` | `einem` | `keinem`
-**f.** |  | |  |  | | | | `der` | `einer` | `keiner`
-**pl.** | | | |  | | | | `den` | - | `keinen`
+| -       | ich      | du       | er/es    | sie     | wir      | ihr     | sie/Sie         | bA.   | uA.  | nA.   |
+| :-----: | :------: | :------: | :------: | :-----: | :------: | :-----: | :-------------: | :---: | :--: | :---: |
+| **m.**  | mein`en` | dein`en` | sein`en` | ihr`en` |unser`en` | eur`en` | ihr`en`/Ihr`en` | d`en` | ein`en` | kein`en`
+| **n.**  | mein     | dein     | sein     | ihr     | unser    | euer    | ihr/Ihr         | das   | ein  | kein  |
+| **f.**  | meine    | deine    | seine    | ihre    | unsere   | `eure`  | ihre/Ihre       | die   | eine | keine |
+| **pl.** | meine    | deine    | seine    | ihre    | unsere   | `eure`  | ihre/Ihre       | die   | -    | keine |
+
+### 3.3. Dativ
+
+| -       | ich      | du       | er/es    | sie     | wir      | ihr     | sie/Sie         | bA.   | uA.  | nA.   |
+| :-----: | :------: | :------: | :------: | :-----: | :------: | :-----: | :-------------: | :---: | :--: | :---: |
+| **m.**  | mein`em` | dein`em`  | sein`em`  | ihr`em`  | unser`em` | eur`em` | ihr`em`/Ihr`em` | d`em` | ein`em` | kein`em` |
+| **n.**  | mein`em` | dein`em`  | sein`em`  | ihr`em`  | unser`em` | eur`em` | ihr`em`/Ihr`em` | d`em` | ein`em` | kein`em` |
+| **f.**  | mein`er` | dein`er`  | sein`er`  | ihr`er`  | unser`er` | eur`er` | ihr`er`/Ihr`er` | d`er` | ein`er` | kein`er` |
+| **pl.** | mein`en` | dein`en`  | sein`en`  | ihr`en`  | unser`en` | eur`en` | ihr`en`/Ihr`en` | d`en` | - | kein`en` |
 
 ## 4. Das Verb
 ### 4.1. Verbstellung
 
-Stellung | Aussage / W-Frage | Ja-/Nein-Frage | Imperativ | Nebensatz
-- | - | - | - | - | - | - | - | - | -
-[1] | Subjekt / W-Wörter | Verb | Verb (Inf. / Stamm / Konj.) | Konnektor
-[2] | Verb | Subjekt | (Sie / - / -) | Subjekt
-[...] | ... | ... | ... | ...
-[letzte] | andere Verb / trennbare Präfix | andere Verb / trennbare Präfix | trennbare Präfix | Verb
+| Stellung | Aussage / W-Frage    | Ja-/Nein-Frage       | Imperativ                   | Nebensatz    |
+| :------: | :------------------: | :------------------: | :-------------------------: | :----------: |
+| [1]      | Subjekt / W-Wörter   | Verb (konj.)         | Verb (Inf. / Stamm / Konj.) | Konnektor    |
+| [2]      | Verb (konj.)         | Subjekt              | (Sie / - / -)               | Subjekt      |
+| [...]    | ...                  | ...                  | ...                         | ...          |
+| [Ende]   | Verb (Inf.) / Präfix | Verb (Inf.) / Präfix | Präfix                      | Verb (konj.) |
 
 ### 4.2. Trennbare Präfix
 
-trennbare | untrennbare | beide
-- | - | -
-ab-, an-, ein- | be-, er-, ge-, ver- | um-
+| trennbare      | untrennbare         | beide |
+| :------------: | :-----------------: | :---: |
+| ab-, an-, ein- | be-, er-, ge-, ver- | um-   |
 
 ### 4.3. Das Präsens / Konjugation
+#### 4.3.1. regelmäßige Verben
 
-regelmäßige Verben | ich | du | er/sie/es | wir | ihr | sie/Sie | z.B.
-- | - | - | - | - | - | - | - | - | -
--en | -e | -(e)st | -(e)t | -en | -(e)t | -en | kommen, lernen, arbeiten
-*-ß/-s/-ss/-z/-tz/-x* | -e | `-t` |  -t | -en | -t | -en | heißen
+| -                     | ich | du     | er/sie/es | wir | ihr   | sie/Sie |
+| :-------------------: | :-: | :-:    | :-------: | :-: | :---: | :-----: |
+| -en                   | -e  | -(e)st | -(e)t     | -en | -(e)t | -en     |
+| *-ß/-s/-ss/-z/-tz/-x* | -e  | -`t`   |  -t       | -en | -t    | -en     |
 
-Verben mit Vokalwechsel | ich | du | er/sie/es | wir | ihr | sie/Sie | z.B.
-- | - | - | - | - | - | - | - | - | -
-[1] -e-en | -e-e | `-i-st` | `-i-t` | -e-en | -e-t | -e-en | sprechen, essen, nehmen
-[2] -e-en | -e-e | `-ie-st` | `-ie-t` | -e-en | -e-t | -e-en | sehen, lesen
-[3] -a-en | -a-e | `-ä-st` | `-ä-t` | -a-en | -a-t | -a-en | fahren
+#### 4.3.2. Verben mit Vokalwechsel
 
-unregelmäßige Verben | ich | du | er/sie/es | wir | ihr | sie/Sie | Präteritum
-- | - | - | - | - | - | - | - | - | -
-sein | `bin` | `bist` | `ist` | `sind` | `seid` | `sind` | `waren`
-haben | habe | `hast` | `hat` | haben | habt | haben | `hatten`
-wissen | `weiß` | `weißt` | `weiß` | wissen | wisst | wissen
-werden | werde | `wirst` | `wird` | werden | werdet | werden | `wurden` (Ind.) / `würden` (Konj. II)
+| -         | ich. | du       | er/sie/es | wir   | ihr  | sie/Sie |
+| :-------: | :--: | :------: | :-------: | :---: | :--: | :-----: |
+| [1] -e-en | -e-e | -`i`-st  | -`i`-t    | -e-en | -e-t | -e-en   |
+| [2] -e-en | -e-e | -`ie`-st | -`ie`-t   | -e-en | -e-t | -e-en   |
+| [3] -a-en | -a-e | -`ä`-st  | -`ä`-t    | -a-en | -a-t | -a-en   |
 
-Modalverben | ich | du | er/sie/es | wir | ihr | sie/Sie | Präteritum
-- | - | - | - | - | - | - | - | - | -
-mögen | `mag` | `magst` | `mag` | mögen | mögt | mögen | `mochten` (Ind.) / `möchten` (Konj. II)
-können | `kann` | `kannst` | `kann` | können | könnt | können | konnten (Ind.) / könnten (Konj. II)
-wollen | `will` | `willst` | `will` | wollen | wollt | wollen | wollten
-sollen | `soll` | sollst | `soll` | sollen | sollt | sollen | sollten
-müssen | `muss` | `musst`| `muss` | müssen | müsst | müssen | mussten
-dürfen | `darf` | `darfst` | `darf` | dürfen | dürft | dürfen | durften
+#### 4.3.3. unregelmäßige Verben
+
+| -      | ich    | du      | er/sie/es | wir    | ihr    | sie/Sie | Präteritum | (Konj. II) |
+| :----: | :----: | :-----: | :-------: | :----: | :----: | :-----: | :--------: | :--------: |
+| sein   | `bin`  | `bist`  | `ist`     | `sind` | `seid` | `sind`  | `waren`    |            |
+| haben  | habe   | `hast`  | `hat`     | haben  | habt   | haben   | `hatten`   |            |
+| wissen | `weiß` | `weißt` | `weiß`    | wissen | wisst  | wissen  |            |            |
+| werden | werde  | `wirst` | `wird`    | werden | werdet | werden  | `wurden`   | `würden`   |
+
+#### 4.3.4. Modalverben
+
+| -      | ich    | du       | er/sie/es | wir    | ihr   | sie/Sie | Präteritum | (Konj. II) |
+| :----: | :----: | :------: | :-------: | :----: | :---: | :-----: | :--------: | :--------: |
+| mögen  | `mag`  | `magst`  | `mag`     | mögen  | mögt  | mögen   | `mochten`  | `möchten`  |
+| können | `kann` | `kannst` | `kann`    | können | könnt | können  | konnten    |  könnten   |
+| wollen | `will` | `willst` | `will`    | wollen | wollt | wollen  | wollten    |            |
+| sollen | `soll` | sollst   | `soll`    | sollen | sollt | sollen  | sollten    |            |
+| müssen | `muss` | `musst`  | `muss`    | müssen | müsst | müssen  | mussten    |            |
+| dürfen | `darf` | `darfst` | `darf`    | dürfen | dürft | dürfen  | durften    |            |
 
 ### 4.4. Das Perfekt
 haben/sein + Verb. (Partzip II)
 - haben: transitive / reflexive / impersonal (nature) / intransitive (lasting) verbs
 - sein: Ortsveränderung / condition changing / `sein` / `werden` / `bleiben`
 
-Art | regelmäßig | z.B. | unregelmäßig | z.B.
-- | - | - | - | - | - | - | - | - | -
-**-> Partzip II** | *ge* + (Stamm) + *(e)t* | gemacht | *ge* + (Stamm **mV.**) + *en* | getrunken
--ieren | | | (Stamm) + *t* | studiert
-trennbare | (Präfix) + *ge* + *t* | eingekauft |(Präfix) + *ge* + *en* | ferngesehen
-untrennbare / foreign words | do  not add *ge* | erzählt | do  not add *ge* | (*sein*) angekommen
+| Art                   | regelmäßig                     | unregelmäßig                  |
+| :-------------------: | :----------------------------: | :---------------------------: |
+| **-> Partzip II**     | *ge* + (Stamm) + *(e)t*        | *ge* + (Stamm **mV.**) + *en* | 
+| -ieren                |                                | (Stamm) + *t*                 | 
+| trennbare             | (Präfix) + *ge* + (Stamm) +*t* | (Präfix) + *ge* + *en*        |
+| untrennbare / foreign | ohne *ge*                      | do  not add *ge*              |
 
 ### 4.5. Die Rektion
 
-Art | A. | D. | A. & D. | A. & A. | N. & N.
-- | - | - | - | - | - | - | - | - | -
-Wörter | transitive, impersonal, untrennbare, `es gibt`, `haben` | referring to person | object (**A.**) & person (**D.**) | 2 objects | `sein`, `werden`, `bleiben` 
-z.B. | | antworten, danken, gefallen | geben, schenken, zeigen | kosten, lehren | 
+| A.                     | D.                  | A. & D.                           | N. & N.   |
+| :--------------------: | :-----------------: | :-------------------------------: | :-------: |
+| transitive, `es gibt`  | referring to person | object (**A.**) & person (**D.**) | `sein`    |
+| impersonal             |                     |                                   | `werden`  |
+| untrennbare            |                     |                                   | `bleiben` |
 
 ## 5. Die Präposition
 
-Art | mit **A.** | mit **D.** | mit **A.**/**D.**
-:-: | :-:  | :-:  | :-:   | :-: 
-Temporal | bis, um | ab, *an*, *in*, *nach*, seit, von, *vor* |  | 
-Lokal | | aus, bei, *nach* | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen
-Modal | ohne | mit
+| Art      | mit **A.** | mit **D.**                               | mit **A.**/**D.**                       |
+| :------: | :-------:  | :-------------------------------------:  | :---------------------------------------------------------: |
+| Temporal | bis, um    | ab, *an*, *in*, *nach*, seit, von, *vor* | | 
+| Lokal    |            | aus, bei, *nach*                         | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
+| Modal    | ohne       | mit                                      | |
 
-- In general, prepositions representing direction (of motion) goes with **A.**, while prepositions representing (static) location with **D.**.
+- For prepasitions that can go with both cases, prepositions representing direction (of motion) goes with **A.**, while prepositions representing (static) location with **D.**.
 - *am* = an dem, *im* = in dem, *vom* = von dem, *zum* = zu dem
 - *ans* = an das, *ins* = in das
 
 ## 6. Das Adjektiv
 ### 6.1. Deklination
 
-besti. | **m.** | **n.** | **f.** | **pl.**  | unbesti. | **m.** | **n.** | **f.** | **pl.** (außer eine) |  Nullart. | **m.** | **n.** | **f.** | **pl.** 
-- | - | - | - | - | - | - | - | - | - | - | - | - | - | -
-**N.** | -*e* | -*e* | -*e* | -*en* | **N.** | `-er` | `-es` | -*e* | -*en* | **N.**  | `-er` | `-es` | -*e* | -*e* 
-**A.** | `-en` | -*e* | -*e* | -*en* | **A.** | `-en` | `-es` | -*e* | -*en* | **A.** | `-en` | `-es` | -*e* | -*e* 
-**D.** | -*en* | -*en* | -*en* | -*en* |  **D.** | -*en* | -*en* | -*en* | -*en* | **D.** | `-em` | `-em` | `-er` | -en 
+| bA.    | m.    | n.  | f.  | pl. | uA.    | m.    | n.    | f.  | pl. |  Nullart. | m.    | n.    | f.   | pl. |
+| :----: | :---: | :-: | :-: | :-: | :----: | :---: | :---: | :-: | :-: | :-------: | :---: | :---: | :---: | :-: |
+| **N.** | -e    | -e  | -e  | -en | **N.** | -`er` | -`es` | -e  | -en | **N.**    | -`er` | -`es` | -e   | -e  |
+| **A.** | -`en` | -e  | -e  | -en | **A.** | -`en` | -`es` | -e  | -en | **A.**    | -`en` | -`es` | -e   | -e  |
+| **D.** | -en   | -en | -en | -en | **D.** | -en   | -en   | -en | -en | **D.**    | -`em` | -`em` | -`er` | -en |
 
 ### 6.2. Komparativ & Superlativ
 
-regelmaßige | regelmaßige | gut | gern | viel
-- | - | - | - | - | - | - | - | - | -
-Komparativ | -*er* (**mV.**) | besser | lieber | mehr
-Superlativ | *am* -*(e)sten* (**mV.**) | am besten | am liebsten | am meisten
+| -          | regelmaßige               | gut       | gern        | viel       |
+| :--------: | :-----------------------: | :-------: | :---------: | :--------: |
+| Komparativ | -*er* (**mV.**)           | besser    | lieber      | mehr       |
+| Superlativ | *am* -*(e)sten* (**mV.**) | am besten | am liebsten | am meisten |
 
 ## 7. Das Adverb
 
 ## 8. Andere Wörter
 ### 8.1. W-Frage
 
-für Personnen | Für Sachen | für Ort | Für Zeit | Für Art | Für Attribut
-- | - | - | - | - | - | - | - 
-Wer (**N.**) / Wen (**A.**) | Was | Wo, Woher, Wohin | Wann, Wie lange, Wie oft | Wie | Welch-
+| Art           | Wörter                      |
+| :-----------: | :-------------------------: |
+| für Personnen | Wer (**N.**) / Wen (**A.**) | 
+| Für Sachen    | Was                         | 
+| für Ort       | Wo, Woher, Wohin            | 
+| Für Zeit      | Wann, Wie lange, Wie oft    | 
+| Für Art       | Wie                         | 
+| Für Attribut  | Welch-                      |
 
-### 8.2. Zahlwörter
+### 8.2. Ordinalzahlen
 
-Ordinalzahlen | 1. - 19. | 20. - ...
-- | - | - | - 
-- | -te | -ste
+| 1. - 19. | 20. - ... |
+| :------: | :-------: |
+| -te      | -ste      |
 
 ### 8.3. Die Konjunktionen
 
-einfach | unterordenend
-- | - 
-Hauptsatz + ... + Hauptsatz | Hauptsatz + ... + Nebensatz
-und, order, aber, denn | dass, weil, wenn / als
+| einfach                     | unterordenend               |
+| :-------------------------: | :-------------------------: | 
+| Hauptsatz + ... + Hauptsatz | Hauptsatz + ... + Nebensatz |
+| und, order, aber, denn      | dass, weil, wenn / als      |
 
 
