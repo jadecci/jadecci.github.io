@@ -25,9 +25,13 @@ Summary of some German grammatical rules.
 
 ### 2.1. Plural
 
-| -          | (m.) -er/-en/-el | (m.) einsilbig | (f.) -richt/-e | (etwas n.)    | (foreign) |
-| :--------: | :--------------: | :------------: | :------------: | :-----------: | :-------: | 
-| **-> pl.** | (gleich **mV.**) | -e (**mV.**)   | -en / en       | -er (**mV.**) | -s        |
+| (gleich mV.)         | +e (mV.)             | +en/+n                         | +s          | +er (mV.)      |
+| :------------------: | :------------------: | :----------------------------: | :---------: | :------------: | 
+| (**m./n.**) -er/-el  | (**m.** einsilbig)   | (**f.**) -richt/-schaft/-tät   | (foreign)   | (etwas **n.**) |
+| (**m.**) -en         | (**m.**) -eur        | (**f.**) -ung/-ion/-heit/-keit | (abbr.)     |
+| (**n.**) -chen/-lein | (**n.**) -zueg/-ment | (**f.**) -e/-er/-el            | -a/-i/-o/-u |
+
+-en / en       | -er (**mV.**) | -s        |
 
 ## 3. Der Artikel
 ### 3.1. Nominativ
@@ -131,13 +135,13 @@ haben/sein + Verb. (Partzip II)
 
 ## 5. Die Präposition
 
-| Art      | mit **A.** | mit **D.**                               | mit **A.**/**D.**                       |
-| :------: | :-------:  | :-------------------------------------:  | :---------------------------------------------------------: |
-| Temporal | bis, um    | ab, *an*, *in*, *nach*, seit, von, *vor* | | 
-| Lokal    |            | aus, bei, *nach*                         | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
-| Modal    | ohne       | mit                                      | |
+| Art      | mit **A.** | mit **D.**                                 | mit **A.** (Wohin?) / **D.** (Wo?)                       |
+| :------: | :-------:  | :---------------------------------------:  | :---------------------------------------------------------: |
+| Temporal | bis, um    | ab, *an*, *in*, *nach*, seit, *von*, *vor* | | 
+| Kausal   | für        |
+| Lokal    |            | aus, bei, *nach*, *von*, zu                | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
+| Modal    | ohne       | mit                                        | |
 
-- For prepasitions that can go with both cases, prepositions representing direction (of motion) goes with **A.**, while prepositions representing (static) location with **D.**.
 - *am* = an dem, *im* = in dem, *vom* = von dem, *zum* = zu dem
 - *ans* = an das, *ins* = in das
 
