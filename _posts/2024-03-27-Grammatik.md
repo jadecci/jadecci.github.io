@@ -23,24 +23,30 @@ N. | ich | du | er | es | sie | wir | ihr | sie | Sie
 - When two nouns are combined to form a new word, the gender of the new word follows the 2nd noun (e.g., die Nuss + der Kuchen = der Nusskuchen)
 
 ### 2.1. Plural
+
 Art | (m.) -er / -en / -el | (m.) einsilbig | (f.) -richt / -e | (etwas n.) | (foreign)
 - | - | - | - | - | - | - | - | - | -
 -> pl. | (gleich **mV.**) | +*e* (**mV.**) | +*en* / + *n* | +*er* (**mV.**) | +*s*
 z.B. | Drucker, *Ä*pfel | M*ä*us*e*, Tag*e* | Nachricht*en*, Stunde*n* | B*ü*ch*er*, Bild*er* | Laptop*s*
 
 ## 3. Der Artikel
+
 N. | ich | du | er/es | sie | wir | ihr | sie/Sie | bestimmter Artikel | unbestimmter Artikel | Negativartikel
 - | - | - | - | - | - | - | - | - | - | -
 **m.** | mein | dein | sein | ihr | unser | euer | ihr/Ihr | der | ein | kein
 **n.** | mein | dein | sein | ihr | unser | euer | ihr/Ihr | das | ein | kein
 **f.** | meine | deine | seine | ihre | unsere | `eure` | ihre/Ihre | die | eine | keine
 **pl.** | meine | deine | seine | ihre | unsere | `eure` | ihre/Ihre | die | - | keine
-**A.** | **ich** | **du** | **er/es** | **sie** | **wir** | **ihr** | **sie/Sie** | **bestimmter Artikel** | **unbestimmter Artikel** | **Negativartikel**
+
+A. | ich | du | er/es | sie | wir | ihr | sie/Sie | bestimmter Artikel | unbestimmter Artikel | Negativartikel
+- | - | - | - | - | - | - | - | - | - | -
 **m.** | `meinen` | `deinen` | `seinen` | `ihren` | | | | `den` | `einen` | `keinen`
 **n.** | mein | dein | sein | ihr | | | | das | ein | kein
 **f.** | meine | deine | seine | ihre | | | | die | eine | keine
 **pl.** | meine | deine | seine | ihre | | | | die | - | keine
-**D.** | **ich** | **du** | **er/es** | **sie** | **wir** | **ihr** | **sie/Sie** | **bestimmter Artikel** | **unbestimmter Artikel** | **Negativartikel**
+
+D. | ich | du | er/es | sie | wir | ihr | sie/Sie | bestimmter Artikel | unbestimmter Artikel | Negativartikel
+- | - | - | - | - | - | - | - | - | - | -
 **m.** |  |  |  |  | | | | `dem` | `einem` | `keinem`
 **n.** |  | | |  | | | | `dem` | `einem` | `keinem`
 **f.** |  | |  |  | | | | `der` | `einer` | `keiner`
@@ -48,6 +54,7 @@ N. | ich | du | er/es | sie | wir | ihr | sie/Sie | bestimmter Artikel | unbesti
 
 ## 4. Das Verb
 ### 4.1. Verbstellung
+
 Stellung | Aussage / W-Frage | Ja-/Nein-Frage | Imperativ | Nebensatz
 - | - | - | - | - | - | - | - | - | -
 [1] | Subjekt / W-Wörter | Verb | Verb (Inf. / Stamm / Konj.) | Konnektor
@@ -56,11 +63,13 @@ Stellung | Aussage / W-Frage | Ja-/Nein-Frage | Imperativ | Nebensatz
 [letzte] | andere Verb / trennbare Präfix | andere Verb / trennbare Präfix | trennbare Präfix | Verb
 
 ### 4.2. Trennbare Präfix
+
 trennbare | untrennbare | beide
 - | - | -
 ab-, an-, ein- | be-, er-, ge-, ver- | um-
 
 ### 4.3. Das Präsens / Konjugation
+
 regelmäßige Verben | ich | du | er/sie/es | wir | ihr | sie/Sie | z.B.
 - | - | - | - | - | - | - | - | - | -
 -en | -e | -(e)st | -(e)t | -en | -(e)t | -en | kommen, lernen, arbeiten
@@ -101,12 +110,14 @@ trennbare | (Präfix) + *ge* + *t* | eingekauft |(Präfix) + *ge* + *en* | ferng
 untrennbare / foreign words | do  not add *ge* | erzählt | do  not add *ge* | (*sein*) angekommen
 
 ### 4.5. Die Rektion
+
 - | A. | D. | A. & D. | A. & A. | N. & N.
 - | - | - | - | - | - | - | - | - | -
 Wörter | transitive, impersonal, untrennbare, `es gibt`, `haben` | referring to person | object (**A.**) & person (**D.**) | 2 objects | `sein`, `werden`, `bleiben` 
 z.B. | | antworten, danken, gefallen | geben, schenken, zeigen | kosten, lehren | 
 
 ## 5. Die Präposition
+
 Art | mit **A.** | mit **D.** | mit **A.**/**D.**
 :-: | :-:  | :-:  | :-:   | :-: 
 Temporal | bis, um | ab, *an*, *in*, *nach*, seit, von, *vor* |  | 
@@ -119,6 +130,7 @@ Modal | ohne | mit
 
 ## 6. Das Adjektiv
 ### 6.1. Deklination
+
 besti. | **m.** | **n.** | **f.** | **pl.**  | unbesti. | **m.** | **n.** | **f.** | **pl.** (außer eine) |  Nullart. | **m.** | **n.** | **f.** | **pl.** 
 - | - | - | - | - | - | - | - | - | - | - | - | - | - | -
 **N.** | -*e* | -*e* | -*e* | -*en* | **N.** | `-er` | `-es` | -*e* | -*en* | **N.**  | `-er` | `-es` | -*e* | -*e* 
@@ -126,6 +138,7 @@ besti. | **m.** | **n.** | **f.** | **pl.**  | unbesti. | **m.** | **n.** | **f.
 **D.** | -*en* | -*en* | -*en* | -*en* |  **D.** | -*en* | -*en* | -*en* | -*en* | **D.** | `-em` | `-em` | `-er` | -en 
 
 ### 6.2. Komparativ & Superlativ
+
 regelmaßige | regelmaßige | gut | gern | viel
 - | - | - | - | - | - | - | - | - | -
 Komparativ | -*er* (**mV.**) | besser | lieber | mehr
@@ -135,16 +148,19 @@ Superlativ | *am* -*(e)sten* (**mV.**) | am besten | am liebsten | am meisten
 
 ## 8. Andere Wörter
 ### 8.1. W-Frage
+
 für Personnen | Für Sachen | für Ort | Für Zeit | Für Art | Für Attribut
 - | - | - | - | - | - | - | - 
 Wer (**N.**) / Wen (**A.**) | Was | Wo, Woher, Wohin | Wann, Wie lange, Wie oft | Wie | Welch-
 
 ### 8.2. Zahlwörter
+
 Ordinalzahlen | 1. - 19. | 20. - ...
 - | - | - | - 
 - | -te | -ste
 
 ### 8.3. Die Konjunktionen
+
 einfach | unterordenend
 - | - 
 Hauptsatz + ... + Hauptsatz | Hauptsatz + ... + Nebensatz
