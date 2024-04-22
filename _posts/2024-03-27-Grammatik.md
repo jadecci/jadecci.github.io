@@ -14,10 +14,19 @@ Summary of some German grammatical rules.
 
 ## 1. Das Pronomen
 
+### 1.1. Das Personnelpronomen
+
 | N.     | ich    | du     | er    | es    | sie   | wir   | ihr    | sie     | Sie     |
 | :----: | :----: | :----: | :---: | :---: | :---: | :---: | :----: | :-----: | :-----: |
 | **A.** | *mich* | *dich* | `ihn` | es    | sie.  | *uns* | *euch* | sie     | Sie.    |
 | **D.** | *mir*  | *dir*  | `ihm` | `ihm` | `ihr` | *uns* | *euch* | `ihnen` | `Ihnen` |
+
+### 1.2. Das Indefinitpronomen
+
+| Person | Objekt | Beide  |
+| :----: | :----: | :----: |
+| beide, alle, jemand, niemand | etwas, nichts, alles, beides, viel(es) | (k)einer, jeder, einige, viele, manche |
+
 
 ## 2. Das Nomen
 - When two nouns are combined to form a new word, the gender of the new word follows the 2nd noun (e.g., die Nuss + der Kuchen = der Nusskuchen)
@@ -29,6 +38,14 @@ Summary of some German grammatical rules.
 | (**m./n.**) -er/-el  | (**m.** einsilbig)   | (**f.**) -richt/-schaft/-tät   | (foreign)   | (etwas **n.**) |
 | (**m.**) -en         | (**m.**) -eur        | (**f.**) -ung/-ion/-heit/-keit | (abbr.)     |
 | (**n.**) -chen/-lein | (**n.**) -zueg/-ment | (**f.**) -e/-er/-el            | -a/-i/-o/-u |
+
+### 2.2. Deklination
+
+|  A. (+en/+n)                            | D. (+en/+n) | G (+s/+es) |
+| :-------------------------------------: | :---------: | :--------: |
+| (**m.** with +en/+n for Pl.)            | (Pl.)       | (**m./n.** einsilbig)
+| (**m.**) -ent/-ant/-oge/-ist/-at/-f/-ph |             | (**m./n.**) -s/-ß/-sch/-st/-x/-z
+| (**m.** Nationalität) -e                |             | 
 
 ## 3. Der Artikel
 ### 3.1. Nominativ
@@ -136,8 +153,8 @@ haben/sein + Verb. (Partzip II)
 | :------: | :-------:  | :---------------------------------------:  | :---------------------------------------------------------: |
 | Temporal | bis, um    | ab, *an*, *in*, *nach*, seit, *von*, *vor* | | 
 | Kausal   | für        |
-| Lokal    |            | aus, bei, *nach*, *von*, zu                | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
-| Modal    | ohne       | mit                                        | |
+| Lokal    | durch      | aus, bei, *nach*, *von*, zu                | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
+| Modal    | ohne       | außer, mit                                 | |
 
 - *am* = an dem, *im* = in dem, *vom* = von dem, *zum* = zu dem
 - *ans* = an das, *ins* = in das
@@ -158,10 +175,8 @@ haben/sein + Verb. (Partzip II)
 | Komparativ | -*er* (**mV.**)           | besser    | lieber      | mehr       |
 | Superlativ | *am* -*(e)sten* (**mV.**) | am besten | am liebsten | am meisten |
 
-## 7. Das Adverb
-
-## 8. Andere Wörter
-### 8.1. W-Frage
+## 7. Andere Wörter
+### 7.1. W-Frage
 
 | Art           | Wörter                      |
 | :-----------: | :-------------------------: |
@@ -172,13 +187,13 @@ haben/sein + Verb. (Partzip II)
 | Für Art       | Wie                         | 
 | Für Attribut  | Welch-                      |
 
-### 8.2. Ordinalzahlen
+### 7.2. Ordinalzahlen
 
 | 1. - 19. | 20. - ... |
 | :------: | :-------: |
 | -te      | -ste      |
 
-### 8.3. Die Konjunktionen
+### 7.3. Die Konjunktionen
 
 | einfach                     | unterordenend               |
 | :-------------------------: | :-------------------------: | 
