@@ -30,8 +30,6 @@ Summary of some German grammatical rules.
 | (**m.**) -en         | (**m.**) -eur        | (**f.**) -ung/-ion/-heit/-keit | (abbr.)     |
 | (**n.**) -chen/-lein | (**n.**) -zueg/-ment | (**f.**) -e/-er/-el            | -a/-i/-o/-u |
 
--en / en       | -er (**mV.**) | -s        |
-
 ## 3. Der Artikel
 ### 3.1. Nominativ
 
