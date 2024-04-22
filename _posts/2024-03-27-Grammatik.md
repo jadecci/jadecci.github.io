@@ -14,10 +14,10 @@ Summary of some German grammatical rules.
 
 ## 1. Das Pronomen
 
-N. | ich | du | er | es | sie | wir | ihr | sie | Sie 
-- | - | - | - | - | - | - | - | - | -
-**A.** | *mich* | *dich* | `ihn` | es | sie | *uns* | *euch* | sie | Sie
-**D.** | *mir* | *dir* | `ihm` | `ihm` | `ihr` | *uns* | *euch* | `ihnen` | `Ihnen`
+| N.     | ich    | du     | er    | es    | sie   | wir   | ihr    | sie     | Sie     |
+| :----: | :----: | :----: | :---: | :---: | :---: | :---: | :----: | :-----: | :-----: |
+| **A.** | *mich* | *dich* | `ihn` | es    | sie.  | *uns* | *euch* | sie     | Sie.    |
+| **D.** | *mir*  | *dir*  | `ihm` | `ihm` | `ihr` | *uns* | *euch* | `ihnen` | `Ihnen` |
 
 ## 2. Das Nomen
 - When two nouns are combined to form a new word, the gender of the new word follows the 2nd noun (e.g., die Nuss + der Kuchen = der Nusskuchen)
@@ -111,7 +111,7 @@ untrennbare / foreign words | do  not add *ge* | erzählt | do  not add *ge* | (
 
 ### 4.5. Die Rektion
 
-- | A. | D. | A. & D. | A. & A. | N. & N.
+Art | A. | D. | A. & D. | A. & A. | N. & N.
 - | - | - | - | - | - | - | - | - | -
 Wörter | transitive, impersonal, untrennbare, `es gibt`, `haben` | referring to person | object (**A.**) & person (**D.**) | 2 objects | `sein`, `werden`, `bleiben` 
 z.B. | | antworten, danken, gefallen | geben, schenken, zeigen | kosten, lehren | 
