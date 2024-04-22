@@ -14,7 +14,7 @@ Summary of some German grammatical rules.
 
 ## 1. Das Pronomen
 N. | ich | du | er | es | sie | wir | ihr | sie | Sie 
-:-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-:
+- | - | - | - | - | - | - | - | - | -
 **A.** | *mich* | *dich* | `ihn` | es | sie | *uns* | *euch* | sie | Sie
 **D.** | *mir* | *dir* | `ihm` | `ihm` | `ihr` | *uns* | *euch* | `ihnen` | `Ihnen`
 
