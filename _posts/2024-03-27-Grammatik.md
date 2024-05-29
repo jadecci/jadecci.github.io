@@ -16,10 +16,11 @@ Summary of some German grammatical rules.
 
 ### 1.1. Das Personnelpronomen
 
-| N.     | ich    | du     | er    | es    | sie   | wir   | ihr    | sie     | Sie     |
-| :----: | :----: | :----: | :---: | :---: | :---: | :---: | :----: | :-----: | :-----: |
-| **A.** | *mich* | *dich* | `ihn` | es    | sie.  | *uns* | *euch* | sie     | Sie.    |
-| **D.** | *mir*  | *dir*  | `ihm` | `ihm` | `ihr` | *uns* | *euch* | `ihnen` | `Ihnen` |
+| N.       | ich    | du     | er     | es     | sie    | wir   | ihr    | sie     | Sie     |
+| :------: | :----: | :----: | :----: | :----: | :----: | :---: | :----: | :-----: | :-----: |
+| **A.**   | *mich* | *dich* | `ihn`  | es     | sie    | *uns* | *euch* | sie     | Sie     |
+| **D.**   | *mir*  | *dir*  | `ihm`  | `ihm`  | `ihr`  | *uns* | *euch* | `ihnen` | `Ihnen` |
+| Reflexiv | *mich* | *dich* | `sich` | `sich` | `sich` | *uns* | *euch* | `sich`  | `sich`  |
 
 ### 1.2. Das Indefinitpronomen
 
@@ -27,9 +28,13 @@ Summary of some German grammatical rules.
 | :----: | :----: | :----: |
 | beide, alle, jemand, niemand | etwas, nichts, alles, beides, viel(es) | (k)einer, jeder, einige, viele, manche |
 
+### 1.3. Die Wortstellung
+Personnelpron. (**A.** -> **D.**) -> (pron. ->) Definitpron. (**D.** -> **A.**) -> Indefinitpron.
+
 
 ## 2. Das Nomen
 - When two nouns are combined to form a new word, the gender of the new word follows the 2nd noun (e.g., die Nuss + der Kuchen = der Nusskuchen)
+- Verb + `er` = Nomen
 
 ### 2.1. Plural
 
@@ -43,7 +48,7 @@ Summary of some German grammatical rules.
 
 |  A. (+en/+n)                            | D. (+en/+n) | G (+s/+es) |
 | :-------------------------------------: | :---------: | :--------: |
-| (**m.** with +en/+n for Pl.)            | (Pl.)       | (**m./n.** einsilbig)
+| (**m.** mit +en/+n für Pl.)             | (Pl.)       | (**m./n.** einsilbig)
 | (**m.**) -ent/-ant/-oge/-ist/-at/-f/-ph |             | (**m./n.**) -s/-ß/-sch/-st/-x/-z
 | (**m.** Nationalität) -e                |             | 
 
@@ -87,9 +92,9 @@ Summary of some German grammatical rules.
 
 ### 4.2. Trennbare Präfix
 
-| trennbare      | untrennbare         | beide |
-| :------------: | :-----------------: | :---: |
-| ab-, an-, ein- | be-, er-, ge-, ver- | um-   |
+| trennbare                                        | untrennbare                     | beide               |
+| :----------------------------------------------: | :-----------------------------: | :----------------: |
+| ab-, an-, auf-, aus-, ein-, mit-, weiter-, teil- | be-, emp-, ent-, er-, ge-, ver- | über-, um-, unter-   |
 
 ### 4.3. Das Präsens / Konjugation
 #### 4.3.1. regelmäßige Verben
@@ -127,19 +132,36 @@ Summary of some German grammatical rules.
 | müssen | `muss` | `musst`  | `muss`    | müssen | müsst | müssen  | mussten    |            |
 | dürfen | `darf` | `darfst` | `darf`    | dürfen | dürft | dürfen  | durften    |            |
 
-### 4.4. Das Perfekt
-haben/sein + Verb. (Partzip II)
+### 4.4. Das Perfekt & Das Präterirum
+haben/sein + Verb (Partzip II)
 - haben: transitive / reflexive / impersonal (nature) / intransitive (lasting) verbs
 - sein: Ortsveränderung / condition changing / `sein` / `werden` / `bleiben`
 
-| Art                   | regelmäßig                     | unregelmäßig                  |
-| :-------------------: | :----------------------------: | :---------------------------: |
-| **-> Partzip II**     | *ge* + (Stamm) + *(e)t*        | *ge* + (Stamm **mV.**) + *en* | 
-| -ieren                |                                | (Stamm) + *t*                 | 
-| trennbare             | (Präfix) + *ge* + (Stamm) +*t* | (Präfix) + *ge* + *en*        |
-| untrennbare / foreign | ohne *ge*                      | do  not add *ge*              |
+| Art                        | Partizip II                       | Präteritum (Konj.)       |
+| :------------------------: | :-------------------------------: | :----------------------: |
+| **regelmäßig**             | *ge* + (Stamm) + *(e)t*           | (Stamm) + *(e)ten*       |
+|                            | *ge* + (Stam e->`a`) + *t*       | (Stam e->`a`) + *ten*     |
+|                            | *ge* + (Stam) + *en*              | (Stam ei->`ie`)          |
+|                            | *ge* + (Stam ei->`ie`/`i`) + *en* | (Stam ei->`ie`/`i`)      |
+|                            | *ge* + (Stam i->`o`/`u`) + *en*   | (Stam i->`a`)            |
+|                            | *ge* + (Stam ie->`o`/`e`) + *en*  | (Stam ie->`o`/`a`)       |
+| Vokalwechsel (a->`ä`)      | *ge* + (Stamm) + *en*             | (Stamm a->`u`/`ie`)      |
+| Vokalwechsel (e->`i`/`ie`) | *ge* + (Stamm e->e/`o`) + *en*    | (Stamm e->`a`)           |
+| trennbare                  | (Präfix) + *ge* + (Stamm P.II)    | (Präfix) + (Stamm Prät.) |
+| untrennbare / foreign      | (Präfix) + (Stamm P.II)           | (Präfix) + (Stamm Prät.) |
+| -ieren                     | (Stamm) + *t*                     | (Stamm) + *ten*          |
 
-### 4.5. Die Rektion
+#### 4.4.1. Konjugation (Das Präteritum)
+
+| regelmäßig | ich  | du    | er/sie/es | wir  | ihr   | sie/Sie |
+| :--------: | :--: | :---: | :-------: | :--: | :---: | :-----: |
+| -ten       | -te  | -test | `-te`     | -ten | -tet  | -ten    |
+
+### 4.5. Das Passiv 
+
+werden (Konj.) + Verb (Partizip II)
+
+### 4.6. Die Rektion
 
 | A.                     | D.                  | A. & D.                           | N. & N.   |
 | :--------------------: | :-----------------: | :-------------------------------: | :-------: |
@@ -149,17 +171,20 @@ haben/sein + Verb. (Partzip II)
 
 ## 5. Die Präposition
 
-| Art      | mit **A.** | mit **D.**                                 | mit **A.** (Wohin?) / **D.** (Wo?)                       |
-| :------: | :-------:  | :---------------------------------------:  | :---------------------------------------------------------: |
-| Temporal | bis, um    | ab, *an*, *in*, *nach*, seit, *von*, *vor* | | 
-| Kausal   | für        |
-| Lokal    | durch      | aus, bei, *nach*, *von*, zu                | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
-| Modal    | ohne       | außer, mit                                 | |
+| Art      | mit **A.**  | mit **D.**                                 | mit **A.** (Wohin?) / **D.** (Wo?)                       |
+| :------: | :--------:  | :---------------------------------------:  | :---------------------------------------------------------: |
+| Temporal | bis, *um*   | ab, *an*, *in*, *nach*, seit, *von*, *vor* | | 
+| Kausal   | für         |
+| Lokal    | durch, *um* | aus, bei, gegenüber, *nach*, *von*, zu                | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
+| Modal    | ohne        | außer, mit                                 | |
 
 - *am* = an dem, *im* = in dem, *vom* = von dem, *zum* = zu dem
 - *ans* = an das, *ins* = in das
 
 ## 6. Das Adjektiv
+
+- Nomen + `ig` = Adjektiv
+
 ### 6.1. Deklination
 
 | bA.    | m.    | n.  | f.  | pl. | uA.    | m.    | n.    | f.  | pl. |  Nullart. | m.    | n.    | f.   | pl. |
@@ -168,6 +193,9 @@ haben/sein + Verb. (Partzip II)
 | **A.** | -`en` | -e  | -e  | -en | **A.** | -`en` | -`es` | -e  | -en | **A.**    | -`en` | -`es` | -e   | -e  |
 | **D.** | -en   | -en | -en | -en | **D.** | -en   | -en   | -en | -en | **D.**    | -`em` | -`em` | -`er` | -en |
 
+> Singular: Negativartikel & Possessivartikel = UA.
+> Plural: Negativartikel & Possessivartikel -> -`en`
+
 ### 6.2. Komparativ & Superlativ
 
 | -          | regelmaßige               | gut       | gern        | viel       |
@@ -175,25 +203,32 @@ haben/sein + Verb. (Partzip II)
 | Komparativ | -*er* (**mV.**)           | besser    | lieber      | mehr       |
 | Superlativ | *am* -*(e)sten* (**mV.**) | am besten | am liebsten | am meisten |
 
-## 7. Andere Wörter
-### 7.1. W-Frage
+## 7. Der Satz
+### 7.1. Der Relativsatz
 
-| Art           | Wörter                      |
-| :-----------: | :-------------------------: |
-| für Personnen | Wer (**N.**) / Wen (**A.**) | 
-| Für Sachen    | Was                         | 
-| für Ort       | Wo, Woher, Wohin            | 
-| Für Zeit      | Wann, Wie lange, Wie oft    | 
-| Für Art       | Wie                         | 
-| Für Attribut  | Welch-                      |
+- **bA.** (**N.**) + ... + Verb (Konj.)
+- **bA.** (**A.**) + anderes Subjekt + ... + Verb (Konj.)
 
-### 7.2. Ordinalzahlen
+## 8. Anderen
+### 8.1. W-Frage
+
+| für Personnen               | für Sachen | für Ort          | für Zeit                 | für Art | für Attribut |
+| :-------------------------: | :--------: | :--------------: | :----------------------: | :-----: |  :----------: |
+| Wer (**N.**) / Wen (**A.**) | Was        | Wo, Woher, Wohin | Wann, Wie lange, Wie oft | Wie     | Welch-   |
+
+#### 8.1.1. Verben mit präposition-Erganzung (Frage zu Objekten)
+
+| Wofür | Wovon | Womit | Wo`r`auf | Wo`r`über | Wo`r`an |
+| :---: | :---: | :---: | :------: | :-------: | :-----: |
+| Dafür | Davon | Damit | Da`r`auf | Da`r`über | Da`r`an |
+
+### 8.2. Ordinalzahlen
 
 | 1. - 19. | 20. - ... |
 | :------: | :-------: |
 | -te      | -ste      |
 
-### 7.3. Die Konjunktionen
+### 8.3. Die Konjunktionen
 
 | einfach                     | unterordenend               |
 | :-------------------------: | :-------------------------: | 
