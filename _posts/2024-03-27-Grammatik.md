@@ -80,6 +80,15 @@ Personnelpron. (**A.** -> **D.**) -> (pron. ->) Definitpron. (**D.** -> **A.**) 
 | **f.**  | mein`er` | dein`er`  | sein`er`  | ihr`er`  | unser`er` | eur`er` | ihr`er`/Ihr`er` | d`er` | ein`er` | kein`er` |
 | **pl.** | mein`en` | dein`en`  | sein`en`  | ihr`en`  | unser`en` | eur`en` | ihr`en`/Ihr`en` | d`en` | - | kein`en` |
 
+### 3.3. Dativ
+
+| -       | ich      | du       | er/es    | sie     | wir      | ihr     | sie/Sie         | bA.   | uA.  |
+| :-----: | :------: | :------: | :------: | :-----: | :------: | :-----: | :-------------: | :---: | :--: |
+| **m.**  | mein`es` | dein`es`  | sein`es`  | ihr`es`  | unser`es` | eur`es` | ihr`es`/Ihr`es` | d`es` | ein`es` |
+| **n.**  | mein`es` | dein`es`  | sein`es`  | ihr`es`  | unser`es` | eur`es` | ihr`es`/Ihr`es` | d`es` | ein`es` |
+| **f.**  | mein`er` | dein`es`  | sein`er`  | ihr`er`  | unser`er` | eur`er` | ihr`er`/Ihr`er` | d`er` | ein`er` | 
+| **pl.** | mein`er` | dein`es`  | sein`er`  | ihr`er`  | unser`er` | eur`en` | ihr`er`/Ihr`er` | d`er` | - |
+
 ## 4. Das Verb
 ### 4.1. Verbstellung
 
@@ -161,7 +170,11 @@ haben/sein + Verb (Partzip II)
 
 werden (Konj.) + Verb (Partizip II)
 
-### 4.6. Die Rektion
+### 4.6. Der Konjunktiv
+1. Konjunktiv I = Verb (Stamm) + `e` + (Konjugation)
+2. Konjunktiv II = Verb (Präteritum) + `e` + (Konjugation)
+
+### 4.7. Die Rektion
 
 | A.                     | D.                  | A. & D.                           | N. & N.   |
 | :--------------------: | :-----------------: | :-------------------------------: | :-------: |
@@ -171,10 +184,10 @@ werden (Konj.) + Verb (Partizip II)
 
 ## 5. Die Präposition
 
-| Art      | mit **A.**  | mit **D.**                                 | mit **A.** (Wohin?) / **D.** (Wo?)                       |
-| :------: | :--------:  | :---------------------------------------:  | :---------------------------------------------------------: |
+| Art      | mit **A.**  | mit **D.**                                 | mit **A.** (Wohin?) / **D.** (Wo?)                       | mit **G.** |
+| :------: | :--------:  | :---------------------------------------:  | :---------------------------------------------------------: | :---------: |
 | Temporal | bis, *um*   | ab, *an*, *in*, *nach*, seit, *von*, *vor* | | 
-| Kausal   | für         |
+| Kausal   | für         | | | wegen, trotz
 | Lokal    | durch, *um* | aus, bei, gegenüber, *nach*, *von*, zu                | *an*, auf, hinter, *in*, neben, über, unter, *vor*, zwischen |
 | Modal    | ohne        | außer, mit                                 | |
 
@@ -192,6 +205,7 @@ werden (Konj.) + Verb (Partizip II)
 | **N.** | -e    | -e  | -e  | -en | **N.** | -`er` | -`es` | -e  | -en | **N.**    | -`er` | -`es` | -e   | -e  |
 | **A.** | -`en` | -e  | -e  | -en | **A.** | -`en` | -`es` | -e  | -en | **A.**    | -`en` | -`es` | -e   | -e  |
 | **D.** | -en   | -en | -en | -en | **D.** | -en   | -en   | -en | -en | **D.**    | -`em` | -`em` | -`er` | -en |
+| **G.** | -en   | -en | -en | -en | **D.** | -en   | -en   | -en | -en | **D.**    | -en | -en | -`er` | -`er` |
 
 > Singular: Negativartikel & Possessivartikel = UA.
 > Plural: Negativartikel & Possessivartikel -> -`en`
@@ -202,6 +216,13 @@ werden (Konj.) + Verb (Partizip II)
 | :--------: | :-----------------------: | :-------: | :---------: | :--------: |
 | Komparativ | -*er* (**mV.**)           | besser    | lieber      | mehr       |
 | Superlativ | *am* -*(e)sten* (**mV.**) | am besten | am liebsten | am meisten |
+
+### 6.3. Als Nomen
+| bA.    | m.    | f.  | pl. | uA.    | m.    | f.  | pl. |
+| :----: | :---: | :-: | :-: | :----: | :---: | :-: | :-: |
+| **N.** | -e    | -e  | -`en` | **N.** | -`er`  | -e  | -e |
+| **A.** | -`en` | -e  | -e | **A.** | -`en` | -`en`  | -`en` |
+| **D.** | -en   | -en | -en | **D.** | -en   | -en | -en |
 
 ## 7. Der Satz
 ### 7.1. Der Relativsatz
@@ -230,9 +251,18 @@ werden (Konj.) + Verb (Partizip II)
 
 ### 8.3. Die Konjunktionen
 
-| einfach                     | unterordenend               |
-| :-------------------------: | :-------------------------: | 
-| Hauptsatz + ... + Hauptsatz | Hauptsatz + ... + Nebensatz |
-| und, order, aber, denn      | dass, weil, wenn / als      |
+| einfach    | unterordenend                        | Adverb / Präposition   |
+| :--------: | :----------------------------------: | :--------------------: |
+| Hauptsatz + ... + Hauptsatz | Hauptsatz + ... + Nebensatz | Hauptsatz      |
+| und        | dass                                 | 
+| aber, oder | obwohl                               | trotzdem, trotz        |
+| denn       | weil                                 | daher, deswegen, wegen |
+|            | wenn, als, bis, seit, bevor, während | seit, während          |
+|            | um ... zu, damit                     |
+
+### 8.4. Infinitiv mit zu
+1. nach bestimmen Verben (als Objekt): anfangen, sich freuen, raten, versuchen, usw.
+2. abstrakte Nomen + `haben`: die Absicht, die Lust, die Zeit, usw.
+3. Konstruktionen mit `es` (als Subjekt)
 
 
