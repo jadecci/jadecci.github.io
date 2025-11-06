@@ -42,7 +42,7 @@ The general framework for data-driven disease progression modelling is that shor
 It is well recognised that task functional magnetic resonance imaging (t-fMRI) data are more useful than the resting-state equivalent (rs-fMRI) for predicting interindividual varaibility in behavoural phenotypes. However, t-fMRI acquisition is also more challenging and thus less commonly done compared to resting-state. This study suggested that task activation maps can be predicted/constructed from resting-state functional connectivity (RSFC), without the need for subjects to have performed the task, and then can be used to predict individual behavioural traits.
 
 1. Human Connectome Project (HCP) data from 847 participants were used. Task acivation map prediction models were trained on 100 unrelated subjects. The remaining 747 subjects were used for G-score prediction based on their predicted task activation maps in a 10-fold cross-validation (CV).
-2. Task activation map prediction (connTask-based model) was based on Tavor et al., 2016[^fn1] (maybe worth further reading). Behavour prediction was performed using the Brain Basis Set pipeline from Sripada et al., 2019 and 2020[^fn2]^,^ [^fn3]. Specifically, elastic net was used with a nested 5-fold CV for tuning L1 ratio and penalty factor.
+2. Task activation map prediction (connTask-based model) was based on Tavor et al., 2016[^fn1] (maybe worth further reading). Behavour prediction was performed using the Brain Basis Set pipeline from Sripada et al., 2019 and 2020[^fn2]<sup>,</sup>[^fn3]. Specifically, elastic net was used with a nested 5-fold CV for tuning L1 ratio and penalty factor.
 3. Prediction of G-score was using **the connTask-based model was significantly better than the RSFC-based model , but worse than the model based on the original task activation maps**. The best models tend to be combinations of **working memory (WM)** and other tasks, with **small differences in prediction accuracies of at least the top 5 models**.
 
 > Thoughts: I need to take a look at the Tavor paper to see how the task activation map prediction works and if there is any concern of leakage. It would also be nice to see how well these results generalises to different datasets, which will actually test the practical utility of this approach.
@@ -80,6 +80,8 @@ It is usually assumed that within each fMRI scan, the blood-oxygen-level-depende
 > Thoughts: the FC inflation or sLFO signal could be an individualistic arousal signature. Is it truly a noise and bears no behavioural relevance? Depending on the research question, it may be better to not remove the sLFO signal in some cases.
 
 ![figure 3](https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41562-024-01908-6/MediaObjects/41562_2024_1908_Fig2_HTML.png?as=webp)
+
+---
 
 [^fn1]: Tavor et al., 2016. Task-free MRI predicts inividual differences in brain activity during task performance. Sci. https://doi.org/10.1126/science.aad8127. 
 [^fn2]: Sripada et al., 2019. Basic units of inter-individual variation in resting state connectomes. Sci. Rep. https://doi.org/10.1038/s41598-018-38406-5.
