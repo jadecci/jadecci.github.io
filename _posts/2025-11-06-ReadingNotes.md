@@ -53,7 +53,7 @@ This study examines the trend of behaviour prediction performance with increasin
 
 > Thoughts: even with extrapolated curve at $10^6$ sample size, the prediction accuracy of fluid intelligence was only $R^2 \sim 0.15$, and even lower for personality traits like neuroticism ($R^2 \sim 0.04$). Even with the very large sample size, UK Biobank is not the best dataset to investigate behaviour prediction in cognition and personality domains.
 
-#### #### Tetereva et al., 2025. Improving predictability, reliability, and generalizability of brain-wide associations for cognitive abilities via multimodal stacking. PNAS Nexus.
+#### Tetereva et al., 2025. Improving predictability, reliability, and generalizability of brain-wide associations for cognitive abilities via multimodal stacking. PNAS Nexus.
 
 This study investigated the prediction of total cognition using multimodal neuroimaging data via stacking. 
 
